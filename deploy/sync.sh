@@ -10,7 +10,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 rsync -az --delete --stats \
   --exclude '.earthdata_token' --exclude '.DS_Store' --exclude '__pycache__' --exclude 'catboost_info' \
-  --exclude '.claude/' --exclude 'data/tmp/' \
+  --exclude '.claude/settings.local.json' --exclude 'data/tmp/' \
   --exclude 'web/node_modules/' --exclude 'web/dist/' --exclude 'web/.astro/' --exclude 'web/.cache/' \
   --exclude 'web/public/figures/' --exclude 'web/src/generated/' \
   "$ROOT/" "$HOST:$DEST/"
