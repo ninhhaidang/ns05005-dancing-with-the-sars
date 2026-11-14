@@ -42,6 +42,11 @@ with rasterio.open(SRC) as s:
         o.update_tags(note="GEE S2 10 m (median, Cloud Score+ 0.789) cắt theo AOI; ngoài AOI = 0; n_clear=0 là không có quan sát sạch")
 
 # AOI ở EPSG:32648 (file riêng)
+from rasterio.enums import Resampling
+with rasterio.Env(COMPRESS_OVERVIEW="DEFLATE", GDAL_TIFF_OVR_BLOCKSIZE="512"):
+    with rasterio.open(DST, "r+") as o:  # overview nén trong file (giúp QGIS thu phóng nhanh hơn)
+        o.build_overviews([2, 4, 8, 16, 32], Resampling.average)
+
 # GeoJSON có khai báo CRS (không theo RFC 7946 nhưng GDAL/QGIS đều đọc được); máy không có fiona/osgeo để ghi gpkg
 fc = {"type": "FeatureCollection", "name": "aoi_32648",
       "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:EPSG::32648"}},
