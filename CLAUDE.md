@@ -6,6 +6,14 @@ NASA Space Apps 2026. Dùng GCOV VALIDATED của NISAR (CRID P05036, từ 21/10/
 
 - Luôn làm việc và commit thẳng trên `main`. Không tạo branch mới.
 
+## Phạm vi
+
+- Chỉ dùng dữ liệu trong khoảng 22/10 đến 3/11/2026 (3 ngày GCOV VALIDATED). Không mở thêm ngày: không dùng PROVISIONAL hay dữ liệu cũ.
+- Được bổ sung dữ liệu khác (Sentinel-2/Sentinel-1 trong cùng khoảng ngày, DEM, lớp phủ tĩnh, OSM) nếu không vượt khoảng ngày trên.
+- Hướng đề tài: phát hiện và phân loại thay đổi do điều tiết nước (ruộng, ao nuôi, đê bao).
+
+- Earth Engine: project `earthengine-dang` (`ee.Initialize(project='earthengine-dang')`), nhãn lớp phủ dùng Dynamic World V1 (`GOOGLE/DYNAMICWORLD/V1`).
+
 ## Dữ liệu (`data/`, không commit)
 
 - `data/ref/aoi.geojson`: ranh giới chuẩn do người dùng cung cấp. Không tự sửa.
