@@ -1,11 +1,19 @@
 ---
 title: Project overview
-description: What the Dancing with the SARs project does, where, with which data, and what it found.
+description: What the entry “NISAR L-band Change Detection and Land Cover Mapping” does, where, with which data, and what it found.
 sidebar:
   order: 1
 ---
 
-**Dancing with the SARs** is the entry of team **2936-ThanhNoi** (team ID **NS05005**: Ninh Hải Đăng, team lead; Phạm Minh Quang; Lê Toàn Thắng) to the NASA Space Apps Challenge 2026 challenge of the same name. See [Team](/team/). We use NISAR L-band radar images to answer two questions about Hưng Yên province in Vietnam's Red River Delta: *where did water management change the land surface in late October 2026*, and *can we map land cover from radar alone when optical satellites are blind because of clouds?*
+**NISAR L-band Change Detection and Land Cover Mapping** is the entry of team **2936-ThanhNoi** (team ID **NS05005**: Ninh Hải Đăng, team lead; Phạm Minh Quang; Lê Toàn Thắng) to the NASA Space Apps Challenge 2026 challenge *Dancing with the SARs*. See [Team](/team/). We use NISAR L-band radar images to answer two questions about Hưng Yên province in Vietnam's Red River Delta: *where did water management change the land surface in late October 2026*, and *can we map land cover from radar alone when optical satellites are blind because of clouds?*
+
+| | |
+|---|---|
+| **Competition** | NASA Space Apps Challenge 2026 |
+| **Challenge** | Dancing with the SARs |
+| **Entry title** | NISAR L-band Change Detection and Land Cover Mapping |
+| **Team** | 2936-ThanhNoi (team ID NS05005) |
+| **Members** | Ninh Hải Đăng (team lead), Phạm Minh Quang, Lê Toàn Thắng |
 
 :::tip[Explore the results]
 Open the [interactive map](/map/?view=overview) to see the three radar dates, the detected changes and the land-cover map with its confidence layers. You can also [ask the AI assistant](/chat/) any question about the project.

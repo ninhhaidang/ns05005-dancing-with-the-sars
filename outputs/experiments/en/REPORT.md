@@ -1,6 +1,6 @@
 # Four-class land-cover mapping from NISAR SAR alone: model comparison and validation
 
-*Dancing with the SARs* (NASA Space Apps 2026) · Hưng Yên province, Vietnam (post-2025 merger) · results computed on 14 Nov 2026
+*NISAR L-band Change Detection and Land Cover Mapping* (NASA Space Apps Challenge 2026, challenge *Dancing with the SARs*, team 2936-ThanhNoi, NS05005) · Hưng Yên province, Vietnam (post-2025 merger) · results computed on 14 Nov 2026
 
 All numbers in this report come from `scripts/experiments.py` (raw CSV tables and the full log are in the parent folder: [`log.txt`](../log.txt), Vietnamese labels; English copies of the tables are in [`tables/`](tables/)), except the distribution of AOI distances to the nearest training sample in Section 5.4, which was computed once separately. Figures are drawn by `scripts/plot_experiments.py` from those tables.
 

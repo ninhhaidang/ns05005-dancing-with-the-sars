@@ -10,3 +10,7 @@
 }
 .sl-markdown-content img { border-radius: 6px; background: #fff; }
 .sl-markdown-content table { font-size: var(--sl-text-sm); }
+/* Long project title in the header: shrink and end with an ellipsis instead of a hard cut */
+.site-title { min-width: 0; overflow: hidden; }
+.site-title span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 72rem) { .site-title { font-size: var(--sl-text-base); } }

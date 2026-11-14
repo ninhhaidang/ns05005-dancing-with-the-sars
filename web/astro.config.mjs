@@ -16,9 +16,9 @@ export default defineConfig({
 	integrations: [
 		react(),
 		starlight({
-			title: 'Dancing with the SARs',
+			title: { en: 'NISAR L-band Change Detection and Land Cover Mapping', vi: 'Phát hiện biến động và phân loại lớp phủ bằng ảnh NISAR băng L' },
 			description:
-				'NISAR L-band SAR over Hưng Yên, Vietnam: water-management change detection and SAR-only land cover (NASA Space Apps 2026).',
+				'NISAR L-band Change Detection and Land Cover Mapping: NISAR L-band SAR over Hưng Yên, Vietnam. Team 2936-ThanhNoi (NS05005), NASA Space Apps Challenge 2026, challenge Dancing with the SARs.',
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/ninhhaidang/ns05005-dancing-with-the-sars' }],
 			defaultLocale: 'root',
 			locales: {

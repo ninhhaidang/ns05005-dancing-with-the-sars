@@ -1,21 +1,21 @@
 ---
 title: Team
-description: Team 2936-ThanhNoi (team ID NS05005) built Dancing with the SARs for NASA Space Apps Challenge 2026.
+description: Team 2936-ThanhNoi (team ID NS05005) built “NISAR L-band Change Detection and Land Cover Mapping” for NASA Space Apps Challenge 2026.
 sidebar:
   order: 6
 ---
 
 ## Team 2936-ThanhNoi (NS05005)
 
-*Dancing with the SARs* (this website, the analysis and the code) was built by team **2936-ThanhNoi**, team ID **NS05005**, for the **NASA Space Apps Challenge 2026** challenge [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/).
-
-## Team members
-
-| Member | Role |
+| | |
 |---|---|
-| **Ninh Hải Đăng** | Team lead |
-| **Phạm Minh Quang** | Team member |
-| **Lê Toàn Thắng** | Team member |
+| **Competition** | NASA Space Apps Challenge 2026 |
+| **Challenge** | Dancing with the SARs |
+| **Entry title** | NISAR L-band Change Detection and Land Cover Mapping |
+| **Team** | 2936-ThanhNoi (team ID NS05005) |
+| **Members** | Ninh Hải Đăng (team lead), Phạm Minh Quang, Lê Toàn Thắng |
+
+The entry **NISAR L-band Change Detection and Land Cover Mapping** (this website, the analysis and the code) was built by team **2936-ThanhNoi**, team ID **NS05005**, for the **NASA Space Apps Challenge 2026** challenge [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/).
 
 ## Source code and data
 

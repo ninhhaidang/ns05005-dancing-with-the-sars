@@ -1,19 +1,27 @@
 ---
 title: Tổng quan dự án
-description: Dự án Dancing with the SARs làm gì, ở đâu, dùng dữ liệu nào và tìm thấy gì.
+description: Bài thi “NISAR L-band Change Detection and Land Cover Mapping” (Phát hiện biến động và phân loại lớp phủ bằng ảnh NISAR băng L) làm gì, ở đâu, dùng dữ liệu nào và tìm thấy gì.
 sidebar:
   order: 1
 ---
 
-**Dancing with the SARs** là bài dự thi của đội **2936-ThanhNoi** (mã đội **NS05005**: Ninh Hải Đăng, trưởng nhóm; Phạm Minh Quang; Lê Toàn Thắng) cho thử thách cùng tên tại NASA Space Apps Challenge 2026. Xem [Đội thi](/vi/team/). Nhóm dùng ảnh radar băng L của vệ tinh NISAR để trả lời hai câu hỏi về tỉnh Hưng Yên ở đồng bằng sông Hồng: *cuối tháng 10/2026, việc điều tiết nước đã làm bề mặt đất thay đổi ở đâu*, và *có lập được bản đồ lớp phủ chỉ từ radar khi vệ tinh quang học bị mây che không?*
+**NISAR L-band Change Detection and Land Cover Mapping** (Phát hiện biến động và phân loại lớp phủ bằng ảnh NISAR băng L) là bài dự thi của đội **2936-ThanhNoi** (mã đội **NS05005**: Ninh Hải Đăng, trưởng nhóm; Phạm Minh Quang; Lê Toàn Thắng) cho đề bài *Dancing with the SARs* của NASA Space Apps Challenge 2026. Xem [Đội thi](/vi/team/). Nhóm dùng ảnh radar băng L của vệ tinh NISAR để trả lời hai câu hỏi về tỉnh Hưng Yên ở đồng bằng sông Hồng: *cuối tháng 10/2026, việc điều tiết nước đã làm bề mặt đất thay đổi ở đâu*, và *có lập được bản đồ lớp phủ chỉ từ radar khi vệ tinh quang học bị mây che không?*
+
+| | |
+|---|---|
+| **Cuộc thi** | NASA Space Apps Challenge 2026 |
+| **Đề bài** | Dancing with the SARs |
+| **Tên bài thi** | NISAR L-band Change Detection and Land Cover Mapping<br />(Phát hiện biến động và phân loại lớp phủ bằng ảnh NISAR băng L) |
+| **Đội thi** | 2936-ThanhNoi (mã đội NS05005) |
+| **Thành viên** | Ninh Hải Đăng (trưởng nhóm), Phạm Minh Quang, Lê Toàn Thắng |
 
 :::tip[Xem kết quả]
 Mở [bản đồ tương tác](/vi/map/?view=overview) để xem ảnh radar ba ngày, các vùng thay đổi và bản đồ lớp phủ kèm các lớp độ tin cậy. Bạn cũng có thể [hỏi trợ lý AI](/vi/chat/) bất kỳ câu nào về dự án.
 :::
 
-## Thử thách Dancing with the SARs
+## Đề bài Dancing with the SARs
 
-Thử thách *Dancing with the SARs* của Space Apps 2026 (chủ đề Khoa học Trái Đất, mức trung bình đến nâng cao) yêu cầu xây dựng một ứng dụng tương tác, mã nguồn mở, dùng dữ liệu radar của sứ mệnh NASA–ISRO **NISAR** để theo dõi và trực quan hóa thay đổi bề mặt Trái Đất, chẳng hạn hoạt động nông nghiệp, ngập lụt hay mất đất ngập nước. Mỗi đội tự chọn khu vực, tải dữ liệu NISAR miễn phí (có thể thêm ảnh quang học hoặc lớp GIS làm bối cảnh), trình bày kết quả dưới dạng số tương tác và đưa ra giả thuyết về nguyên nhân vật lý của những gì thấy, hoặc không thấy, trong dữ liệu SAR. SAR (radar khẩu độ tổng hợp) tự phát xung vi ba rồi đo tín hiệu phản hồi, nên chụp được cả ngày lẫn đêm và xuyên qua mây. SAR rất nhạy với độ nhám và độ ẩm bề mặt, nhờ đó mặt nước hiện lên rõ.
+Đề bài *Dancing with the SARs* của NASA Space Apps Challenge 2026 (chủ đề Khoa học Trái Đất, mức trung bình đến nâng cao) yêu cầu xây dựng một ứng dụng tương tác, mã nguồn mở, dùng dữ liệu radar của sứ mệnh NASA–ISRO **NISAR** để theo dõi và trực quan hóa thay đổi bề mặt Trái Đất, chẳng hạn hoạt động nông nghiệp, ngập lụt hay mất đất ngập nước. Mỗi đội tự chọn khu vực, tải dữ liệu NISAR miễn phí (có thể thêm ảnh quang học hoặc lớp GIS làm bối cảnh), trình bày kết quả dưới dạng số tương tác và đưa ra giả thuyết về nguyên nhân vật lý của những gì thấy, hoặc không thấy, trong dữ liệu SAR. SAR (radar khẩu độ tổng hợp) tự phát xung vi ba rồi đo tín hiệu phản hồi, nên chụp được cả ngày lẫn đêm và xuyên qua mây. SAR rất nhạy với độ nhám và độ ẩm bề mặt, nhờ đó mặt nước hiện lên rõ.
 
 Dự án dùng sản phẩm **GCOV** của NISAR (mức 2, đã nắn hình học và hiệu chỉnh địa hình) ở mức hoàn thiện **VALIDATED** (phiên bản xử lý CRID P05036), có từ ngày 21/10/2026.
 

@@ -1,6 +1,6 @@
 # Phân loại lớp phủ 4 lớp chỉ từ SAR NISAR: so sánh mô hình và kiểm chứng
 
-Dự án *Dancing with the SARs* (NASA Space Apps 2026) · tỉnh Hưng Yên (sau sáp nhập 2025) · số liệu chạy ngày 14/11/2026
+Bài thi *NISAR L-band Change Detection and Land Cover Mapping* (Phát hiện biến động và phân loại lớp phủ bằng ảnh NISAR băng L; NASA Space Apps Challenge 2026, đề bài *Dancing with the SARs*, đội 2936-ThanhNoi, NS05005) · tỉnh Hưng Yên (sau sáp nhập 2025) · số liệu chạy ngày 14/11/2026
 
 Toàn bộ số liệu trong báo cáo đến từ `scripts/experiments.py` (bảng CSV gốc và log đầy đủ trong thư mục cha: [`log.txt`](../log.txt)), trừ phân bố khoảng cách của ô AOI tới mẫu huấn luyện ở mục 5.4, được tính riêng một lần. Hình vẽ bằng `scripts/plot_experiments.py` từ các bảng CSV đó.
 

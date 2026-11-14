@@ -1,21 +1,21 @@
 ---
 title: Đội thi
-description: Đội 2936-ThanhNoi (mã đội NS05005) thực hiện Dancing with the SARs cho NASA Space Apps Challenge 2026.
+description: Đội 2936-ThanhNoi (mã đội NS05005) thực hiện “Phát hiện biến động và phân loại lớp phủ bằng ảnh NISAR băng L” cho NASA Space Apps Challenge 2026.
 sidebar:
   order: 6
 ---
 
 ## Đội 2936-ThanhNoi (NS05005)
 
-*Dancing with the SARs* (trang web này, phần phân tích và mã nguồn) do đội **2936-ThanhNoi**, mã đội **NS05005**, thực hiện cho thử thách [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/) của **NASA Space Apps Challenge 2026**.
-
-## Thành viên
-
-| Thành viên | Vai trò |
+| | |
 |---|---|
-| **Ninh Hải Đăng** | Trưởng nhóm |
-| **Phạm Minh Quang** | Thành viên |
-| **Lê Toàn Thắng** | Thành viên |
+| **Cuộc thi** | NASA Space Apps Challenge 2026 |
+| **Đề bài** | Dancing with the SARs |
+| **Tên bài thi** | NISAR L-band Change Detection and Land Cover Mapping<br />(Phát hiện biến động và phân loại lớp phủ bằng ảnh NISAR băng L) |
+| **Đội thi** | 2936-ThanhNoi (mã đội NS05005) |
+| **Thành viên** | Ninh Hải Đăng (trưởng nhóm), Phạm Minh Quang, Lê Toàn Thắng |
+
+Bài thi **NISAR L-band Change Detection and Land Cover Mapping** (Phát hiện biến động và phân loại lớp phủ bằng ảnh NISAR băng L; gồm trang web này, phần phân tích và mã nguồn) do đội **2936-ThanhNoi**, mã đội **NS05005**, thực hiện cho đề bài [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/) của **NASA Space Apps Challenge 2026**.
 
 ## Mã nguồn và dữ liệu
 

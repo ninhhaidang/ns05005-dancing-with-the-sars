@@ -1,6 +1,12 @@
 # HANDOFF: trạng thái dự án (cập nhật 15/11/2026)
 
-Đội **2936-ThanhNoi** (mã đội NS05005): Ninh Hải Đăng (trưởng nhóm), Phạm Minh Quang, Lê Toàn Thắng. Thông tin đội trên web: trang `team` (Anh/Việt), dòng tên đội ở trang chủ, footer, câu hỏi đầu tiên của FAQ, prompt hệ thống của chatbot.
+Thông tin dự thi, dùng đúng tên ở mọi nơi:
+- Cuộc thi: **NASA Space Apps Challenge 2026**
+- Đề bài: **Dancing with the SARs**; tên đề bài vẫn dùng làm tên repo, subdomain `dwts` và tên container
+- Tên bài thi: **NISAR L-band Change Detection and Land Cover Mapping** (tiếng Việt: Phát hiện biến động và phân loại lớp phủ bằng ảnh NISAR băng L)
+- Đội thi: **2936-ThanhNoi** (mã đội NS05005)
+
+Thành viên: Ninh Hải Đăng (trưởng nhóm), Phạm Minh Quang, Lê Toàn Thắng. Các thông tin này xuất hiện ở: trang Đội thi và Tổng quan (bảng thông tin), dòng giới thiệu trang chủ, footer, câu đầu tiên của FAQ, tiêu đề site, prompt chatbot, `README.md`, đầu hai báo cáo thí nghiệm, `CLAUDE.md`.
 
 ## Tóm tắt một dòng
 Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi có kiểm định thống kê, nhãn polygon 4 lớp (1.347 polygon), bộ phân loại chỉ dùng SAR đạt **BA khoảng 93% trên ô thuần** (CV khối 5 km), 8 thí nghiệm so sánh và báo cáo song ngữ `outputs/experiments/vi/BAO_CAO.md` / `outputs/experiments/en/REPORT.md`. **Chưa có tập kiểm tra độc lập, và người dùng không chấm thêm nhãn nữa.** Việc tiếp theo là làm sản phẩm nộp.

@@ -1,13 +1,13 @@
 ---
 title: Frequently asked questions
-description: Short answers to the questions visitors and judges most often ask about the data, methods, accuracy and findings of Dancing with the SARs.
+description: Short answers to the questions visitors and judges most often ask about the data, methods, accuracy and findings of the project NISAR L-band Change Detection and Land Cover Mapping.
 sidebar:
   order: 4
 ---
 
 ## What is this project about?
 
-*Dancing with the SARs* is a NASA Space Apps 2026 project that uses the first **VALIDATED NISAR** radar data to look at **Hưng Yên province, Vietnam** (the post-2025 province, formed by merging the former Hưng Yên and Thái Bình). It does two things: (1) detects changes linked to **water management** (fields, ponds, dykes) between 22 Oct and 3 Nov 2026, and (2) maps **four land-cover classes from SAR alone**. See the [Overview](/overview/).
+**NISAR L-band Change Detection and Land Cover Mapping** is the entry of team 2936-ThanhNoi (NS05005) to the NASA Space Apps Challenge 2026, challenge *Dancing with the SARs*. It uses the first **VALIDATED NISAR** radar data to look at **Hưng Yên province, Vietnam** (the post-2025 province, formed by merging the former Hưng Yên and Thái Bình). It does two things: (1) detects changes linked to **water management** (fields, ponds, dykes) between 22 Oct and 3 Nov 2026, and (2) maps **four land-cover classes from SAR alone**. See the [Overview](/overview/).
 
 ## Who made this project?
 

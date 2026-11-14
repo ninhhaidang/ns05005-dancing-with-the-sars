@@ -1,6 +1,11 @@
-# Dancing with the SARs
+# NISAR L-band Change Detection and Land Cover Mapping
 
-NASA Space Apps 2026, thử thách "Dancing with the SARs". Đội **2936-ThanhNoi**, mã đội **NS05005**: Ninh Hải Đăng (trưởng nhóm), Phạm Minh Quang, Lê Toàn Thắng. Web: https://dwts.ninhhaidang.com. Dùng GCOV VALIDATED của NISAR (CRID P05036, từ 21/10/2026) cho tỉnh Hưng Yên (sau sáp nhập 2025 = Hưng Yên cũ + Thái Bình).
+- Cuộc thi: **NASA Space Apps Challenge 2026**
+- Đề bài: **Dancing with the SARs**
+- Tên bài thi: **NISAR L-band Change Detection and Land Cover Mapping** (tiếng Việt: Phát hiện biến động và phân loại lớp phủ bằng ảnh NISAR băng L)
+- Đội thi: **2936-ThanhNoi**, mã đội **NS05005**: Ninh Hải Đăng (trưởng nhóm), Phạm Minh Quang, Lê Toàn Thắng
+
+Dùng đúng các tên trên trong mọi sản phẩm và tài liệu. Web: https://dwts.ninhhaidang.com. Dùng GCOV VALIDATED của NISAR (CRID P05036, từ 21/10/2026) cho tỉnh Hưng Yên (sau sáp nhập 2025 = Hưng Yên cũ + Thái Bình).
 
 **Session mới: đọc `HANDOFF.md` trước** (trạng thái, kết quả, việc tiếp theo, các bẫy đã gặp).
 

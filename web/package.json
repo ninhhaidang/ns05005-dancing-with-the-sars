@@ -36,6 +36,6 @@
   "engines": {
     "node": ">=22"
   },
-  "description": "Dancing with the SARs — NASA Space Apps 2026, team 2936-ThanhNoi (NS05005)",
+  "description": "NISAR L-band Change Detection and Land Cover Mapping — NASA Space Apps Challenge 2026 (Dancing with the SARs), team 2936-ThanhNoi (NS05005)",
   "repository": "github:ninhhaidang/ns05005-dancing-with-the-sars"
 }
