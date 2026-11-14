@@ -1,7 +1,7 @@
-# HANDOFF — trạng thái dự án (cập nhật 14/11/2026)
+# HANDOFF: trạng thái dự án (cập nhật 15/11/2026)
 
 ## Tóm tắt một dòng
-Đã có 3 ảnh NISAR GCOV VALIDATED cắt theo AOI Hưng Yên mới, phát hiện thay đổi có kiểm định thống kê, nhãn tự chấm 2 vòng, bộ phân loại 4 lớp chỉ dùng SAR (~80% trên nhãn mù). **Đang chờ người dùng tải ảnh Sentinel-2 10 m từ Earth Engine** để chấm nhãn tiếp trong QGIS.
+Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi có kiểm định thống kê, nhãn polygon 4 lớp (1.347 polygon), bộ phân loại chỉ dùng SAR đạt **BA khoảng 93% trên ô thuần** (CV khối 5 km), 8 thí nghiệm so sánh và báo cáo `outputs/experiments/BAO_CAO.md`. **Chưa có tập kiểm tra độc lập, và người dùng không chấm thêm nhãn nữa.** Việc tiếp theo là làm sản phẩm nộp.
 
 ## Dữ liệu NISAR (tất cả VALIDATED, P05036, tần số A)
 | Ngày | Track | Pixel | Ghi chú |
@@ -11,36 +11,86 @@
 | 3/11 | 148 xuống | 20 m | phủ 100% AOI |
 | 29/10 | 076 xuống | | chỉ phủ 4% AOI, bỏ |
 
-Mỗi ngày có 6 lớp GeoTIFF: HHHH, HVHV, mask, numberOfLooks, rtcGammaToSigmaFactor, inputDataExceptionMask. Giá trị là công suất tuyến tính (đổi dB: 10·log10). File HDF5 gốc đã xóa (tải lại từ URL trong manifest nếu cần). Bỏ tần số B (80 m).
+- **Định dạng:** mỗi ngày có 6 lớp GeoTIFF: HHHH, HVHV, mask, numberOfLooks, rtcGammaToSigmaFactor, inputDataExceptionMask. Giá trị là công suất tuyến tính, đổi sang dB bằng 10·log10.
+- **Bản gốc:** file HDF5 gốc đã xóa; tải lại từ URL trong `data/manifest.json` nếu cần. Không dùng tần số B (80 m).
+- **Vùng hợp lệ:** đã kiểm, vùng dữ liệu hợp lệ của cả 3 ảnh trùng khít với AOI rasterize sang UTM. AOI gốc ở EPSG:4326 không ảnh hưởng gì, vì `crop_gcov.py` chiếu sang UTM ngay lúc cắt.
+
+## Sentinel-2 (chỉ dùng để vẽ nhãn, không đưa vào mô hình)
+- **`data/s2/gee_10m/S2_composite_10m_aoi.tif`:** ảnh GEE median 22/10-3/11, Cloud Score+ ngưỡng **0,789**, đã cắt theo AOI. 6 băng: B2, B3, B4, B8, B11, `n_clear`. Nén deflate, có overview, nodata = 0. Hiển thị màu thật: R = băng 3, G = băng 2, B = băng 1. File gốc chưa cắt vẫn còn bên cạnh.
+- **Độ phủ sạch:** chỉ **khoảng 32% AOI** có `n_clear` > 0. Bản AWS cũ `composite_20m.tif` (lọc SCL 4/5/6) phủ 51,7%, nhưng phần chỉ AWS coi là sạch có dấu hiệu nhiễm mây mỏng: B2 trung vị 1129 so với 900 ở vùng cả hai nguồn sạch. Vì vậy ưu tiên ảnh GEE.
+- **Mã:** `scripts/check_gee_s2.py` (kiểm tra và đối chiếu), `scripts/clip_gee_s2.py` (cắt theo AOI, có tạo thêm `data/ref/aoi_32648.geojson`).
 
 ## Kết quả chính
-1. **Phát hiện thay đổi** (`scripts/change_detection.py`, cặp 22/10 và 3/11, kiểm định z>5, ≥0,05 km², hiệu chỉnh tương quan speckle f≈1,6-1,7): 99,89% AOI không đổi. Điểm duy nhất đáng kể: **cụm nước mới ~1,6 km² quanh 106,484°E, 20,463°N** (HH −10→−16 dB, HV −17→−23 dB, giảm dần qua cả 27/10; khối chữ nhật cạnh khúc sông). **Nguyên nhân chưa biết** (giả thuyết: ao/ruộng/đê bao được cho nước vào), **chưa kiểm chứng**: mây che gần như luôn (chỉ ~9% diện tích có một ngày S2 sạch). Danh sách mảng: `outputs/change_patches.csv`.
-2. **Thu hoạch lúa**: không thấy tín hiệu trong 12 ngày; đa số ruộng có vẻ đã gặt trước 22/10 (NDVI trung vị ~0,31). Đề tài lúa yếu.
-3. **Dynamic World** trong khoảng ngày chỉ có nhãn cho 6,2% AOI, lệch ven biển, 0% trên cụm nước → **không dùng**. Đã chuyển sang tự chấm nhãn.
-4. **Nhãn** (4 lớp: 1 Nước, 2 Thực vật, 3 Đất trống, 4 Đô thị/làng): vòng 1 `labeling/labels.csv` 265 nhãn nhưng 97,7% trùng gợi ý của quy tắc (hiệu ứng neo, gần như không độc lập); vòng 2 `labeling/labels_r2.csv` 70 nhãn **mù** (bỏ qua 70/140). Quy tắc S2 (NDVI/MNDWI/NDBI/HH) khớp nhãn mù 74,3%; quy tắc bỏ sót đô thị (8/30 mẫu "đất trống" thật là đô thị). Mẫu NDVI 0,3-0,5 không có mẫu nào là thực vật → thực vật thật sự ít.
-5. **Bộ phân loại SAR-only** (`scripts/train_classifier.py`, RandomForest, 12 đặc trưng): 80,0% trên 70 nhãn mù (mốc 30%), 80,0% CV khối 5 km (n=335). Nhầm chính: thực vật↔đất trống. Bản đồ: `data/derived/landcover_sar_20m.tif`, `outputs/landcover_sar.png`. **Cảnh báo:** n nhỏ (sai số ~±10 điểm), tập mù thiên về mẫu dễ (bỏ qua một nửa), chưa kiểm ở vùng mây, tỷ lệ diện tích dự đoán chưa đáng tin (Đô thị 18,5% có vẻ cao do lấy mẫu cân bằng), bản đồ còn nhiễu hạt tiêu.
+1. **Phát hiện thay đổi** (`scripts/change_detection.py`, cặp 22/10 và 3/11, kiểm định z > 5, mảng ≥ 0,05 km², hiệu chỉnh tương quan speckle f ≈ 1,6-1,7):
+   - 99,89% AOI không đổi.
+   - Điểm duy nhất đáng kể: **cụm nước mới khoảng 1,6 km² quanh 106,484°E, 20,463°N**. HH giảm từ −10 xuống −16 dB, HV từ −17 xuống −23 dB, giảm dần qua cả 27/10. Đây là một khối chữ nhật cạnh khúc sông.
+   - **Nguyên nhân chưa biết.** Giả thuyết: ao, ruộng hoặc đê bao được cho nước vào. **Chưa kiểm chứng** vì mây che gần như liên tục. Danh sách mảng thay đổi: `outputs/change_patches.csv`.
+2. **Thu hoạch lúa:** không thấy tín hiệu trong 12 ngày. Đa số ruộng có vẻ đã gặt trước 22/10. Đề tài lúa yếu.
+3. **Dynamic World:** chỉ phủ 6,2% AOI trong khoảng ngày, nên không dùng.
+4. **Nhãn polygon** (`labeling/labels_polygon.gpkg`, tạo từ shapefile ArcGIS Pro của đồng đội bằng `scripts/merge_label_polygons.py`):
+   - 1.347 hình chữ nhật: Nước 190, Thực vật 485, Đất trống 444, Công trình (= Đô thị/làng) 228. EPSG:32648, các cột `poly_id`, `class_id`, `class_name`, `source`, `area_m2`.
+   - Nhãn điểm cũ (vòng 1-2, các file CSV) đã bị người dùng xóa ở commit 67d5eae.
+5. **Bộ phân loại chỉ dùng SAR** (`scripts/train_classifier.py`, Random Forest, 12 đặc trưng; đặc trưng và mẫu dựng trong `scripts/sar_dataset.py`):
+   - Mẫu là ô 20 m thuần ≥ 80%, tối đa 20 ô mỗi polygon: 3.918 ô từ 864 polygon.
+   - **BA 93% trên ô thuần, kiểm tra chéo theo khối 5 km.**
+   - Bản đồ: `data/derived/landcover_sar_20m.tif`, ảnh xem nhanh `outputs/landcover_sar.png`. Bản đồ cũ từ nhãn điểm được sao lưu thành `*_nhan_diem_cu.*`.
+6. **Thí nghiệm** (`scripts/experiments.py`, chạy khoảng 35 phút; kết quả và báo cáo trong `outputs/experiments/`):
+   - **E1 mô hình:** 14 mô hình, 10 mô hình đứng đầu đạt BA 93,0-93,6% và chênh nhau không đáng kể. SVM cao nhất, Random Forest 93,1%.
+   - **E2 đặc trưng:** dùng 1 ngày chỉ đạt BA 83-86%, 3 ngày đạt 93%. Cần cả HH lẫn HV. Kết cấu gần như vô dụng.
+   - **E4 cách kiểm chứng:** chia ngẫu nhiên theo ô thổi phồng khoảng 3 điểm. Chia theo nửa tỉnh chỉ còn 84-87%, một phần do nhãn lệch vùng (Đô thị có 618 mẫu ở phía bắc, 7 mẫu ở phía nam). Độ chính xác giảm theo khoảng cách tới nhãn, và 44% AOI cách nhãn trên 2 km.
+   - **E5 đường học:** gần bão hòa sau khoảng 300 polygon.
+   - **E6 tinh chỉnh lồng:** cải thiện dưới 0,5 điểm.
+   - **E7 mức bản đồ:** 10 mô hình cùng một lớp ở 65,9% AOI. Diện tích: Đô thị khoảng 24%, Đất trống khoảng 44%, **chưa kiểm chứng**.
+   - **E8 vùng áp dụng được:** 8,3% AOI ngoài vùng áp dụng, như nhau ở vùng sạch và vùng mây. Nhưng 23,5% số ô dự đoán là Đô thị nằm ngoài vùng áp dụng, nên lớp Đô thị kém tin cậy nhất.
+   - **Lớp phụ cho bản đồ web:** `data/derived/landcover_model_{mode,agreement}.tif` (lớp đa số và mức đồng thuận giữa mô hình), `data/derived/aoa_dissimilarity.tif` (chỉ số khác biệt DI).
+7. **Tập kiểm tra mù** `labeling/blind_test_cells.gpkg`: 250 ô ngẫu nhiên trong vùng S2 sạch, cột `label` = −1 (chưa chấm). Script đánh giá: `scripts/eval_blind.py`. **Người dùng đã quyết định không chấm**, nên đừng đề nghị chấm lại. Mọi báo cáo phải ghi rõ: con số 93% đo trên ô thuần, không phải độ chính xác bản đồ.
 
 ## Các bẫy đã gặp (đừng lặp lại)
-- **Sentinel-2 từ Earth Search/GEE harmonized: phản xạ = DN × 1e-4, KHÔNG trừ 0,1.** STAC ghi `raster:bands.offset=-0.1` nhưng `earthsearch:boa_offset_applied=True` (đã áp offset). Trừ thêm → phản xạ âm, NDVI sai (từng báo NDVI 0,69 sai). Đã sửa trong `scripts/s2_composite.py`.
-- Đọc COG qua mạng: dùng cửa sổ + overview + đa luồng + env GDAL (`GDAL_HTTP_MULTIPLEX` v.v., xem `s2_composite.py`); đọc tuần tự từng đoạn nhỏ gần như đứng. Tải 175 file S2 AWS thì chậm và hay lỗi "Read failed" → đã hủy.
-- Ranh giới: aoi cũ có 2 feature + 5 lỗ rỗng; aoi hiện tại do người dùng cung cấp (8 mảnh là đảo/bãi bồi, giữ nguyên).
-- Mây S2: không ngày nào đủ sạch (cao nhất 24% AOI); gộp mọi ngày được ~51,7% AOI.
-- Đã từng nhầm khi chỉ đọc feature đầu của geojson nhiều feature.
-- Không có Node trên máy; QGIS có MCP (`mcp__qgis__*`) nếu cần.
+**Sentinel-2**
+- **Phản xạ = DN × 1e-4, KHÔNG trừ 0,1.** Áp dụng cho Earth Search và GEE harmonized. STAC ghi `offset = -0.1` nhưng offset đã được áp. Trừ thêm sẽ ra phản xạ âm; từng báo sai NDVI vì lỗi này.
+- **Mây:** không ngày nào đủ sạch. Ngày tốt nhất phủ 24% AOI; GEE gộp được 32%, AWS 51,7% (có nhiễm).
+- **Đọc COG qua mạng:** dùng cửa sổ, overview, đa luồng và env GDAL (xem `s2_composite.py`). Đọc tuần tự gần như đứng.
+
+**Ranh giới AOI**
+- `aoi.geojson` có 1 feature MultiPolygon gồm 8 mảnh; giữ nguyên, không sửa. Diện tích hình học thật là **2.571,7 km²** (2.572,6 km² trên elipsoid). Con số 2.514,81 km² trong CLAUDE.md không khớp và chưa được sửa.
+- Đã từng nhầm khi chỉ đọc feature đầu của GeoJSON nhiều feature.
+
+**Nhãn và mẫu**
+- Polygon là hình chữ nhật. Siêu lấy mẫu 4×4 làm ngưỡng thuần 80% thành 100%, nên phải dùng 8×8.
+- 36% polygon quá nhỏ (dưới một ô 20 m thuần) nên không cho mẫu.
+- Nhãn vẽ thành cụm cùng lớp (cùng lớp cách nhau trung vị 102 m, khác lớp 509 m). Kiểm tra chéo phải chia theo khối không gian, không chia theo ô hay theo polygon.
+
+**Python và thư viện**
+- **`python -I` bỏ thư mục script khỏi `sys.path`:** các script trong `scripts/` dùng `sys.path.insert(0, ...)` để import `sar_dataset`.
+- **pyogrio không ghi được cột số nguyên rỗng,** và module `sqlite3` không `UPDATE` được bảng GPKG vì trigger cần hàm không gian. Dùng giá trị −1 làm "trống".
+- **Env `dwts` không có pip.** Cài gói bằng conda-forge.
+- **CatBoost 1.2.5 lỗi với numpy 2.5;** đã nâng lên 1.2.10. Thư mục `catboost_info/` do CatBoost tự tạo, đã gitignore.
+
+**Công cụ**
+- **QGIS chậm khi zoom:** file ảnh không phải nguyên nhân, vì đọc qua overview mất dưới 0,1 giây. Nghi ngờ hệ tọa độ project là EPSG:4326 nên QGIS phải chiếu lại raster; đặt project CRS = EPSG:32648.
+- **`sed` trên macOS** lỗi với chuỗi tiếng Việt trong lệnh thay thế; dùng công cụ Edit hoặc Python.
+- Không có Node trên máy. QGIS có MCP (`mcp__qgis__*`) nhưng kết nối hay mất.
 
 ## Script (`scripts/`)
-`crop_gcov.py` (cắt HDF5→GeoTIFF+manifest), `quicklook.py`, `sar_analysis.py`, `change_detection.py`, `s2_scl_coverage.py`, `s2_composite.py` (tổ hợp 20 m), `make_label_tool.py [--round 2]` (công cụ chấm nhãn HTML), `train_classifier.py`, `gee_s2_composite.js` (dán vào GEE Code Editor, xuất 1 ảnh median 10 m, 6 băng B2,B3,B4,B8,B11,n_clear, EPSG:32648), `download_s2.py` (tải S2 AWS, đã bỏ, không dùng).
+| Nhóm | Script |
+|---|---|
+| SAR | `crop_gcov.py` (HDF5 → GeoTIFF + manifest), `quicklook.py`, `sar_analysis.py`, `change_detection.py` |
+| Sentinel-2 | `s2_scl_coverage.py`, `s2_composite.py` (bản AWS 20 m), `gee_s2_composite.js` (dán vào GEE Code Editor), `check_gee_s2.py`, `clip_gee_s2.py`. `download_s2.py` đã bỏ, không dùng. |
+| Nhãn | `merge_label_polygons.py <thư mục shapefile>`, `make_blind_test.py`, `eval_blind.py`. `make_label_tool.py` là công cụ cũ cho nhãn điểm. |
+| Phân loại | `sar_dataset.py` (module dùng chung), `train_classifier.py`, `experiments.py [--only E1,E4]` |
 
-## Trạng thái hiện tại / đang chờ
-- Người dùng **tự chạy `gee_s2_composite.js` trên Earth Engine** và sẽ bỏ ảnh vào **`data/s2/gee_10m/S2_composite_10m_20261022_20261103.tif`** (nếu xuất từng ngày: `S2_10m_<yyyymmdd>.tif`). Khi có file: kiểm tra số băng, CRS, độ phủ sạch, đối chiếu phản xạ với `composite_20m.tif`.
-- Người dùng định **chấm lại nhãn trong QGIS ở 10 m** (nhãn là cho ô 20 m = 40×40 m, đừng chấm theo 1 pixel 10 m). Ưu tiên mẫu vòng 1 không chắc.
-- Git: `main` trước `origin/main` 2 commit (chưa push). Chưa commit: `scripts/download_s2.py`, `scripts/gee_s2_composite.js`, `CLAUDE.md` mới, `HANDOFF.md`.
+## Trạng thái git
+`main` trùng với `origin/main` (commit mới nhất 668010a, đã push). Chưa commit: `HANDOFF.md` này. Untracked: `outputs/landcover_sar_nhan_diem_cu.png`, bản sao lưu bản đồ cũ, cố ý không commit vì bản gốc đã có trong lịch sử git.
 
 ## Việc tiếp theo (gợi ý, theo thứ tự)
-1. Kiểm tra ảnh GEE khi có; dựng đặc trưng/nhãn 10 m nếu cần.
-2. Chấm thêm nhãn mù trong QGIS (cân nhắc thêm lớp "Nước nhỏ/ao/ruộng ngập" thành 5 lớp — người dùng đã chọn giữ 4 lớp), huấn luyện lại; làm mịn bản đồ (lọc đa số); hiệu chỉnh tỷ lệ lớp.
-3. Kiểm chứng cụm nước mới bằng ảnh quang học/ảnh độ phân giải cao nếu có (S2 trong khoảng ngày gần như không giúp được).
-4. Sản phẩm nộp: bản đồ web tương tác (thanh trượt 22/10, 27/10, 3/11; lớp phủ; mảng thay đổi), kể chuyện + giả thuyết vật lý (mặt nước phẳng phản xạ gương → HH, HV cùng giảm) + nêu rõ giới hạn (chỉ 3 ngày/12 ngày, 20 m, dữ liệu VALIDATED còn known issues).
-5. Viết README hướng dẫn tái tạo (data/ không commit: tải lại từ ASF bằng token + `crop_gcov.py`).
-6. Kiểm tra quy định cuộc thi về dùng Earth Engine/Dynamic World (trang rules/FAQ render bằng JS, tôi không đọc được).
-7. Xóa `data/s2/composite_20m_uint16_sai.tif` khi người dùng đồng ý; push khi người dùng yêu cầu.
+1. **Hậu xử lý bản đồ:** lọc đa số để giảm nhiễu hạt tiêu.
+2. **Sản phẩm nộp:** bản đồ web tương tác gồm
+   - thanh trượt 22/10, 27/10, 3/11;
+   - lớp phủ, kèm lớp độ tin cậy (mức đồng thuận E7, vùng áp dụng E8);
+   - mảng thay đổi.
+
+   Kèm phần kể chuyện, giả thuyết vật lý (mặt nước phẳng phản xạ gương nên HH và HV cùng giảm), và nêu rõ giới hạn: chỉ 3 ngày trong 12 ngày, ô 20 m, dữ liệu VALIDATED còn known issues, chỉ đo trên ô thuần, diện tích chưa kiểm chứng.
+3. **Kiểm chứng cụm nước mới** bằng ảnh quang học hoặc ảnh độ phân giải cao, nếu có.
+4. **README** hướng dẫn tái tạo. `data/` không commit; tải lại từ ASF bằng token rồi chạy `crop_gcov.py`.
+5. **Quy định cuộc thi:** kiểm tra việc dùng Earth Engine và Dynamic World có được phép không. Trang rules/FAQ render bằng JS nên chưa đọc được.
+6. **Dọn dẹp:** xóa `data/s2/composite_20m_uint16_sai.tif` khi người dùng đồng ý. Cân nhắc sửa diện tích AOI trong CLAUDE.md thành 2.571,7 km².
