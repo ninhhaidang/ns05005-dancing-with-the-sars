@@ -1,0 +1,16 @@
+name: dwts
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - requests
+  - pyyaml
+  - rasterio   # Sentinel-2 windowed reads, GeoTIFF output
+  - numpy
+  - h5py       # NISAR GCOV/GUNW are HDF5
+  - scipy      # masks, filters
+  - scikit-learn  # H4 learned classifier
+  - matplotlib # chips, figures
+  - pyproj     # coordinate transforms
+  - pytest
+  - earthengine-api  # Dynamic World cross-check values at the K1/K2 points
