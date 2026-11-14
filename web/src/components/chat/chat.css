@@ -1,0 +1,57 @@
+.dwts-chat-fab {
+	position: fixed; right: 18px; bottom: 18px; z-index: 50; padding: 10px 16px; border-radius: 999px; border: 0;
+	background: var(--sl-color-accent); color: var(--sl-color-black); font-weight: 600; cursor: pointer;
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3); font-size: 0.9rem;
+}
+:root[data-theme='light'] .dwts-chat-fab { color: #fff; }
+@media (max-width: 600px) { .dwts-chat-fab span { display: none; } }
+
+.dwts-chat {
+	display: flex; flex-direction: column; background: var(--sl-color-bg); color: var(--sl-color-text);
+	border: 1px solid var(--sl-color-gray-5); font-size: 0.88rem; line-height: 1.5;
+}
+.dwts-chat.widget {
+	position: fixed; right: 18px; bottom: 18px; z-index: 50; width: min(420px, calc(100vw - 24px));
+	height: min(620px, calc(100dvh - 90px)); border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+.dwts-chat.page { height: calc(100dvh - var(--sl-nav-height, 4rem) - 9rem); min-height: 420px; border-radius: 10px; }
+.dwts-chat header {
+	display: flex; justify-content: space-between; align-items: center; padding: 8px 12px;
+	border-bottom: 1px solid var(--sl-color-gray-5);
+}
+.dwts-chat header button, .dwts-chat header a {
+	background: none; border: 0; color: var(--sl-color-gray-2); cursor: pointer; font-size: 1rem; margin-left: 8px; text-decoration: none;
+}
+.dwts-chat-list { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.dwts-chat-empty p { color: var(--sl-color-gray-2); margin: 0 0 10px; }
+.dwts-chat-sugg { display: flex; flex-direction: column; gap: 6px; }
+.dwts-chat-sugg button {
+	text-align: left; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--sl-color-gray-5);
+	background: var(--sl-color-gray-6); color: var(--sl-color-text); cursor: pointer; font-size: 0.83rem;
+}
+.dwts-chat-sugg button:hover { border-color: var(--sl-color-accent); }
+.dwts-msg { max-width: 92%; padding: 8px 11px; border-radius: 10px; overflow-wrap: anywhere; }
+.dwts-msg.user { align-self: flex-end; background: var(--sl-color-accent-low); white-space: pre-wrap; }
+.dwts-msg.assistant { align-self: flex-start; background: var(--sl-color-gray-6); }
+.dwts-msg.err { border: 1px solid #dc2626; }
+.dwts-md > :first-child { margin-top: 0; }
+.dwts-md > :last-child { margin-bottom: 0; }
+.dwts-md p, .dwts-md ul, .dwts-md ol { margin: 0.4em 0; }
+.dwts-md ul, .dwts-md ol { padding-left: 1.2em; }
+.dwts-md table { border-collapse: collapse; font-size: 0.8rem; display: block; overflow-x: auto; }
+.dwts-md th, .dwts-md td { border: 1px solid var(--sl-color-gray-5); padding: 2px 6px; }
+.dwts-md code { font-size: 0.82em; }
+.dwts-status { color: var(--sl-color-gray-3); font-style: italic; font-size: 0.8rem; }
+.dwts-src { margin-top: 6px; font-size: 0.78rem; color: var(--sl-color-gray-2); }
+.dwts-src ul { margin: 4px 0 0; padding-left: 1.1em; }
+.dwts-chat form { display: flex; gap: 6px; padding: 8px; border-top: 1px solid var(--sl-color-gray-5); }
+.dwts-chat textarea {
+	flex: 1; resize: none; border-radius: 8px; border: 1px solid var(--sl-color-gray-5); padding: 6px 8px;
+	background: var(--sl-color-gray-7, var(--sl-color-bg)); color: var(--sl-color-text); font: inherit;
+}
+.dwts-chat form button {
+	padding: 0 14px; border-radius: 8px; border: 0; background: var(--sl-color-accent); color: var(--sl-color-black); font-weight: 600; cursor: pointer;
+}
+:root[data-theme='light'] .dwts-chat form button { color: #fff; }
+.dwts-chat form button:disabled { opacity: 0.4; cursor: default; }
+.dwts-chat-note { margin: 0; padding: 0 10px 8px; font-size: 0.72rem; color: var(--sl-color-gray-3); }

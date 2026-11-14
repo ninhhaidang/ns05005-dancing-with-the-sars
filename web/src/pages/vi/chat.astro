@@ -1,0 +1,8 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import Chat from '../../components/chat/Chat.tsx';
+---
+<StarlightPage frontmatter={{ title: 'Hỏi trợ lý AI', description: 'Trợ lý AI trả lời câu hỏi về dự án, dựa trên tài liệu và dữ liệu của dự án.', tableOfContents: false, pagefind: false }}>
+	<p>Câu trả lời do mô hình AI tạo ra từ tài liệu, bảng kết quả và dữ liệu bản đồ của dự án. Có thể sai, hãy bấm vào nguồn được dẫn để kiểm tra.</p>
+	<Chat client:load lang="vi" mode="page" />
+</StarlightPage>

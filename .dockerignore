@@ -1,0 +1,15 @@
+**/.DS_Store
+**/__pycache__
+.git
+.claude
+.earthdata_token
+data
+labeling
+catboost_info
+web/node_modules
+web/dist
+web/.astro
+web/.cache
+web/public/webdata
+web/public/figures
+web/src/generated

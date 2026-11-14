@@ -1,0 +1,71 @@
+---
+title: Dancing with the SARs
+description: NISAR L-band radar sees through the clouds over Hưng Yên, Vietnam — water-management changes and a SAR-only land-cover map from three validated acquisitions (NASA Space Apps 2026).
+template: splash
+hero:
+  tagline: NISAR's L-band radar looks through two weeks of cloud over Hưng Yên, Vietnam. From three validated acquisitions (22 Oct – 3 Nov 2026) we detect where water was let in and map land cover from radar alone, and we show how far those results can be trusted.
+  actions:
+    - text: Open the interactive map
+      link: /map/
+      icon: right-arrow
+    - text: Read the overview
+      link: /overview/
+      icon: open-book
+      variant: minimal
+    - text: Ask the assistant
+      link: /chat/
+      icon: comment-alt
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+<div class="dwts-stats">
+	<div><b>3</b><span>NISAR GCOV acquisitions (VALIDATED)</span></div>
+	<div><b>2,572 km²</b><span>Hưng Yên province (AOI)</span></div>
+	<div><b>~32%</b><span>of the AOI cloud-free in Sentinel-2 over the same 12 days</span></div>
+	<div><b>1.6 km²</b><span>new water in one block, cause unverified</span></div>
+	<div><b>≈93%</b><span>balanced accuracy on pure cells (spatial CV), not map accuracy</span></div>
+</div>
+
+## The story in four steps
+
+<CardGrid>
+	<Card title="1 · Clouds hide the delta" icon="warning">
+		In late October 2026, Sentinel-2 saw cloud-free ground over only about a third of the province. NISAR's L-band SAR works through cloud,
+		day or night. We use the three NISAR passes that cover all of Hưng Yên: 22 Oct and 3 Nov (same descending track, 20 m) and 27 Oct (ascending, 10 m).
+		[Data →](/data/nisar/)
+	</Card>
+	<Card title="2 · Something filled with water" icon="random">
+		A statistical test on the 22 Oct → 3 Nov image pair, corrected for speckle, finds that 99.89% of the province did not change significantly.
+		The largest change is a rectangular block of about 1.6 km² beside a river, where HH and HV both fell by about 6 dB.
+		This is what a smooth water surface looks like to radar.
+		[Swipe it on the map →](/map/?view=change)
+	</Card>
+	<Card title="3 · Land cover from radar only" icon="puzzle">
+		1,347 hand-drawn label polygons and 12 SAR features (HH and HV on three dates) train a Random Forest that maps water, vegetation, bare soil and built-up land for the whole province, including the parts under cloud.
+		[Land cover map →](/map/?view=landcover)
+	</Card>
+	<Card title="4 · How much to trust it" icon="approve-check">
+		Eight experiments test models, features and validation schemes. Ten models agree on 65.9% of the area. 8.3% of the area lies outside the area of applicability. Built-up is the least reliable class.
+		[Confidence map →](/map/?view=confidence) · [Limitations →](/limitations/)
+	</Card>
+</CardGrid>
+
+## Explore
+
+<CardGrid>
+	<LinkCard title="Interactive map" href="/map/" description="Three SAR dates, swipe comparison, change patches, land cover with confidence, and the values of any 20 m cell." />
+	<LinkCard title="Methods" href="/methods/change-detection/" description="Speckle-aware log-ratio test, SAR features, spatial-block cross-validation." />
+	<LinkCard title="Experiments E1–E8" href="/experiments/" description="14 models, feature ablation, validation schemes, learning curve, map agreement, area of applicability." />
+	<LinkCard title="Reproduce" href="/reproduce/" description="From ASF download to every figure, step by step." />
+	<LinkCard title="FAQ" href="/faq/" description="Short answers to the questions judges and visitors ask most." />
+	<LinkCard title="Ask the assistant" href="/chat/" description="An AI assistant grounded in this documentation and the map data." />
+</CardGrid>
+
+<style>{`
+.dwts-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; margin: 0 0 2rem; }
+.dwts-stats > div { border: 1px solid var(--sl-color-gray-5); border-radius: 0.6rem; padding: 0.8rem 1rem; }
+.dwts-stats b { display: block; font-size: 1.6rem; color: var(--sl-color-accent-high); line-height: 1.2; }
+.dwts-stats span { font-size: var(--sl-text-sm); color: var(--sl-color-gray-2); }
+`}</style>

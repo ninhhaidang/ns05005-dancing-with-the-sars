@@ -1,0 +1,38 @@
+# Run on the server from <repo>/deploy:  docker compose up -d --build
+# Secrets: ~/.config/dwts/web.env (outside the repo; see web.env.example)
+name: dwts
+
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: web/Dockerfile
+    image: dwts-web:latest
+    container_name: dwts-web
+    restart: unless-stopped
+    env_file:
+      - ${HOME}/.config/dwts/web.env
+    volumes:
+      - ../data/web:/data/web:ro
+      - cache:/cache
+    networks: [tunnel]
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: dwts-caddy
+    restart: unless-stopped
+    depends_on: [web]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ../data/web:/srv/webdata:ro
+    ports:
+      - "127.0.0.1:8095:80"   # local check on the server: curl http://127.0.0.1:8095/
+    networks: [tunnel]
+
+volumes:
+  cache:
+
+networks:
+  tunnel:
+    external: true
+    name: tunnel-net

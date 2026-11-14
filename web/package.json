@@ -1,0 +1,39 @@
+{
+  "name": "dwts-web",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "predev": "node scripts/copy-assets.mjs",
+    "dev": "astro dev",
+    "prebuild": "node scripts/copy-assets.mjs && node scripts/build-rag-index.mjs",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "node dist/server/entry.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "^11.1.13",
+    "@astrojs/react": "^7.1.9",
+    "@astrojs/starlight": "^0.43.1",
+    "astro": "^7.3.6",
+    "dompurify": "^3.4.18",
+    "geotiff": "^3.0.5",
+    "github-slugger": "^2.0.0",
+    "maplibre-gl": "^6.18.0",
+    "marked": "^18.2.0",
+    "minisearch": "^7.2.0",
+    "openai": "^7.57.0",
+    "proj4": "^2.23.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "sharp": "^0.35.3"
+  },
+  "devDependencies": {
+    "@types/proj4": "^2.5.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

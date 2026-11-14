@@ -1,0 +1,22 @@
+# dwts.ninhhaidang.com -> Cloudflare Tunnel -> http://dwts-caddy:80
+:80 {
+	encode zstd gzip
+
+	# Map tiles, GeoJSON, metadata (data/web, built by scripts/build_web.py)
+	handle_path /webdata/* {
+		root * /srv/webdata
+		header Cache-Control "public, max-age=86400"
+		file_server
+	}
+
+	handle {
+		reverse_proxy dwts-web:4321 {
+			flush_interval -1
+		}
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

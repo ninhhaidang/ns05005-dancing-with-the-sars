@@ -1,0 +1,12 @@
+:root {
+	--sl-color-accent-low: #0b2545;
+	--sl-color-accent: #3b82f6;
+	--sl-color-accent-high: #bfdbfe;
+}
+:root[data-theme='light'] {
+	--sl-color-accent-low: #dbeafe;
+	--sl-color-accent: #1d4ed8;
+	--sl-color-accent-high: #1e3a8a;
+}
+.sl-markdown-content img { border-radius: 6px; background: #fff; }
+.sl-markdown-content table { font-size: var(--sl-text-sm); }

@@ -1,0 +1,14 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import MapApp from '../../components/map/MapApp.tsx';
+---
+<StarlightPage frontmatter={{ title: 'Bản đồ tương tác', description: 'Ảnh SAR NISAR, phát hiện thay đổi và lớp phủ chỉ từ SAR cho tỉnh Hưng Yên.', template: 'splash', tableOfContents: false, pagefind: false, prev: false, next: false }} hasSidebar={false}>
+	<MapApp client:only="react" lang="vi" />
+</StarlightPage>
+<style is:global>
+	body:has(.dwts-map) .content-panel { padding: 0 !important; border: 0 !important; }
+	body:has(.dwts-map) .content-panel:has(#_top), body:has(.dwts-map) footer, body:has(.dwts-map) .dwts-credit { display: none; }
+	body:has(.dwts-map) .sl-markdown-content { margin: 0; }
+	body:has(.dwts-map) .sl-container { max-width: none !important; }
+	body:has(.dwts-map) main { padding-bottom: 0 !important; }
+</style>

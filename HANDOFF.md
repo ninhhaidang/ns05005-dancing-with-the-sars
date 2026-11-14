@@ -69,7 +69,7 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 **Công cụ**
 - **QGIS chậm khi zoom:** file ảnh không phải nguyên nhân, vì đọc qua overview mất dưới 0,1 giây. Nghi ngờ hệ tọa độ project là EPSG:4326 nên QGIS phải chiếu lại raster; đặt project CRS = EPSG:32648.
 - **`sed` trên macOS** lỗi với chuỗi tiếng Việt trong lệnh thay thế; dùng công cụ Edit hoặc Python.
-- Không có Node trên máy. QGIS có MCP (`mcp__qgis__*`) nhưng kết nối hay mất.
+- Node v26 cài qua nvm (`~/.nvm/versions/node/v26.13.1/bin`), shell không tương tác của Claude không tự nạp nvm nên phải thêm vào PATH. QGIS có MCP (`mcp__qgis__*`) nhưng kết nối hay mất.
 
 ## Script (`scripts/`)
 | Nhóm | Script |
@@ -79,17 +79,24 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 | Nhãn | `merge_label_polygons.py <thư mục shapefile>`, `make_blind_test.py`, `eval_blind.py`. `make_label_tool.py` là công cụ cũ cho nhãn điểm. |
 | Phân loại | `sar_dataset.py` (module dùng chung), `train_classifier.py`, `experiments.py [--only E1,E4]` (chỉ tính, ghi CSV), `plot_experiments.py [vi|en]` (vẽ hình song ngữ bằng seaborn, xuất bảng CSV tiếng Anh; thêm nhãn mới vào từ điển `TR` khi CSV có chuỗi tiếng Việt mới) |
 
+## Web (`web/`, dự kiến https://dwts.ninhhaidang.com)
+- **Stack:** Astro 7 + Starlight (docs song ngữ, `vi/` là bản tiếng Việt), React island cho bản đồ (MapLibre) và chatbot. Node adapter standalone; API `/api/pixel` (đọc `pixel_stack.tif` bằng geotiff.js) và `/api/chat` (RAG + gọi hàm, stream SSE).
+- **Dữ liệu web:** `scripts/postprocess_landcover.py` (lọc đa số 3×3, đổi 5,9% ô) rồi `scripts/build_web.py` → `data/web/` (tile XYZ, GeoJSON, `pixel_stack.tif`, `meta.json`; khoảng 130 MB). Dev: `web/public/webdata` là symlink tới `data/web`.
+- **Docs = kho kiến thức chatbot:** `web/src/content/docs/**` được chia theo heading thành `web/src/generated/rag-index.json` (`web/scripts/build-rag-index.mjs`, chạy ở prebuild) kèm bảng kết quả và docstring script. Sửa docs thì chatbot tự cập nhật sau lần build tới.
+- **Server:** `ssh ninhhaidang@100.103.170.97` (Tailscale, Ubuntu 24.04, Docker, không sudo không mật khẩu). Repo được mirror ở `~/workspace/ns05005-dancing-with-the-sars` bằng `deploy/sync.sh` (rsync --delete, loại `.earthdata_token`), rồi `docker compose up -d --build` trong `deploy/`. Container `dwts-web` (Node) và `dwts-caddy` (tile tĩnh + proxy) nằm trên mạng `tunnel-net`.
+- **Ra Internet:** đã chạy ở https://dwts.ninhhaidang.com (15/11/2026). Đi qua Cloudflare Tunnel `optiplex-3040-v2` (id `71e55d4e-…`, container `cf-wrangler`, cấu hình quản lý từ xa), route `dwts.ninhhaidang.com` → `http://dwts-caddy:80`, kèm CNAME proxied. Trên server sửa bằng CLI `cf` (`export PATH=$HOME/.bun/bin:$HOME/.local/bin:$PATH`):
+  - `cf tunnels config get|update <id> --body @file.json`: lệnh update THAY TOÀN BỘ cấu hình, nên phải giữ đủ các route cũ;
+  - `cf dns records list|create -z ninhhaidang.com`.
+  - Bản sao lưu cấu hình trước khi sửa: `~/.config/dwts/cf-backup/`.
+- **LLM:** omniroute (`http://omniroute:20128/v1`, cùng mạng Docker), model `agy/gemini-3.8-flash-low`, gọi hàm chạy được. Omniroute không có model embedding nên chỉ tìm theo từ khóa (BM25). Bí mật ở `~/.config/dwts/web.env` trên server (mẫu: `deploy/web.env.example`). Đổi env thì chạy `docker compose up -d --force-recreate web`.
+- **Chạy dev local:** cấu hình `web-dev` trong `.claude/launch.json` (cổng 4321). Node phải lấy từ nvm (xem mục Công cụ).
+
 ## Trạng thái git
 `main` trùng với `origin/main` sau mỗi lần push theo yêu cầu. Untracked: `outputs/landcover_sar_nhan_diem_cu.png`, bản sao lưu bản đồ cũ, cố ý không commit vì bản gốc đã có trong lịch sử git.
 
 ## Việc tiếp theo (gợi ý, theo thứ tự)
-1. **Hậu xử lý bản đồ:** lọc đa số để giảm nhiễu hạt tiêu.
-2. **Sản phẩm nộp:** bản đồ web tương tác gồm
-   - thanh trượt 22/10, 27/10, 3/11;
-   - lớp phủ, kèm lớp độ tin cậy (mức đồng thuận E7, vùng áp dụng E8);
-   - mảng thay đổi.
-
-   Kèm phần kể chuyện, giả thuyết vật lý (mặt nước phẳng phản xạ gương nên HH và HV cùng giảm), và nêu rõ giới hạn: chỉ 3 ngày trong 12 ngày, ô 20 m, dữ liệu VALIDATED còn known issues, chỉ đo trên ô thuần, diện tích chưa kiểm chứng.
+1. ~~Hậu xử lý bản đồ~~ (đã làm: lọc đa số 3×3).
+2. **Sản phẩm nộp:** web đã dựng (xem mục Web): bản đồ có thanh trượt và kéo so sánh 3 ngày, lớp phủ kèm độ tin cậy (E7, E8), mảng thay đổi, tra cứu giá trị theo điểm, docs song ngữ khoảng 25 trang mỗi ngôn ngữ, chatbot. Còn lại: điền API key, thêm route trên Cloudflare, thử chatbot với model thật, rà nội dung docs.
 3. **Kiểm chứng cụm nước mới** bằng ảnh quang học hoặc ảnh độ phân giải cao, nếu có.
 4. **README** hướng dẫn tái tạo. `data/` không commit; tải lại từ ASF bằng token rồi chạy `crop_gcov.py`.
 5. **Quy định cuộc thi:** kiểm tra việc dùng Earth Engine và Dynamic World có được phép không. Trang rules/FAQ render bằng JS nên chưa đọc được.
