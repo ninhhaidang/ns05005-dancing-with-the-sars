@@ -2,7 +2,9 @@
 
 Dự án *Dancing with the SARs* (NASA Space Apps 2026) · tỉnh Hưng Yên (sau sáp nhập 2025) · số liệu chạy ngày 14/11/2026
 
-Toàn bộ số liệu trong báo cáo đến từ `scripts/experiments.py` (log đầy đủ: [`log.txt`](log.txt)), trừ phân bố khoảng cách của ô AOI tới mẫu huấn luyện ở mục 5.4, được tính riêng một lần.
+Toàn bộ số liệu trong báo cáo đến từ `scripts/experiments.py` (bảng CSV gốc và log đầy đủ trong thư mục cha: [`log.txt`](../log.txt)), trừ phân bố khoảng cách của ô AOI tới mẫu huấn luyện ở mục 5.4, được tính riêng một lần. Hình vẽ bằng `scripts/plot_experiments.py` từ các bảng CSV đó.
+
+*English version: [`../en/REPORT.md`](../en/REPORT.md).*
 
 ---
 
@@ -10,7 +12,7 @@ Toàn bộ số liệu trong báo cáo đến từ `scripts/experiments.py` (log
 
 - **Bài toán.** Phân loại mỗi ô 20 m của tỉnh vào 4 lớp: Nước, Thực vật, Đất trống, Đô thị/làng. Đầu vào **chỉ là SAR**: NISAR GCOV tần số L, 3 ngày 22/10, 27/10, 3/11/2026, phân cực HH và HV. Nhờ vậy bản đồ áp dụng được cả nơi ảnh quang học bị mây, tức khoảng 69% diện tích tỉnh trong giai đoạn này.
 - **Độ chính xác trên ô thuần** theo kiểm tra chéo khối không gian 5 km: **độ chính xác cân bằng lớp (BA) khoảng 93%**, độ chính xác tổng (OA) khoảng 95%, kappa khoảng 0,93. Mốc so sánh "luôn đoán lớp đông nhất" đạt BA 25%.
-- **Mô hình không phải yếu tố quyết định.** 10 trong 14 mô hình đạt BA 93,0-93,6%, khoảng tin cậy chồng lên nhau. Không mô hình nào tốt hơn Random Forest một cách đáng kể, kể cả sau khi tinh chỉnh siêu tham số.
+- **Mô hình không phải yếu tố quyết định.** 11 trong 14 mô hình đạt BA 93,0-93,6%, khoảng tin cậy chồng lên nhau. Không mô hình nào tốt hơn Random Forest một cách đáng kể, kể cả sau khi tinh chỉnh siêu tham số.
 - **Yếu tố quyết định là dữ liệu đa thời gian.** Dùng 1 ngày ảnh chỉ đạt BA 83-86%, dùng 3 ngày đạt 93%. HV (phân cực chéo) là phân cực có ích nhất.
 - **Độ chính xác giảm khi xa vùng có nhãn.** Chia ngẫu nhiên theo ô thổi phồng khoảng 3 điểm. Chia theo nửa tỉnh chỉ còn 84-87%, một phần do nhãn phân bố lệch giữa các vùng.
 - **Giới hạn quan trọng nhất:** chưa có tập kiểm tra độc lập, và mọi con số đều đo trên ô 20 m nằm trọn trong một polygon nhãn (ô thuần). **Không được đọc con số 93% là độ chính xác của toàn bộ bản đồ.** Tỷ lệ diện tích từng lớp chưa được kiểm chứng; lớp Đô thị kém tin cậy nhất.
@@ -84,7 +86,7 @@ Lưu ý: ngày 27/10 chụp từ quỹ đạo lên, khác hướng nhìn với h
 
 Các giá trị BA, OA, F1 tính bằng %; BA, OA, F1, kappa là trung bình qua 5 lần lặp; khoảng tin cậy từ bootstrap theo khối trên lần lặp đầu.
 
-- **Nhận xét chính:** 10 mô hình đứng đầu chênh nhau dưới 1 điểm BA. Hiệu so với Random Forest dao động −0,0 đến +0,8 điểm, và khoảng tin cậy của hiệu hoặc chứa 0 hoặc sát 0.
+- **Nhận xét chính:** 11 mô hình đứng đầu chênh nhau dưới 1 điểm BA. Hiệu so với Random Forest dao động −0,0 đến +0,8 điểm, và khoảng tin cậy của hiệu hoặc chứa 0 hoặc sát 0.
 - **Mô hình tuyến tính đủ tốt:** hồi quy logistic (93,3%) ngang các mô hình cây phức tạp. Dữ liệu với 12 đặc trưng này gần như tách được bằng biên tuyến tính.
 - **Mô hình yếu hơn rõ:** chỉ LDA (−2,6 điểm) và cây quyết định nông (−4,8 điểm) kém Random Forest một cách đáng kể.
 - **Thời gian huấn luyện** mỗi lần (khoảng 3.100 mẫu): từ 0,003 s (LDA) đến 6,5 s (HistGradientBoosting); Random Forest 0,4 s.
@@ -170,7 +172,9 @@ Vùng đệm nghĩa là bỏ các ô train cách ô test gần nhất dưới kh
 |---|---|---|---|---|
 | % ô AOI | 12% | 44% | 32% | 12% |
 
-Gần một nửa AOI cách nhãn trên 2 km. Ở khoảng cách này, độ chính xác trên ô thuần quanh 90% hoặc thấp hơn. Đây là một lý do nữa để không đọc 93% là độ chính xác toàn bản đồ.
+![Độ chính xác theo khoảng cách](E4_accuracy_by_distance.png)
+
+Gần một nửa AOI cách nhãn trên 2 km. Ở khoảng cách này, độ chính xác trên ô thuần đo được khoảng 90% (89,7-90,9%), thấp hơn con số 93% của toàn bộ CV. Đây là một lý do nữa để không đọc 93% là độ chính xác toàn bản đồ.
 
 ### 5.5 Đường học: cần bao nhiêu nhãn? (E5)
 
@@ -194,7 +198,9 @@ Vòng ngoài là CV khối 5 km; vòng trong là GroupKFold 3 lớp theo khối,
 | SVM (RBF) | 93,6 | 94,1 | C ∈ {1, 10, 100}, γ ∈ {scale, 0,03, 0,3} |
 | LightGBM | 92,9 | 93,1 | `num_leaves` ∈ {15, 31, 63}, `learning_rate` ∈ {0,03, 0,1} |
 
-- **Tinh chỉnh gần như không giúp** (dưới 0,5 điểm).
+![Tinh chỉnh lồng](E6_nested_tuning.png)
+
+- **Tinh chỉnh gần như không giúp** (tối đa 0,5 điểm).
 - **SVM** chọn C = 1 ở cả 5 fold, nghĩa là mô hình ít phức tạp hơn mặc định (C = 10) lại tốt hơn chút ít.
 
 ### 5.7 Mức bản đồ: các mô hình có cho cùng một bản đồ không? (E7)
@@ -223,6 +229,9 @@ Các số là % diện tích AOI dự đoán, chưa hiệu chỉnh.
 
 - **Mức đồng thuận:** cả 10 mô hình cho cùng một lớp ở **65,9%** diện tích AOI; chỉ 3,0% số ô có từ 5 mô hình trở xuống đồng ý với lớp đa số.
 - **Mức trùng khớp từng cặp:** giữa các mô hình cây là 89-97%; LDA và QDA chỉ trùng 76-86% với các mô hình còn lại.
+
+![Trùng khớp từng cặp](E7_pairwise_agreement.png)
+
 - **Tỷ lệ diện tích khá ổn định giữa các mô hình** (trừ LDA): Đô thị 22-26%, Đất trống 39-47%. **Nhưng ổn định không có nghĩa là đúng:** mọi mô hình học từ cùng một tập nhãn nên mang cùng thiên lệch. Tỷ lệ Đô thị khoảng 24% có vẻ cao với một tỉnh đồng bằng nông nghiệp, và chưa có dữ liệu độc lập để kiểm.
 - **Bản đồ đồng thuận và mức đồng thuận** được lưu ở `data/derived/landcover_model_mode.tif` và `landcover_model_agreement.tif`. Có thể dùng mức đồng thuận làm lớp "độ tin cậy" trên bản đồ web.
 
@@ -266,6 +275,8 @@ Phương pháp *Area of Applicability* (Meyer & Pebesma, 2021):
 /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/train_classifier.py
 # 3. Toàn bộ thí nghiệm E0-E8 (khoảng 35 phút trên máy 8 nhân); chạy riêng phần nào: --only E1,E4
 /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/experiments.py
+# 4. Vẽ toàn bộ hình song ngữ (vi/, en/) và xuất bảng CSV tiếng Anh (en/tables/) từ CSV và raster; khoảng 1 phút
+/Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/plot_experiments.py
 ```
 
 - **Môi trường:** conda env `dwts`. Phiên bản chính: scikit-learn 1.9.1, numpy 2.5.4, XGBoost 3.4.2, LightGBM 4.7.0, CatBoost 1.2.10 (conda-forge).

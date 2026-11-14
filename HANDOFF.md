@@ -1,7 +1,7 @@
 # HANDOFF: trạng thái dự án (cập nhật 15/11/2026)
 
 ## Tóm tắt một dòng
-Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi có kiểm định thống kê, nhãn polygon 4 lớp (1.347 polygon), bộ phân loại chỉ dùng SAR đạt **BA khoảng 93% trên ô thuần** (CV khối 5 km), 8 thí nghiệm so sánh và báo cáo `outputs/experiments/BAO_CAO.md`. **Chưa có tập kiểm tra độc lập, và người dùng không chấm thêm nhãn nữa.** Việc tiếp theo là làm sản phẩm nộp.
+Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi có kiểm định thống kê, nhãn polygon 4 lớp (1.347 polygon), bộ phân loại chỉ dùng SAR đạt **BA khoảng 93% trên ô thuần** (CV khối 5 km), 8 thí nghiệm so sánh và báo cáo song ngữ `outputs/experiments/vi/BAO_CAO.md` / `outputs/experiments/en/REPORT.md`. **Chưa có tập kiểm tra độc lập, và người dùng không chấm thêm nhãn nữa.** Việc tiếp theo là làm sản phẩm nộp.
 
 ## Dữ liệu NISAR (tất cả VALIDATED, P05036, tần số A)
 | Ngày | Track | Pixel | Ghi chú |
@@ -34,8 +34,8 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
    - Mẫu là ô 20 m thuần ≥ 80%, tối đa 20 ô mỗi polygon: 3.918 ô từ 864 polygon.
    - **BA 93% trên ô thuần, kiểm tra chéo theo khối 5 km.**
    - Bản đồ: `data/derived/landcover_sar_20m.tif`, ảnh xem nhanh `outputs/landcover_sar.png`. Bản đồ cũ từ nhãn điểm được sao lưu thành `*_nhan_diem_cu.*`.
-6. **Thí nghiệm** (`scripts/experiments.py`, chạy khoảng 35 phút; kết quả và báo cáo trong `outputs/experiments/`):
-   - **E1 mô hình:** 14 mô hình, 10 mô hình đứng đầu đạt BA 93,0-93,6% và chênh nhau không đáng kể. SVM cao nhất, Random Forest 93,1%.
+6. **Thí nghiệm** (`scripts/experiments.py`, chạy khoảng 35 phút). Bảng CSV gốc (nhãn tiếng Việt) và `log.txt` ở `outputs/experiments/`; hình và báo cáo song ngữ ở `outputs/experiments/vi/` và `outputs/experiments/en/` (kèm `en/tables/`: bảng CSV đã dịch), tạo bằng `scripts/plot_experiments.py`:
+   - **E1 mô hình:** 14 mô hình, 11 mô hình đứng đầu đạt BA 93,0-93,6% và chênh nhau không đáng kể. SVM cao nhất, Random Forest 93,1%.
    - **E2 đặc trưng:** dùng 1 ngày chỉ đạt BA 83-86%, 3 ngày đạt 93%. Cần cả HH lẫn HV. Kết cấu gần như vô dụng.
    - **E4 cách kiểm chứng:** chia ngẫu nhiên theo ô thổi phồng khoảng 3 điểm. Chia theo nửa tỉnh chỉ còn 84-87%, một phần do nhãn lệch vùng (Đô thị có 618 mẫu ở phía bắc, 7 mẫu ở phía nam). Độ chính xác giảm theo khoảng cách tới nhãn, và 44% AOI cách nhãn trên 2 km.
    - **E5 đường học:** gần bão hòa sau khoảng 300 polygon.
@@ -77,10 +77,10 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 | SAR | `crop_gcov.py` (HDF5 → GeoTIFF + manifest), `quicklook.py`, `sar_analysis.py`, `change_detection.py` |
 | Sentinel-2 | `s2_scl_coverage.py`, `s2_composite.py` (bản AWS 20 m), `gee_s2_composite.js` (dán vào GEE Code Editor), `check_gee_s2.py`, `clip_gee_s2.py`. `download_s2.py` đã bỏ, không dùng. |
 | Nhãn | `merge_label_polygons.py <thư mục shapefile>`, `make_blind_test.py`, `eval_blind.py`. `make_label_tool.py` là công cụ cũ cho nhãn điểm. |
-| Phân loại | `sar_dataset.py` (module dùng chung), `train_classifier.py`, `experiments.py [--only E1,E4]` |
+| Phân loại | `sar_dataset.py` (module dùng chung), `train_classifier.py`, `experiments.py [--only E1,E4]` (chỉ tính, ghi CSV), `plot_experiments.py [vi|en]` (vẽ hình song ngữ bằng seaborn, xuất bảng CSV tiếng Anh; thêm nhãn mới vào từ điển `TR` khi CSV có chuỗi tiếng Việt mới) |
 
 ## Trạng thái git
-`main` trùng với `origin/main` (commit mới nhất 668010a, đã push). Chưa commit: `HANDOFF.md` này. Untracked: `outputs/landcover_sar_nhan_diem_cu.png`, bản sao lưu bản đồ cũ, cố ý không commit vì bản gốc đã có trong lịch sử git.
+`main` trùng với `origin/main` sau mỗi lần push theo yêu cầu. Untracked: `outputs/landcover_sar_nhan_diem_cu.png`, bản sao lưu bản đồ cũ, cố ý không commit vì bản gốc đã có trong lịch sử git.
 
 ## Việc tiếp theo (gợi ý, theo thứ tự)
 1. **Hậu xử lý bản đồ:** lọc đa số để giảm nhiễu hạt tiêu.

@@ -11,7 +11,7 @@ E5 Đường học (số polygon huấn luyện -> BA)
 E6 Tinh chỉnh siêu tham số lồng (nested CV) cho RF, SVM, LightGBM/HistGB
 E7 Mức bản đồ: huấn luyện trên toàn bộ mẫu, dự đoán toàn AOI, so diện tích từng lớp giữa mô hình và bản đồ đồng thuận
 
-Ra: outputs/experiments/*.csv, *.png; data/derived/landcover_model_{agreement,mode}.tif
+Ra: outputs/experiments/*.csv (hình vẽ bằng scripts/plot_experiments.py); data/derived/landcover_model_{agreement,mode}.tif
 Chạy: /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/experiments.py [--only E1,E4]
 """
 import sys, time, warnings
@@ -114,9 +114,6 @@ def boot_blocks(preds, n=2000, seed=SEED):
         for m, p in preds.items(): res[m][i] = ba_fast(y[ii], p[ii])
     return res
 
-import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
-plt.rcParams.update({"figure.dpi": 110, "font.size": 9})
-COL = ["#2b6cb0", "#68a03f", "#d6b370", "#c0392b"]
 
 
 # ================= E0: kiểm tra dữ liệu / nguy cơ rò rỉ =================
@@ -172,22 +169,7 @@ if run("E1"):
     print("\n  Xếp hạng theo BA (CI 95% bootstrap theo khối | hiệu BA so với RF, CI 95% | McNemar p, lạc quan vì mẫu tương quan không gian):")
     for _, s in S.iterrows():
         print(f"  {s.model:26s} {s.BA_mean*100:5.1f} [{s.BA_ci_lo*100:4.1f}-{s.BA_ci_hi*100:4.1f}] | Δ {s.dBA_vs_RF*100:+5.1f} [{s.dBA_ci_lo*100:+4.1f},{s.dBA_ci_hi*100:+4.1f}] | p={s.mcnemar_p_vs_RF:.3g}")
-    # hình: BA từng mô hình
-    fig, ax = plt.subplots(figsize=(7, 0.35 * len(S) + 1)); S2 = S.iloc[::-1]
-    ax.barh(S2.model, S2.BA_mean * 100, color=["#c0392b" if m == ref else "#4a6fa5" for m in S2.model])
-    ax.errorbar(S2.BA_mean * 100, range(len(S2)), xerr=[(S2.BA_mean - S2.BA_ci_lo) * 100, (S2.BA_ci_hi - S2.BA_mean) * 100], fmt="none", ecolor="k", capsize=2, lw=1)
-    ax.axvline(25, ls=":", c="gray"); ax.set_xlabel("Độ chính xác cân bằng lớp (%), CV khối 5 km; vạch = CI 95% bootstrap theo khối")
-    ax.set_xlim(0, 100); ax.set_title("E1. So sánh mô hình (cùng 12 đặc trưng SAR, cùng fold)"); fig.tight_layout(); fig.savefig(OUT / "E1_models.png")
-    # hình: ma trận nhầm (chuẩn hóa theo hàng) cho 4 mô hình tốt nhất
-    top = [m for m in S.model if not m.startswith("Mốc")][:4]
-    fig, axs = plt.subplots(1, len(top), figsize=(3.2 * len(top), 3.2))
-    for ax, m in zip(np.atleast_1d(axs), top):
-        cm = confusion_matrix(y, oof0[m], labels=K, normalize="true") * 100
-        ax.imshow(cm, cmap="Blues", vmin=0, vmax=100)
-        for i in range(4):
-            for j in range(4): ax.text(j, i, f"{cm[i, j]:.0f}", ha="center", va="center", color="w" if cm[i, j] > 60 else "k")
-        ax.set_xticks(range(4), [NAMES[k] for k in K], rotation=45, ha="right"); ax.set_yticks(range(4), [NAMES[k] for k in K]); ax.set_title(m, fontsize=9)
-    fig.suptitle("Ma trận nhầm (% theo hàng = nhãn thật), CV khối 5 km lần lặp 0"); fig.tight_layout(); fig.savefig(OUT / "E1_confusion_top4.png")
+    pd.DataFrame(dict(row=rows, col=cols, y=y, poly=poly, block5=B5, **{m: oof0[m] for m in MODELS})).to_csv(OUT / "E1_oof_rep0.csv", index=False)  # dự đoán OOF lần lặp 0 (cho ma trận nhầm)
     print(f"  [{time.time()-t0:.0f}s]")
 
 
@@ -216,10 +198,7 @@ if run("E2"):
                                             **{c: m[c].mean() for c in m.columns if c.startswith("F1_") and c != "F1_macro"}))
         print(f"  {name:38s} ({Xf.shape[1]:2d}) BA {m.BA.mean()*100:5.1f} ± {m.BA.std()*100:3.1f} | " + " ".join(f"{NAMES[k]} {m['F1_'+NAMES[k]].mean()*100:4.1f}" for k in K))
     A = pd.DataFrame(out); A.to_csv(OUT / "E2_ablation.csv", index=False)
-    fig, ax = plt.subplots(figsize=(7, 4)); A2 = A.iloc[::-1]
-    ax.barh(A2.feature_set, A2.BA * 100, xerr=A2.BA_sd * 100, color="#4a6fa5", capsize=2); ax.set_xlim(40, 100)
-    ax.set_xlabel("BA (%), RF, CV khối 5 km (vạch = độ lệch chuẩn qua 5 lần lặp)"); ax.set_title("E2. Đóng góp của nhóm đặc trưng")
-    fig.tight_layout(); fig.savefig(OUT / "E2_ablation.png"); print(f"  [{time.time()-t0:.0f}s]")
+    print(f"  [{time.time()-t0:.0f}s]")
 
 
 # ================= E3: độ quan trọng hoán vị =================
@@ -234,10 +213,7 @@ if run("E3"):
     P.to_csv(OUT / "E3_permutation_importance.csv", index=False)
     for _, s in P.iterrows(): print(f"  {s.feature:9s} {s.dBA_mean*100:5.2f} ± {s.dBA_sd_folds*100:4.2f} điểm BA")
     print("  (đặc trưng tương quan mạnh với nhau thì độ quan trọng riêng lẻ bị chia nhỏ; xem thêm E2)")
-    fig, ax = plt.subplots(figsize=(6, 4)); P2 = P.iloc[::-1]
-    ax.barh(P2.feature, P2.dBA_mean * 100, xerr=P2.dBA_sd_folds * 100, color="#4a6fa5", capsize=2)
-    ax.set_xlabel("BA giảm (điểm %) khi xáo trộn đặc trưng"); ax.set_title("E3. Độ quan trọng hoán vị (RF, fold kiểm tra)")
-    fig.tight_layout(); fig.savefig(OUT / "E3_permutation_importance.png"); print(f"  [{time.time()-t0:.0f}s]")
+    print(f"  [{time.time()-t0:.0f}s]")
 
 
 # ================= E4: cách kiểm chứng =================
@@ -286,12 +262,7 @@ if run("E4"):
     # số mẫu từng lớp mỗi nửa vùng (để biết lớp nào bị thiếu khi chia vùng)
     for nm, v in [("Tây/Đông", cols), ("Bắc/Nam", rows)]:
         mid = np.median(v); print(f"  mẫu theo lớp, {nm}: " + " ; ".join(f"{NAMES[k]} {((y==k)&(v<mid)).sum()}/{((y==k)&(v>=mid)).sum()}" for k in K))
-    fig, ax = plt.subplots(figsize=(8, 4)); order = [s for s, _, _ in SCH]
-    for mname in E4M:
-        sub = V[V.model == mname].set_index("scheme").loc[order]; ax.plot(range(len(order)), sub.BA * 100, "o-", label=mname)
-    ax.set_xticks(range(len(order)), order, rotation=35, ha="right"); ax.set_ylabel("BA (%)"); ax.legend(fontsize=8)
-    ax.set_title("E4. Độ chính xác phụ thuộc mức độ độc lập không gian giữa train và test"); ax.grid(alpha=.3)
-    fig.tight_layout(); fig.savefig(OUT / "E4_validation_schemes.png"); print(f"  [{time.time()-t0:.0f}s]")
+    print(f"  [{time.time()-t0:.0f}s]")
 
 
 # ================= E5: đường học =================
@@ -309,9 +280,7 @@ if run("E5"):
     L = pd.DataFrame(out); L.to_csv(OUT / "E5_learning_curve.csv", index=False)
     G = L.groupby("frac").agg(n_poly=("n_poly", "mean"), BA=("BA", "mean"), sd=("BA", "std"))
     for f, s in G.iterrows(): print(f"  {f*100:4.0f}% polygon (~{s.n_poly:4.0f}) -> BA {s.BA*100:5.1f} ± {s.sd*100:3.1f}")
-    fig, ax = plt.subplots(figsize=(5.5, 3.8)); ax.errorbar(G.n_poly, G.BA * 100, yerr=G.sd * 100, fmt="o-", capsize=3)
-    ax.set_xlabel("Số polygon huấn luyện (trung bình mỗi fold)"); ax.set_ylabel("BA (%) trên fold kiểm tra"); ax.grid(alpha=.3)
-    ax.set_title("E5. Đường học (RF, CV khối 5 km)"); fig.tight_layout(); fig.savefig(OUT / "E5_learning_curve.png"); print(f"  [{time.time()-t0:.0f}s]")
+    print(f"  [{time.time()-t0:.0f}s]")
 
 
 # ================= E6: tinh chỉnh lồng =================
@@ -358,14 +327,6 @@ if run("E7"):
     for nm, arr in [("agreement", agree), ("mode", mode)]:
         o = np.zeros(ref_r.shape, np.uint8); o[idx] = arr
         with rasterio.open(ROOT / f"data/derived/landcover_model_{nm}.tif", "w", **prof) as f: f.write(o, 1)
-    fig, ax = plt.subplots(figsize=(7, 0.4 * len(E7M) + 1.2)); left = np.zeros(len(E7M))
-    for k, c in zip(K, COL): ax.barh(E7M, Ar[NAMES[k]], left=left, color=c, label=NAMES[k]); left += Ar[NAMES[k]].values
-    ax.invert_yaxis(); ax.set_xlabel("% diện tích AOI"); ax.legend(ncol=4, fontsize=8, loc="lower center", bbox_to_anchor=(0.5, 1.0))
-    ax.set_title("E7. Tỷ lệ diện tích dự đoán theo mô hình (chưa hiệu chỉnh)", pad=22); fig.tight_layout(); fig.savefig(OUT / "E7_area_by_model.png")
-    o = np.full(ref_r.shape, np.nan, np.float32); o[idx] = agree
-    fig, ax = plt.subplots(figsize=(7, 8)); im = ax.imshow(o[::2, ::2], cmap="RdYlGn", vmin=1, vmax=full, interpolation="nearest")
-    plt.colorbar(im, ax=ax, shrink=0.6, label=f"số mô hình đồng ý với lớp đa số (/{full})"); ax.axis("off")
-    ax.set_title("E7. Mức đồng thuận giữa các mô hình"); fig.tight_layout(); fig.savefig(OUT / "E7_agreement_map.png")
     print(f"  [{time.time()-t0:.0f}s]")
 
 # ================= E8: vùng áp dụng được (Area of Applicability) =================
@@ -403,12 +364,6 @@ if run("E8"):
     prof = ref_r.profile; prof.update(dtype="float32", nodata=np.nan, compress="deflate", predictor=3)
     o = np.full(ref_r.shape, np.nan, np.float32); o[idx] = di
     with rasterio.open(ROOT / "data/derived/aoa_dissimilarity.tif", "w", **prof) as f: f.write(o, 1); f.update_tags(aoa_threshold=str(thr))
-    fig, axs = plt.subplots(1, 2, figsize=(12, 7))
-    im = axs[0].imshow(o[::2, ::2], cmap="magma_r", vmin=0, vmax=max(2 * thr, np.nanpercentile(o, 99))); plt.colorbar(im, ax=axs[0], shrink=.6, label="DI")
-    axs[0].set_title("Chỉ số khác biệt DI so với mẫu huấn luyện"); axs[0].axis("off")
-    m2 = np.full(ref_r.shape, np.nan); m2[idx] = outside; axs[1].imshow(m2[::2, ::2], cmap="RdYlGn_r", vmin=0, vmax=1, interpolation="nearest")
-    axs[1].set_title(f"Ngoài vùng áp dụng (đỏ, DI > {thr:.2f}): {outside.mean()*100:.1f}% AOI"); axs[1].axis("off")
-    fig.suptitle("E8. Vùng áp dụng được của mô hình RF"); fig.tight_layout(); fig.savefig(OUT / "E8_area_of_applicability.png")
     print(f"  [{time.time()-t0:.0f}s]")
 
 print(f"\nxong sau {time.time()-t0:.0f}s; kết quả ở {OUT}")
