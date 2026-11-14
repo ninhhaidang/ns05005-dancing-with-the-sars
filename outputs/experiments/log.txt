@@ -1,0 +1,141 @@
+mẫu 3918 | Nước 2011, Thực vật 622, Đất trống 660, Đô thị 625 | polygon 864 | khối 5 km 88 | 11s
+
+=== E0 Kiểm tra dữ liệu: polygon sát nhau, phân bố mẫu theo khối, phân tầng fold ===
+  khoảng cách tới polygon bất kỳ     gần nhất: chạm (0 m)  0.0% | ≤20 m  0.3% | ≤100 m 49.9% | ≤500 m 95.2% | trung vị 99 m
+  khoảng cách tới polygon CÙNG lớp   gần nhất: chạm (0 m)  0.0% | ≤20 m  0.3% | ≤100 m 48.8% | ≤500 m 93.3% | trung vị 102 m
+  khoảng cách tới polygon KHÁC lớp   gần nhất: chạm (0 m)  0.0% | ≤20 m  0.0% | ≤100 m  1.8% | ≤500 m 27.7% | trung vị 509 m
+  mẫu trên 88 khối 5 km: trung vị 21 ô/khối, khối lớn nhất 348 ô; 10 khối đông nhất chứa 48% mẫu
+  số khối 5 km có mẫu của từng lớp: Nước 33, Thực vật 38, Đất trống 34, Đô thị 45
+  số mẫu từng lớp trong mỗi fold kiểm tra (CV khối 5 km, lần 0):
+    fold 0: Nước  400 Thực vật  100 Đất trống  131 Đô thị  126
+    fold 1: Nước  404 Thực vật  182 Đất trống  133 Đô thị  124
+    fold 2: Nước  401 Thực vật   99 Đất trống  133 Đô thị  125
+    fold 3: Nước  406 Thực vật  108 Đất trống  130 Đô thị  125
+    fold 4: Nước  400 Thực vật  133 Đất trống  133 Đô thị  125
+
+=== E1 So sánh mô hình: CV khối 5 km, 5 fold x 5 lần ===
+  Mốc: lớp đông nhất         BA  25.0 ± 0.0 | OA  51.3 | F1  17.0 | kappa 0.000 | 0.00s/fit
+  Cây quyết định (sâu 4)     BA  88.9 ± 0.6 | OA  92.0 | F1  88.7 | kappa 0.879 | 0.01s/fit
+  Maximum Likelihood (QDA)   BA  93.1 ± 0.0 | OA  94.6 | F1  92.7 | kappa 0.918 | 0.00s/fit
+  LDA                        BA  90.2 ± 0.1 | OA  93.5 | F1  90.7 | kappa 0.900 | 0.00s/fit
+  Hồi quy logistic           BA  93.3 ± 0.1 | OA  95.3 | F1  93.2 | kappa 0.929 | 0.02s/fit
+  k-NN (k=15)                BA  93.1 ± 0.1 | OA  95.3 | F1  93.3 | kappa 0.929 | 0.02s/fit
+  SVM (RBF)                  BA  93.6 ± 0.0 | OA  95.6 | F1  93.5 | kappa 0.933 | 0.05s/fit
+  MLP (64-32)                BA  93.2 ± 0.4 | OA  95.5 | F1  93.4 | kappa 0.931 | 0.20s/fit
+  Random Forest              BA  93.1 ± 0.1 | OA  95.3 | F1  93.1 | kappa 0.929 | 0.41s/fit
+  Extra Trees                BA  93.3 ± 0.1 | OA  95.3 | F1  93.2 | kappa 0.929 | 0.28s/fit
+  HistGradientBoosting       BA  93.0 ± 0.2 | OA  95.1 | F1  92.8 | kappa 0.926 | 6.50s/fit
+  XGBoost                    BA  93.1 ± 0.1 | OA  95.2 | F1  93.0 | kappa 0.928 | 2.02s/fit
+  LightGBM                   BA  93.0 ± 0.1 | OA  95.2 | F1  92.9 | kappa 0.927 | 4.36s/fit
+  CatBoost                   BA  93.3 ± 0.3 | OA  95.3 | F1  93.1 | kappa 0.929 | 1.63s/fit
+
+  Xếp hạng theo BA (CI 95% bootstrap theo khối | hiệu BA so với RF, CI 95% | McNemar p, lạc quan vì mẫu tương quan không gian):
+  SVM (RBF)                   93.6 [91.4-95.8] | Δ  +0.7 [-0.1,+1.7] | p=0.0795
+  Extra Trees                 93.3 [91.1-95.6] | Δ  +0.5 [+0.0,+1.1] | p=0.155
+  CatBoost                    93.3 [91.4-95.6] | Δ  +0.7 [+0.2,+1.3] | p=0.00865
+  Hồi quy logistic            93.3 [91.2-95.4] | Δ  +0.4 [-0.7,+1.5] | p=0.399
+  MLP (64-32)                 93.2 [91.8-95.4] | Δ  +0.8 [-0.4,+2.0] | p=0.00489
+  Random Forest               93.1 [90.5-95.0] | Δ  +0.0 [+0.0,+0.0] | p=nan
+  Maximum Likelihood (QDA)    93.1 [91.5-94.4] | Δ  +0.1 [-1.3,+1.7] | p=0.144
+  k-NN (k=15)                 93.1 [91.0-94.8] | Δ  +0.1 [-1.0,+1.2] | p=0.589
+  XGBoost                     93.1 [90.7-95.0] | Δ  +0.1 [-0.4,+0.6] | p=1
+  LightGBM                    93.0 [90.5-95.0] | Δ  -0.0 [-0.7,+0.7] | p=1
+  HistGradientBoosting        93.0 [90.9-95.2] | Δ  +0.3 [-0.3,+1.0] | p=0.556
+  LDA                         90.2 [87.4-93.1] | Δ  -2.6 [-4.2,-1.0] | p=1.56e-06
+  Cây quyết định (sâu 4)      88.9 [84.9-90.8] | Δ  -4.8 [-6.6,-3.1] | p=5.73e-23
+  Mốc: lớp đông nhất          25.0 [25.0-25.0] | Δ -67.9 [-70.0,-65.5] | p=0
+  [401s]
+
+=== E2 Loại bỏ đặc trưng (Random Forest, CV khối 5 km, 5 lần) ===
+  Đủ 12 đặc trưng                        (12) BA  93.1 ± 0.1 | Nước 99.5 Thực vật 88.1 Đất trống 89.6 Đô thị 95.1
+  Chỉ HH (6)                             ( 6) BA  88.9 ± 0.1 | Nước 97.8 Thực vật 82.9 Đất trống 81.0 Đô thị 93.0
+  Chỉ HV (5)                             ( 5) BA  89.4 ± 0.1 | Nước 99.4 Thực vật 80.9 Đất trống 88.3 Đô thị 88.6
+  Một ngày 22/10 (HH, HV, HV-HH)         ( 3) BA  85.6 ± 0.1 | Nước 97.4 Thực vật 76.2 Đất trống 78.7 Đô thị 88.5
+  Một ngày 27/10, quỹ đạo lên            ( 3) BA  85.6 ± 0.1 | Nước 97.7 Thực vật 75.5 Đất trống 78.6 Đô thị 88.9
+  Một ngày 3/11                          ( 3) BA  83.4 ± 0.1 | Nước 95.9 Thực vật 75.5 Đất trống 73.5 Đô thị 85.7
+  Hai ngày quỹ đạo xuống (22/10, 3/11)   ( 4) BA  87.0 ± 0.1 | Nước 98.2 Thực vật 78.0 Đất trống 81.9 Đô thị 89.1
+  Chỉ trung bình (HH_tb, HV_tb, HV-HH)   ( 3) BA  86.9 ± 0.2 | Nước 97.8 Thực vật 77.1 Đất trống 78.9 Đô thị 91.8
+  Bỏ kết cấu                             (11) BA  92.9 ± 0.1 | Nước 99.3 Thực vật 88.3 Đất trống 88.7 Đô thị 95.1
+  Bỏ độ lệch chuẩn thời gian             (10) BA  92.0 ± 0.2 | Nước 99.4 Thực vật 86.1 Đất trống 87.3 Đô thị 94.8
+  [504s]
+
+=== E3 Độ quan trọng hoán vị (RF, trên fold kiểm tra, giảm BA khi xáo trộn 1 đặc trưng) ===
+  HV_1027    6.71 ± 3.32 điểm BA
+  std_HH     3.89 ± 2.35 điểm BA
+  HV_1103    3.23 ± 1.18 điểm BA
+  HV_tb      2.34 ± 1.53 điểm BA
+  HH_1022    0.47 ± 0.52 điểm BA
+  HV_1022    0.41 ± 1.15 điểm BA
+  texture    0.22 ± 0.31 điểm BA
+  std_HV     0.21 ± 0.34 điểm BA
+  HV-HH      0.06 ± 0.20 điểm BA
+  HH_1027   -0.04 ± 0.69 điểm BA
+  HH_tb     -0.06 ± 0.69 điểm BA
+  HH_1103   -0.14 ± 0.62 điểm BA
+  (đặc trưng tương quan mạnh với nhau thì độ quan trọng riêng lẻ bị chia nhỏ; xem thêm E2)
+  [531s]
+
+=== E4 Ảnh hưởng của cách kiểm chứng (cùng dữ liệu, cùng mô hình) ===
+  Ngẫu nhiên theo ô (rò rỉ) (k/c test→train trung vị     20 m) Random Forest  95.9 | LightGBM  96.8 | SVM (RBF)  96.2 | Hồi quy logistic  94.5
+  Theo polygon             (k/c test→train trung vị    300 m) Random Forest  94.1 | LightGBM  94.4 | SVM (RBF)  94.4 | Hồi quy logistic  93.5
+  Khối 1 km                (k/c test→train trung vị    501 m) Random Forest  94.2 | LightGBM  94.6 | SVM (RBF)  94.4 | Hồi quy logistic  93.6
+  Khối 2 km                (k/c test→train trung vị    800 m) Random Forest  93.4 | LightGBM  93.6 | SVM (RBF)  93.9 | Hồi quy logistic  93.3
+  Khối 5 km                (k/c test→train trung vị   1686 m) Random Forest  93.1 | LightGBM  92.9 | SVM (RBF)  93.6 | Hồi quy logistic  93.3
+  Khối 5 km + đệm 250 m    (k/c test→train trung vị   1920 m) Random Forest  93.1 | LightGBM  93.2 | SVM (RBF)  93.6 | Hồi quy logistic  93.4
+  Khối 5 km + đệm 1 km     (k/c test→train trung vị   2500 m) Random Forest  92.8 | LightGBM  93.0 | SVM (RBF)  93.4 | Hồi quy logistic  92.8
+  Khối 10 km               (k/c test→train trung vị   2925 m) Random Forest  92.3 | LightGBM  92.4 | SVM (RBF)  93.4 | Hồi quy logistic  91.5
+  Khối 20 km               (k/c test→train trung vị   4099 m) Random Forest  91.4 | LightGBM  92.3 | SVM (RBF)  93.2 | Hồi quy logistic  91.4
+  Chia Tây / Đông          (k/c test→train trung vị  18744 m) Random Forest  87.0 | LightGBM  86.2 | SVM (RBF)  83.0 | Hồi quy logistic  86.1
+  Chia Bắc / Nam           (k/c test→train trung vị  17856 m) Random Forest  83.8 | LightGBM  82.9 | SVM (RBF)  85.7 | Hồi quy logistic  86.5
+  4 góc phần tư            (k/c test→train trung vị  15044 m) Random Forest  90.4 | LightGBM  91.3 | SVM (RBF)  92.4 | Hồi quy logistic  90.5
+  RF: BA theo khoảng cách từ ô test tới ô train gần nhất (m):
+    Ngẫu nhiên theo ô (rò rỉ) [0-30) 97.0 (n=3297) [30-100) 95.1 (n=222) [100-500) 91.9 (n=331) [500-2000) 94.5 (n=62)
+    Theo polygon             [30-100) 90.4 (n=95) [100-500) 94.3 (n=2877) [500-2000) 94.9 (n=861) [2000-5000) 83.5 (n=63)
+    Khối 5 km                [0-30) 100.0 (n=49) [30-100) 100.0 (n=59) [100-500) 98.4 (n=387) [500-2000) 93.7 (n=1715) [2000-5000) 90.7 (n=1629) [5000-inf) 96.7 (n=79)
+    Khối 20 km               [100-500) 96.7 (n=161) [500-2000) 94.1 (n=846) [2000-5000) 89.7 (n=1222) [5000-inf) 90.9 (n=1675)
+  mẫu theo lớp, Tây/Đông: Nước 1011/1000 ; Thực vật 209/413 ; Đất trống 308/352 ; Đô thị 431/194
+  mẫu theo lớp, Bắc/Nam: Nước 655/1356 ; Thực vật 284/338 ; Đất trống 402/258 ; Đô thị 618/7
+  [1204s]
+
+=== E5 Đường học: tỷ lệ polygon dùng để huấn luyện (RF, CV khối 5 km, 3 lần) ===
+     5% polygon (~  35) -> BA  86.4 ± 5.7
+    10% polygon (~  69) -> BA  87.7 ± 5.1
+    20% polygon (~ 139) -> BA  91.0 ± 3.0
+    40% polygon (~ 277) -> BA  92.2 ± 1.6
+    60% polygon (~ 416) -> BA  92.5 ± 1.9
+    80% polygon (~ 555) -> BA  92.8 ± 1.6
+   100% polygon (~ 694) -> BA  93.2 ± 1.5
+  [1235s]
+
+=== E6 Tinh chỉnh siêu tham số lồng: ngoài = CV khối 5 km (lần 0), trong = GroupKFold 3 theo khối ===
+  Random Forest          mặc định  92.9 -> tinh chỉnh  92.8 | tham số chọn mỗi fold: ["{'max_features': 'sqrt', 'min_samples_leaf': 5}", "{'max_features': 'sqrt', 'min_samples_leaf': 1}", "{'max_features': 0.5, 'min_samples_leaf': 5}", "{'max_features': 'sqrt', 'min_samples_leaf': 2}", "{'max_features': 'sqrt', 'min_samples_leaf': 5}"]
+  SVM (RBF)              mặc định  93.6 -> tinh chỉnh  94.1 | tham số chọn mỗi fold: ["{'svc__C': 1, 'svc__gamma': 'scale'}", "{'svc__C': 1, 'svc__gamma': 0.03}", "{'svc__C': 1, 'svc__gamma': 0.3}", "{'svc__C': 1, 'svc__gamma': 'scale'}", "{'svc__C': 1, 'svc__gamma': 0.3}"]
+  LightGBM               mặc định  92.9 -> tinh chỉnh  93.1 | tham số chọn mỗi fold: ["{'est__learning_rate': 0.1, 'est__num_leaves': 31}", "{'est__learning_rate': 0.1, 'est__num_leaves': 31}", "{'est__learning_rate': 0.03, 'est__num_leaves': 15}", "{'est__learning_rate': 0.1, 'est__num_leaves': 15}", "{'est__learning_rate': 0.1, 'est__num_leaves': 63}"]
+  [1711s]
+
+=== E7 Mức bản đồ: huấn luyện trên toàn bộ mẫu, dự đoán toàn AOI ===
+  Random Forest              Nước   5.1% Thực vật  25.1% Đất trống  45.7% Đô thị  24.1% [1735s]
+  Extra Trees                Nước   5.0% Thực vật  27.8% Đất trống  44.8% Đô thị  22.4% [1760s]
+  HistGradientBoosting       Nước   5.9% Thực vật  26.0% Đất trống  42.4% Đô thị  25.7% [1804s]
+  XGBoost                    Nước   5.5% Thực vật  26.3% Đất trống  43.2% Đô thị  25.0% [1825s]
+  LightGBM                   Nước   5.8% Thực vật  25.9% Đất trống  43.3% Đô thị  25.0% [2038s]
+  CatBoost                   Nước   5.2% Thực vật  25.1% Đất trống  44.4% Đô thị  25.3% [2044s]
+  MLP (64-32)                Nước   6.2% Thực vật  22.6% Đất trống  46.5% Đô thị  24.8% [2047s]
+  Hồi quy logistic           Nước   5.1% Thực vật  27.5% Đất trống  44.4% Đô thị  23.0% [2047s]
+  LDA                        Nước   6.3% Thực vật  33.2% Đất trống  44.8% Đô thị  15.7% [2047s]
+  Maximum Likelihood (QDA)   Nước   6.2% Thực vật  29.1% Đất trống  38.7% Đô thị  25.9% [2049s]
+  ô mà cả 10 mô hình cùng lớp: 65.9% AOI | ≤ 5 mô hình đồng ý: 3.0%
+  diện tích theo bản đồ đồng thuận (lớp đa số): Nước 5.6% Thực vật 26.8% Đất trống 43.6% Đô thị 24.0%
+  khoảng diện tích giữa các mô hình (min-max %): Nước 5.0-6.3 ; Thực vật 22.6-33.2 ; Đất trống 38.7-46.5 ; Đô thị 15.7-25.9
+  [2051s]
+
+=== E8 Vùng áp dụng được (Meyer & Pebesma 2021): ô AOI có đặc trưng SAR khác xa mẫu huấn luyện ===
+  trọng số = độ quan trọng hoán vị (E3)
+  ngưỡng DI (râu trên boxplot của DI trong CV khối 5 km) = 0.105
+  BA CV theo nhóm DI (tứ phân vị): [0.01-0.03] 86.7 | [0.03-0.04] 94.2 | [0.04-0.06] 91.1 | [0.06-1.01] 83.6
+  ngoài vùng áp dụng: 8.3% AOI | vùng S2 sạch (nơi có nhãn): 8.4% | vùng mây: 8.3%
+  DI trung vị: vùng sạch 0.048, vùng mây 0.048
+  % ngoài vùng áp dụng theo lớp dự đoán (RF): Nước 4.5% Thực vật 0.7% Đất trống 4.9% Đô thị 23.5%
+  [2063s]
+
+xong sau 2063s; kết quả ở /Users/ninhhaidang/workspace/ns05005-dancing-with-the-sars/outputs/experiments
