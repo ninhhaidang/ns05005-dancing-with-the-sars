@@ -4,7 +4,7 @@
 
 var aoi = ee.Geometry.Rectangle([105.8935, 20.249, 106.6595, 21.007]);   // khung bao Hưng Yên mới
 var start = '2026-10-22', end = '2026-11-04';                              // 22/10 đến hết 3/11
-var CS_THRESHOLD = 0.6;                                                    // Cloud Score+: càng cao càng nghiêm ngặt
+var CS_THRESHOLD = 0.789;                                                    // Cloud Score+: càng cao càng nghiêm ngặt
 
 var s2 = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED').filterBounds(aoi).filterDate(start, end);
 var csp = ee.ImageCollection('GOOGLE/CLOUD_SCORE_PLUS/V1/S2_HARMONIZED');
@@ -25,7 +25,7 @@ Map.addLayer(nClear, {min: 0, max: 6, palette: ['white', 'orange', 'green']}, 'S
 Export.image.toDrive({
   image: image,
   description: 'S2_composite_10m_20261022_20261103',
-  folder: 'GEE_export',
+  folder: 'GEE-s2',
   region: aoi,
   scale: 10,
   crs: 'EPSG:32648',            // trùng hệ tọa độ SAR (UTM 48N)
