@@ -9,6 +9,10 @@ sidebar:
 
 *Dancing with the SARs* là dự án NASA Space Apps 2026, dùng dữ liệu radar **NISAR VALIDATED** đầu tiên để nghiên cứu **tỉnh Hưng Yên** (tỉnh mới sau sáp nhập 2025, gồm Hưng Yên cũ và Thái Bình). Dự án làm hai việc: (1) phát hiện thay đổi liên quan đến **điều tiết nước** (ruộng, ao, đê bao) giữa 22/10 và 3/11/2026, và (2) lập bản đồ **lớp phủ 4 lớp chỉ từ SAR**. Xem [Tổng quan](/vi/overview/).
 
+## Ai thực hiện dự án này?
+
+Đội **2936-ThanhNoi** (mã đội **NS05005**) dự thi NASA Space Apps Challenge 2026: **Ninh Hải Đăng** (trưởng nhóm), **Phạm Minh Quang** và **Lê Toàn Thắng**. Xem [Đội thi](/vi/team/).
+
 ## Vì sao dùng radar (SAR) thay vì ảnh vệ tinh quang học?
 
 Vì mây. Từ 22/10 đến 3/11/2026, chỉ khoảng **32% diện tích tỉnh** có được dù chỉ một quan sát Sentinel-2 sạch. SAR tự phát xung vi ba và nhìn xuyên mây cả ngày lẫn đêm, nên NISAR phủ 100% diện tích tỉnh ở mọi lần chụp. Băng **L** của NISAR (bước sóng khoảng 24 cm) còn xuyên qua tán cây và rất nhạy với mặt nước.

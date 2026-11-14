@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-**Dancing with the SARs** is our entry to the NASA Space Apps Challenge 2026 challenge of the same name. We use NISAR L-band radar images to answer two questions about Hưng Yên province in Vietnam's Red River Delta: *where did water management change the land surface in late October 2026*, and *can we map land cover from radar alone when optical satellites are blind because of clouds?*
+**Dancing with the SARs** is the entry of team **2936-ThanhNoi** (team ID **NS05005**: Ninh Hải Đăng, team lead; Phạm Minh Quang; Lê Toàn Thắng) to the NASA Space Apps Challenge 2026 challenge of the same name. See [Team](/team/). We use NISAR L-band radar images to answer two questions about Hưng Yên province in Vietnam's Red River Delta: *where did water management change the land surface in late October 2026*, and *can we map land cover from radar alone when optical satellites are blind because of clouds?*
 
 :::tip[Explore the results]
 Open the [interactive map](/map/?view=overview) to see the three radar dates, the detected changes and the land-cover map with its confidence layers. You can also [ask the AI assistant](/chat/) any question about the project.

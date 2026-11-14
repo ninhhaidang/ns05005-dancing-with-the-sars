@@ -1,5 +1,7 @@
 # HANDOFF: trạng thái dự án (cập nhật 15/11/2026)
 
+Đội **2936-ThanhNoi** (mã đội NS05005): Ninh Hải Đăng (trưởng nhóm), Phạm Minh Quang, Lê Toàn Thắng. Thông tin đội trên web: trang `team` (Anh/Việt), dòng tên đội ở trang chủ, footer, câu hỏi đầu tiên của FAQ, prompt hệ thống của chatbot.
+
 ## Tóm tắt một dòng
 Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi có kiểm định thống kê, nhãn polygon 4 lớp (1.347 polygon), bộ phân loại chỉ dùng SAR đạt **BA khoảng 93% trên ô thuần** (CV khối 5 km), 8 thí nghiệm so sánh và báo cáo song ngữ `outputs/experiments/vi/BAO_CAO.md` / `outputs/experiments/en/REPORT.md`. **Chưa có tập kiểm tra độc lập, và người dùng không chấm thêm nhãn nữa.** Việc tiếp theo là làm sản phẩm nộp.
 

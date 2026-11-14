@@ -7,8 +7,8 @@ const onChatPage = /\/chat\/?$/.test(Astro.url.pathname);
 <Default><slot /></Default>
 <p class="dwts-credit">
 	{vi
-		? 'NASA Space Apps 2026 · Dancing with the SARs · Dữ liệu NISAR GCOV (VALIDATED, P05036) từ ASF DAAC.'
-		: 'NASA Space Apps 2026 · Dancing with the SARs · NISAR GCOV data (VALIDATED, P05036) from ASF DAAC.'}
+		? 'NASA Space Apps 2026 · Dancing with the SARs · Đội 2936-ThanhNoi (NS05005) · Dữ liệu NISAR GCOV (VALIDATED, P05036) từ ASF DAAC.'
+		: 'NASA Space Apps 2026 · Dancing with the SARs · Team 2936-ThanhNoi (NS05005) · NISAR GCOV data (VALIDATED, P05036) from ASF DAAC.'}
 </p>
 {!onChatPage && <Chat client:idle lang={vi ? 'vi' : 'en'} mode="widget" />}
 <style>

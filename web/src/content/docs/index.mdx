@@ -20,6 +20,8 @@ hero:
 
 import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 
+<p class="dwts-byline">By team <b>2936-ThanhNoi</b> (NS05005) · Ninh Hải Đăng (lead), Phạm Minh Quang, Lê Toàn Thắng · <a href="/team/">Team</a></p>
+
 <div class="dwts-stats">
 	<div><b>3</b><span>NISAR GCOV acquisitions (VALIDATED)</span></div>
 	<div><b>2,572 km²</b><span>Hưng Yên province (AOI)</span></div>
@@ -67,5 +69,6 @@ import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 .dwts-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; margin: 0 0 2rem; }
 .dwts-stats > div { border: 1px solid var(--sl-color-gray-5); border-radius: 0.6rem; padding: 0.8rem 1rem; }
 .dwts-stats b { display: block; font-size: 1.6rem; color: var(--sl-color-accent-high); line-height: 1.2; }
+.dwts-byline { text-align: center; color: var(--sl-color-gray-2); margin: -1rem 0 1.5rem; }
 .dwts-stats span { font-size: var(--sl-text-sm); color: var(--sl-color-gray-2); }
 `}</style>

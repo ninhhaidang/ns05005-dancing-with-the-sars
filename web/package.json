@@ -35,5 +35,7 @@
   },
   "engines": {
     "node": ">=22"
-  }
+  },
+  "description": "Dancing with the SARs — NASA Space Apps 2026, team 2936-ThanhNoi (NS05005)",
+  "repository": "github:ninhhaidang/ns05005-dancing-with-the-sars"
 }

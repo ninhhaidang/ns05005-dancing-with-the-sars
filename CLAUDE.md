@@ -1,6 +1,6 @@
 # Dancing with the SARs
 
-NASA Space Apps 2026, thử thách "Dancing with the SARs". Dùng GCOV VALIDATED của NISAR (CRID P05036, từ 21/10/2026) cho tỉnh Hưng Yên (sau sáp nhập 2025 = Hưng Yên cũ + Thái Bình).
+NASA Space Apps 2026, thử thách "Dancing with the SARs". Đội **2936-ThanhNoi**, mã đội **NS05005**: Ninh Hải Đăng (trưởng nhóm), Phạm Minh Quang, Lê Toàn Thắng. Web: https://dwts.ninhhaidang.com. Dùng GCOV VALIDATED của NISAR (CRID P05036, từ 21/10/2026) cho tỉnh Hưng Yên (sau sáp nhập 2025 = Hưng Yên cũ + Thái Bình).
 
 **Session mới: đọc `HANDOFF.md` trước** (trạng thái, kết quả, việc tiếp theo, các bẫy đã gặp).
 

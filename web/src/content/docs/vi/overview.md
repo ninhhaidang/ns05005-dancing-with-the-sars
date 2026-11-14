@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-**Dancing with the SARs** là bài dự thi của nhóm cho thử thách cùng tên tại NASA Space Apps Challenge 2026. Nhóm dùng ảnh radar băng L của vệ tinh NISAR để trả lời hai câu hỏi về tỉnh Hưng Yên ở đồng bằng sông Hồng: *cuối tháng 10/2026, việc điều tiết nước đã làm bề mặt đất thay đổi ở đâu*, và *có lập được bản đồ lớp phủ chỉ từ radar khi vệ tinh quang học bị mây che không?*
+**Dancing with the SARs** là bài dự thi của đội **2936-ThanhNoi** (mã đội **NS05005**: Ninh Hải Đăng, trưởng nhóm; Phạm Minh Quang; Lê Toàn Thắng) cho thử thách cùng tên tại NASA Space Apps Challenge 2026. Xem [Đội thi](/vi/team/). Nhóm dùng ảnh radar băng L của vệ tinh NISAR để trả lời hai câu hỏi về tỉnh Hưng Yên ở đồng bằng sông Hồng: *cuối tháng 10/2026, việc điều tiết nước đã làm bề mặt đất thay đổi ở đâu*, và *có lập được bản đồ lớp phủ chỉ từ radar khi vệ tinh quang học bị mây che không?*
 
 :::tip[Xem kết quả]
 Mở [bản đồ tương tác](/vi/map/?view=overview) để xem ảnh radar ba ngày, các vùng thay đổi và bản đồ lớp phủ kèm các lớp độ tin cậy. Bạn cũng có thể [hỏi trợ lý AI](/vi/chat/) bất kỳ câu nào về dự án.

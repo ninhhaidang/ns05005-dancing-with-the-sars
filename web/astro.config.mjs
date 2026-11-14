@@ -19,6 +19,7 @@ export default defineConfig({
 			title: 'Dancing with the SARs',
 			description:
 				'NISAR L-band SAR over Hưng Yên, Vietnam: water-management change detection and SAR-only land cover (NASA Space Apps 2026).',
+			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/ninhhaidang/ns05005-dancing-with-the-sars' }],
 			defaultLocale: 'root',
 			locales: {
 				root: { label: 'English', lang: 'en' },
@@ -48,6 +49,7 @@ export default defineConfig({
 						{ slug: 'reproduce' },
 						{ slug: 'faq' },
 						{ slug: 'glossary' },
+						{ slug: 'team' },
 					],
 				},
 				group('Data', 'Dữ liệu', 'data'),

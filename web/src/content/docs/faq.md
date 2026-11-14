@@ -9,6 +9,10 @@ sidebar:
 
 *Dancing with the SARs* is a NASA Space Apps 2026 project that uses the first **VALIDATED NISAR** radar data to look at **Hưng Yên province, Vietnam** (the post-2025 province, formed by merging the former Hưng Yên and Thái Bình). It does two things: (1) detects changes linked to **water management** (fields, ponds, dykes) between 22 Oct and 3 Nov 2026, and (2) maps **four land-cover classes from SAR alone**. See the [Overview](/overview/).
 
+## Who made this project?
+
+Team **2936-ThanhNoi** (team ID **NS05005**) for NASA Space Apps Challenge 2026: **Ninh Hải Đăng** (team lead), **Phạm Minh Quang** and **Lê Toàn Thắng**. See [Team](/team/).
+
 ## Why use radar (SAR) instead of optical satellite images?
 
 Because of clouds. Between 22 Oct and 3 Nov 2026 only about **32% of the province** had even one clear Sentinel-2 observation. SAR sends its own microwave pulses and sees through clouds day and night, so NISAR covers 100% of the province on every acquisition. NISAR's **L-band** (≈24 cm wavelength) also penetrates vegetation and is very sensitive to water surfaces.
