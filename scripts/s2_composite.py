@@ -1,7 +1,7 @@
 """Tổ hợp pixel sạch Sentinel-2 L2A trên lưới SAR 20 m (22/10-3/11/2026).
 
 Mỗi pixel lấy từ ngày sạch gần 27/10 nhất (ưu tiên theo |ngày - 27/10|). Băng: blue, green, red, nir, swir16
-(phản xạ x10000, uint16) + chỉ số ngày nguồn. Pixel không có ngày sạch = 0 / nodata.
+(phản xạ x10000, uint16) + chỉ số ngày nguồn. Kiểu int16; pixel hợp lệ khi source_date_idx > 0.
 """
 import glob, collections, datetime as dt
 from pathlib import Path
@@ -34,7 +34,7 @@ def warp(src_path, dtype, resampling):
         w = from_bounds(*ref.bounds, s.transform)
         return s.read(1, window=w, out_shape=ref.shape, resampling=resampling, boundless=True, fill_value=0).astype(dtype)
 
-comp = np.zeros((len(BANDS),) + ref.shape, np.uint16); src = np.zeros(ref.shape, np.uint8); filled = ~aoi
+comp = np.zeros((len(BANDS),) + ref.shape, np.int16); src = np.zeros(ref.shape, np.uint8); filled = ~aoi
 for k, d in enumerate(dates, 1):
     for f in by[d]:
         scl = warp(f["assets"]["scl"]["href"], np.uint8, Resampling.nearest)
@@ -43,16 +43,15 @@ for k, d in enumerate(dates, 1):
         with ThreadPoolExecutor(len(BANDS)) as ex:
             dns = list(ex.map(lambda b: warp(f["assets"][b]["href"], np.uint16, Resampling.average), BANDS))
         for i, b in enumerate(BANDS):
-            rb = f["assets"][b].get("raster:bands", [{}])[0]
-            sc, off = rb.get("scale", 1e-4), rb.get("offset", -0.1)
-            refl = np.clip((dns[i].astype(np.float32) * sc + off) * 10000, 0, 65535)
-            comp[i][take] = refl[take].astype(np.uint16)
+            # Earth Search đã áp BOA offset (earthsearch:boa_offset_applied=True): phản xạ = DN * 1e-4, KHÔNG trừ 0,1
+            # (trường raster:bands.offset = -0.1 gây trừ hai lần: thực vật ra phản xạ âm).
+            comp[i][take] = np.clip(dns[i][take], 0, 30000).astype(np.int16)
         src[take] = k; filled |= take
         print(f"{d} {f['id'][:25]}: +{take.sum()*400/1e6:.0f} km2, tổng phủ {filled[aoi].mean()*100:.1f}% AOI", flush=True)
-prof = dict(driver="GTiff", height=ref.height, width=ref.width, count=len(BANDS) + 1, dtype="uint16", crs=ref.crs,
-            transform=ref.transform, nodata=0, compress="deflate", predictor=2)
+prof = dict(driver="GTiff", height=ref.height, width=ref.width, count=len(BANDS) + 1, dtype="int16", crs=ref.crs,
+            transform=ref.transform, compress="deflate", predictor=2)
 with rasterio.open(ROOT / "data/s2/composite_20m.tif", "w", **prof) as o:
-    o.write(np.concatenate([comp, src[None].astype(np.uint16)]))
+    o.write(np.concatenate([comp, src[None].astype(np.int16)]))
     o.descriptions = tuple(BANDS + ["source_date_idx"])
     o.update_tags(dates=",".join(dates), scale="reflectance*10000")
 print("xong. nguồn:", {i + 1: d for i, d in enumerate(dates)})
