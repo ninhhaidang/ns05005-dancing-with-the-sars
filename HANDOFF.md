@@ -41,7 +41,7 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 5. **Bộ phân loại chỉ dùng SAR** (`scripts/train_classifier.py`, Random Forest, 12 đặc trưng; đặc trưng và mẫu dựng trong `scripts/sar_dataset.py`):
    - Mẫu là ô 20 m thuần ≥ 80%, tối đa 20 ô mỗi polygon: 3.918 ô từ 864 polygon.
    - **BA 93% trên ô thuần, kiểm tra chéo theo khối 5 km.**
-   - Bản đồ: `data/derived/landcover_sar_20m.tif`, ảnh xem nhanh `outputs/landcover_sar.png`. Bản đồ cũ từ nhãn điểm được sao lưu thành `*_nhan_diem_cu.*`.
+   - Bản đồ: `data/derived/landcover_sar_20m.tif`, ảnh xem nhanh `outputs/landcover_sar.png`. Bản đồ cũ từ nhãn điểm còn bản sao lưu `data/derived/landcover_sar_20m_nhan_diem_cu.tif`; ảnh PNG cũ đã xóa (bản gốc vẫn có trong lịch sử git).
 6. **Thí nghiệm** (`scripts/experiments.py`, chạy khoảng 35 phút). Bảng CSV gốc (nhãn tiếng Việt) và `log.txt` ở `outputs/experiments/`; hình và báo cáo song ngữ ở `outputs/experiments/vi/` và `outputs/experiments/en/` (kèm `en/tables/`: bảng CSV đã dịch), tạo bằng `scripts/plot_experiments.py`:
    - **E1 mô hình:** 14 mô hình, 11 mô hình đứng đầu đạt BA 93,0-93,6% và chênh nhau không đáng kể. SVM cao nhất, Random Forest 93,1%.
    - **E2 đặc trưng:** dùng 1 ngày chỉ đạt BA 83-86%, 3 ngày đạt 93%. Cần cả HH lẫn HV. Kết cấu gần như vô dụng.
@@ -100,7 +100,7 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 - **Chạy dev local:** cấu hình `web-dev` trong `.claude/launch.json` (cổng 4321). Node phải lấy từ nvm (xem mục Công cụ).
 
 ## Trạng thái git
-`main` trùng với `origin/main` sau mỗi lần push theo yêu cầu. Untracked: `outputs/landcover_sar_nhan_diem_cu.png`, bản sao lưu bản đồ cũ, cố ý không commit vì bản gốc đã có trong lịch sử git.
+`main` trùng với `origin/main` sau mỗi lần push theo yêu cầu.
 
 ## Việc tiếp theo (gợi ý, theo thứ tự)
 1. ~~Hậu xử lý bản đồ~~ (đã làm: lọc đa số 3×3).
