@@ -29,6 +29,7 @@ export default defineConfig({
 			customCss: ['./src/styles/custom.css'],
 			components: {
 				Footer: './src/components/Footer.astro',
+				SocialIcons: './src/components/HeaderNav.astro',
 			},
 			lastUpdated: false,
 			sidebar: [
@@ -36,7 +37,7 @@ export default defineConfig({
 					label: 'Explore',
 					translations: { vi: 'Khám phá' },
 					items: [
-						{ label: 'Interactive map', translations: { vi: 'Bản đồ tương tác' }, link: '/map/' },
+						{ label: 'Interactive map', translations: { vi: 'Bản đồ tương tác' }, link: '/' },
 						{ label: 'Ask the assistant', translations: { vi: 'Hỏi trợ lý AI' }, link: '/chat/' },
 					],
 				},

@@ -62,7 +62,7 @@ Consequence: a random per-cell or per-polygon split would put test cells right n
 
 - **SAR-only four-class mapping is feasible** with multi-temporal NISAR L-band: BA ≈93% on pure cells under spatial-block validation, robust to model choice, tuning and buffering.
 - **Data, not model complexity, is what matters:** three dates and both polarisations bring 7–10 points; changing the model brings less than 1 point.
-- **Reliability is uneven across the map:** accuracy decreases with distance from labelled areas, and the Built-up class is the least reliable. The web map therefore shows confidence layers ([open the confidence view](/map/?view=confidence)).
+- **Reliability is uneven across the map:** accuracy decreases with distance from labelled areas, and the Built-up class is the least reliable. The web map therefore shows confidence layers ([open the confidence view](/?view=confidence)).
 
 ## Reproducing the experiments
 

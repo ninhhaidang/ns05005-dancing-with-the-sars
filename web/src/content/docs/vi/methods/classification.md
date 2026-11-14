@@ -77,7 +77,7 @@ Tỷ lệ diện tích chỉ là đếm pixel, chưa phải ước lượng đã
 
 ![Bản đồ lớp phủ chỉ từ SAR (Nước / Thực vật / Đất trống / Đô thị)](/figures/common/landcover_sar.png)
 
-Xem [chế độ lớp phủ](/vi/map/?view=landcover) và [chế độ độ tin cậy](/vi/map/?view=confidence) trên bản đồ tương tác, và [Kiểm chứng](/vi/methods/validation/) để biết con số 93% được đo thế nào.
+Xem [chế độ lớp phủ](/vi/?view=landcover) và [chế độ độ tin cậy](/vi/?view=confidence) trên bản đồ tương tác, và [Kiểm chứng](/vi/methods/validation/) để biết con số 93% được đo thế nào.
 
 ## Hậu xử lý bản đồ lớp phủ
 

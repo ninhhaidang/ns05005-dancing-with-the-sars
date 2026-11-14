@@ -35,7 +35,7 @@ The two descending acquisitions are delivered at 20 m. The ascending 27 Oct acqu
 
 ## What is the "new water" found near the river?
 
-A cluster of about **1.6 km²** near **106.484°E, 20.463°N**, next to a river bend, where HH fell from about −10 to −16 dB and HV from about −17 to −23 dB between 22 Oct and 3 Nov, already partly on 27 Oct. A drop in both polarisations to these levels is typical of a rough surface turning into smooth water. Likely candidates are flooded fields, ponds being filled or an embanked area, but **the cause is not verified**. See [Change results](/results/change/) and the [map](/map/?view=change).
+A cluster of about **1.6 km²** near **106.484°E, 20.463°N**, next to a river bend, where HH fell from about −10 to −16 dB and HV from about −17 to −23 dB between 22 Oct and 3 Nov, already partly on 27 Oct. A drop in both polarisations to these levels is typical of a rough surface turning into smooth water. Likely candidates are flooded fields, ponds being filled or an embanked area, but **the cause is not verified**. See [Change results](/results/change/) and the [map](/?view=change).
 
 ## Did anything else change?
 
@@ -87,7 +87,7 @@ No harvest signal appeared in the 12-day window; most fields seem to have been h
 
 ## What do the confidence layers on the map mean?
 
-**Model agreement** is how many of 10 different models predict the same class (all 10 agree on 65.9% of the province). **Area of applicability** flags the 8.3% of cells whose SAR signature is far from every training sample. Both are indicators, not error maps. Open the [confidence view](/map/?view=confidence).
+**Model agreement** is how many of 10 different models predict the same class (all 10 agree on 65.9% of the province). **Area of applicability** flags the 8.3% of cells whose SAR signature is far from every training sample. Both are indicators, not error maps. Open the [confidence view](/?view=confidence).
 
 ## Is the map on the website the same as the classifier output?
 

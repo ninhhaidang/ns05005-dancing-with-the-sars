@@ -62,7 +62,7 @@ Hệ quả: chia ngẫu nhiên theo ô hay theo polygon sẽ đặt ô kiểm tr
 
 - **Phân loại 4 lớp chỉ từ SAR khả thi** với NISAR L-band đa thời gian: BA khoảng 93% trên ô thuần với kiểm chứng theo khối không gian, bền với lựa chọn mô hình, tinh chỉnh và vùng đệm.
 - **Dữ liệu, không phải độ phức tạp mô hình, mới là yếu tố quyết định:** 3 ngày và 2 phân cực mang lại 7–10 điểm; đổi mô hình mang lại chưa tới 1 điểm.
-- **Độ tin cậy không đều trên bản đồ:** độ chính xác giảm khi xa vùng có nhãn, và lớp Đô thị kém tin cậy nhất. Vì vậy bản đồ web có các lớp độ tin cậy ([mở chế độ độ tin cậy](/vi/map/?view=confidence)).
+- **Độ tin cậy không đều trên bản đồ:** độ chính xác giảm khi xa vùng có nhãn, và lớp Đô thị kém tin cậy nhất. Vì vậy bản đồ web có các lớp độ tin cậy ([mở chế độ độ tin cậy](/vi/?view=confidence)).
 
 ## Chạy lại các thí nghiệm
 

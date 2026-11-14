@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-Trang này trình bày bản đồ lớp phủ tỉnh Hưng Yên (ranh giới sau sáp nhập 2025, 2.571,7 km²) làm **chỉ từ SAR NISAR**, không dùng dữ liệu quang học nào. Vì SAR nhìn xuyên mây, bản đồ phủ toàn tỉnh, kể cả khoảng 69% diện tích không có ảnh Sentinel-2 sạch nào trong giai đoạn 22/10–3/11/2026. Xem trên [bản đồ tương tác, chế độ lớp phủ](/vi/map/?view=landcover).
+Trang này trình bày bản đồ lớp phủ tỉnh Hưng Yên (ranh giới sau sáp nhập 2025, 2.571,7 km²) làm **chỉ từ SAR NISAR**, không dùng dữ liệu quang học nào. Vì SAR nhìn xuyên mây, bản đồ phủ toàn tỉnh, kể cả khoảng 69% diện tích không có ảnh Sentinel-2 sạch nào trong giai đoạn 22/10–3/11/2026. Xem trên [bản đồ tương tác, chế độ lớp phủ](/vi/?view=landcover).
 
 :::caution[Độ chính xác và diện tích chưa được kiểm chứng]
 Con số **khoảng 93% là độ chính xác cân bằng lớp trên ô 20 m thuần, kiểm tra chéo theo khối không gian 5 km, không phải độ chính xác của bản đồ này.** Chưa có tập kiểm tra độc lập (tập mù 250 ô đã chuẩn bị nhưng chưa chấm). **Tỷ lệ diện tích dưới đây là đếm pixel, chưa kiểm chứng và chưa hiệu chỉnh.**
@@ -54,7 +54,7 @@ Những gì *đã* đo được, chỉ trên ô thuần:
 
 ## Các lớp độ tin cậy trên bản đồ web
 
-Hai lớp cho biết nơi bản đồ lớp phủ đáng tin hơn hay kém hơn ([mở chế độ độ tin cậy](/vi/map/?view=confidence)):
+Hai lớp cho biết nơi bản đồ lớp phủ đáng tin hơn hay kém hơn ([mở chế độ độ tin cậy](/vi/?view=confidence)):
 
 - **Mức đồng thuận mô hình ([E7](/vi/experiments/e7-map-agreement/)):** số mô hình trong 10 mô hình khác nhau dự đoán lớp đa số. Cả 10 đồng ý ở 65,9% AOI; từ 5 trở xuống ở 3,0%.
 - **Vùng áp dụng được ([E8](/vi/experiments/e8-applicability/)):** ô có tín hiệu SAR khác xa mọi mẫu huấn luyện (chỉ số khác biệt > 0,105). 8,3% AOI nằm ngoài, như nhau ở vùng sạch mây và vùng mây.

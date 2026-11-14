@@ -47,8 +47,10 @@ export default function Chat({ lang = 'en', mode = 'widget' }: { lang?: Lang; mo
 	useEffect(() => { save(msgs); list.current?.scrollTo({ top: list.current.scrollHeight }); }, [msgs]);
 	useEffect(() => {
 		const h = (e: Event) => { const text = (e as CustomEvent).detail?.text; if (text) { setOpen(true); void send(text); } };
+		const o = () => setOpen(true);
 		window.addEventListener('dwts:ask', h);
-		return () => window.removeEventListener('dwts:ask', h);
+		window.addEventListener('dwts:open-chat', o);
+		return () => { window.removeEventListener('dwts:ask', h); window.removeEventListener('dwts:open-chat', o); };
 	});
 	useEffect(() => { if (open) inputRef.current?.focus(); }, [open]);
 

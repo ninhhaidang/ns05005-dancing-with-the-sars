@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-Trang này trình bày kết quả phát hiện thay đổi có kiểm định thống kê giữa hai ảnh NISAR cùng hình học chụp, **22/10/2026 và 3/11/2026** (track 148, quỹ đạo xuống, 20 m). Phương pháp (kiểm định log tỷ số với mô hình speckle Gamma, |z| > 5 ở cả HH và HV, mảng tối thiểu 0,05 km²) được mô tả ở [Phương pháp phát hiện thay đổi](/vi/methods/change-detection/). Xem trên [bản đồ tương tác, chế độ thay đổi](/vi/map/?view=change).
+Trang này trình bày kết quả phát hiện thay đổi có kiểm định thống kê giữa hai ảnh NISAR cùng hình học chụp, **22/10/2026 và 3/11/2026** (track 148, quỹ đạo xuống, 20 m). Phương pháp (kiểm định log tỷ số với mô hình speckle Gamma, |z| > 5 ở cả HH và HV, mảng tối thiểu 0,05 km²) được mô tả ở [Phương pháp phát hiện thay đổi](/vi/methods/change-detection/). Xem trên [bản đồ tương tác, chế độ thay đổi](/vi/?view=change).
 
 :::caution[Chưa kiểm chứng thực địa]
 Chưa mảng thay đổi nào được xác nhận bằng ảnh quang học hay dữ liệu thực địa, vì mây che gần như liên tục trong giai đoạn này. Mọi diễn giải dưới đây là **giả thuyết dựa trên vật lý SAR.**
@@ -98,4 +98,4 @@ Không phát hiện mức giảm HV trên diện rộng, vốn là dấu hiệu 
 - **Chỉ có một cặp cùng hình học** (22/10 → 3/11, 12 ngày). Ảnh 27/10 có hình học khác và chỉ dùng làm mốc trung gian định tính.
 - **Ngưỡng chặt** (|z| > 5 ở cả hai phân cực, ≥ 0,05 km²) ưu tiên ít báo động giả hơn là độ nhạy; thay đổi nhỏ hoặc từ từ bị bỏ sót.
 - **Không có dữ liệu thực địa:** mọi diễn giải là giả thuyết.
-- Danh sách mảng cũng có trong trợ lý AI và trên [bản đồ](/vi/map/?view=change).
+- Danh sách mảng cũng có trong trợ lý AI và trên [bản đồ](/vi/?view=change).

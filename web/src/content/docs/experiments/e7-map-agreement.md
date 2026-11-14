@@ -57,6 +57,6 @@ Values are % of AOI area as predicted (pixel counting), **not bias-corrected and
 ## E7 outputs used on the web map
 
 - `landcover_model_mode.tif`: consensus land-cover map (majority of 10 models).
-- `landcover_model_agreement.tif`: number of agreeing models, shown as a **confidence layer** on the [interactive map](/map/?view=confidence).
+- `landcover_model_agreement.tif`: number of agreeing models, shown as a **confidence layer** on the [interactive map](/?view=confidence).
 
 The production land-cover layer itself is the Random Forest map (see [Land-cover results](/results/landcover/)).

@@ -57,6 +57,6 @@ Các số là % diện tích AOI theo dự đoán (đếm pixel), **chưa hiệu
 ## Kết quả E7 dùng trên bản đồ web
 
 - `landcover_model_mode.tif`: bản đồ lớp phủ đồng thuận (đa số của 10 mô hình).
-- `landcover_model_agreement.tif`: số mô hình đồng ý, hiển thị làm **lớp độ tin cậy** trên [bản đồ tương tác](/vi/map/?view=confidence).
+- `landcover_model_agreement.tif`: số mô hình đồng ý, hiển thị làm **lớp độ tin cậy** trên [bản đồ tương tác](/vi/?view=confidence).
 
 Bản thân lớp lớp phủ chính là bản đồ Random Forest (xem [Kết quả lớp phủ](/vi/results/landcover/)).

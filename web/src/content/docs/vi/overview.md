@@ -16,7 +16,7 @@ sidebar:
 | **Thành viên** | Ninh Hải Đăng (trưởng nhóm), Phạm Minh Quang, Lê Toàn Thắng |
 
 :::tip[Xem kết quả]
-Mở [bản đồ tương tác](/vi/map/?view=overview) để xem ảnh radar ba ngày, các vùng thay đổi và bản đồ lớp phủ kèm các lớp độ tin cậy. Bạn cũng có thể [hỏi trợ lý AI](/vi/chat/) bất kỳ câu nào về dự án.
+Mở [bản đồ tương tác](/vi/?view=overview) để xem ảnh radar ba ngày, các vùng thay đổi và bản đồ lớp phủ kèm các lớp độ tin cậy. Bạn cũng có thể [hỏi trợ lý AI](/vi/chat/) bất kỳ câu nào về dự án.
 :::
 
 ## Đề bài Dancing with the SARs
@@ -60,7 +60,7 @@ Dự án dùng sản phẩm **GCOV** của NISAR (mức 2, đã nắn hình họ
 
 - **99,89% AOI không có thay đổi có ý nghĩa thống kê** trong 12 ngày này (ngưỡng |z| > 5 ở cả HH và HV, mảng ≥ 0,05 km²).
 - **Tín hiệu đáng kể duy nhất là một cụm nước mới khoảng 1,6 km²** quanh 106,48°E, 20,46°N, cạnh một khúc sông ở phía đông nam tỉnh. Tán xạ HH giảm từ khoảng −10 xuống −16 dB, HV từ khoảng −17 xuống −23 dB, và đã giảm từ ngày 27/10. Khu này có dạng khối chữ nhật, điển hình của ruộng hoặc ao có bờ bao.
-- **Nguyên nhân chưa kiểm chứng:** giả thuyết là ruộng, ao hoặc một khu đê bao được chủ động cho nước vào, nhưng mây che nên không có ảnh quang học nào để xác nhận. Xem [Kết quả thay đổi](/vi/results/change/) và [chế độ xem thay đổi trên bản đồ](/vi/map/?view=change).
+- **Nguyên nhân chưa kiểm chứng:** giả thuyết là ruộng, ao hoặc một khu đê bao được chủ động cho nước vào, nhưng mây che nên không có ảnh quang học nào để xác nhận. Xem [Kết quả thay đổi](/vi/results/change/) và [chế độ xem thay đổi trên bản đồ](/vi/?view=change).
 - **Không thấy tín hiệu thu hoạch lúa** trong 12 ngày; phần lớn lúa có vẻ đã gặt trước 22/10.
 
 ### Kết quả lớp phủ (chỉ SAR, 4 lớp)
@@ -70,7 +70,7 @@ Dự án dùng sản phẩm **GCOV** của NISAR (mức 2, đã nắn hình họ
 - **Không có tập kiểm tra độc lập:** đã chuẩn bị tập kiểm tra mù gồm 250 ô ngẫu nhiên (`labeling/blind_test_cells.gpkg`) nhưng chưa chấm nhãn, và nhóm đã quyết định không chấm.
 - **Diện tích chưa kiểm chứng:** bản đồ đồng thuận xếp khoảng 24% AOI vào Đô thị và khoảng 44% vào Đất trống. Các tỷ lệ này chưa hiệu chỉnh sai lệch. Đô thị là lớp kém tin cậy nhất: 23,5% số ô dự đoán là Đô thị nằm ngoài vùng áp dụng được của mô hình.
 - **Yếu tố quyết định:** dùng đủ ba ngày và cả hai phân cực. Chọn mô hình nào gần như không quan trọng (11 trên 14 mô hình chênh nhau dưới 1 điểm).
-- Xem [Phương pháp phân loại](/vi/methods/classification/), [Kiểm chứng](/vi/methods/validation/), cùng các chế độ xem [lớp phủ](/vi/map/?view=landcover) và [độ tin cậy](/vi/map/?view=confidence) trên bản đồ.
+- Xem [Phương pháp phân loại](/vi/methods/classification/), [Kiểm chứng](/vi/methods/validation/), cùng các chế độ xem [lớp phủ](/vi/?view=landcover) và [độ tin cậy](/vi/?view=confidence) trên bản đồ.
 
 ## Đọc tiếp
 

@@ -71,7 +71,7 @@ The area of applicability (Meyer & Pebesma, 2021) marks where the model is asked
 
 ## Model agreement as a confidence layer
 
-Ten different models (Random Forest, Extra Trees, gradient boosting variants, MLP, logistic regression, LDA, QDA) were trained on all samples and applied to the whole AOI. All 10 agree on **65.9% of the AOI**; only 3.0% of cells have 5 or fewer models agreeing with the majority. The per-cell agreement count (`data/derived/landcover_model_agreement.tif`, values 3–10) is shown as a confidence layer on the [map](/map/?view=confidence). High agreement does not prove correctness: all models learn from the same labels and share the same biases.
+Ten different models (Random Forest, Extra Trees, gradient boosting variants, MLP, logistic regression, LDA, QDA) were trained on all samples and applied to the whole AOI. All 10 agree on **65.9% of the AOI**; only 3.0% of cells have 5 or fewer models agreeing with the majority. The per-cell agreement count (`data/derived/landcover_model_agreement.tif`, values 3–10) is shown as a confidence layer on the [map](/?view=confidence). High agreement does not prove correctness: all models learn from the same labels and share the same biases.
 
 ## Blind test set: prepared but not used
 

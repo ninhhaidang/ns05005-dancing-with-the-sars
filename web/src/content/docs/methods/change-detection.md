@@ -68,7 +68,7 @@ Each valid cell gets one class, using z for HH (z_HH) and HV (z_HV):
 
 ![HH and HV difference 3 November minus 22 October, in dB](/figures/common/change_22oct_3nov.png)
 
-See the [change view of the interactive map](/map/?view=change) and [Change results](/results/change/).
+See the [change view of the interactive map](/?view=change) and [Change results](/results/change/).
 
 ## Limitations of the change detection
 

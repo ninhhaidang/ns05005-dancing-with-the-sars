@@ -71,7 +71,7 @@ Vùng áp dụng được (area of applicability, Meyer & Pebesma, 2021) đánh 
 
 ## Mức đồng thuận giữa mô hình làm lớp độ tin cậy
 
-Mười mô hình khác nhau (Random Forest, Extra Trees, các biến thể gradient boosting, MLP, hồi quy logistic, LDA, QDA) được huấn luyện trên toàn bộ mẫu và áp dụng cho cả AOI. Cả 10 mô hình đồng ý trên **65,9% AOI**; chỉ 3,0% số ô có từ 5 mô hình trở xuống đồng ý với lớp đa số. Số mô hình đồng thuận ở từng ô (`data/derived/landcover_model_agreement.tif`, giá trị 3–10) được hiển thị thành lớp độ tin cậy trên [bản đồ](/vi/map/?view=confidence). Đồng thuận cao không chứng minh là đúng: mọi mô hình học từ cùng một bộ nhãn và mang cùng thiên lệch.
+Mười mô hình khác nhau (Random Forest, Extra Trees, các biến thể gradient boosting, MLP, hồi quy logistic, LDA, QDA) được huấn luyện trên toàn bộ mẫu và áp dụng cho cả AOI. Cả 10 mô hình đồng ý trên **65,9% AOI**; chỉ 3,0% số ô có từ 5 mô hình trở xuống đồng ý với lớp đa số. Số mô hình đồng thuận ở từng ô (`data/derived/landcover_model_agreement.tif`, giá trị 3–10) được hiển thị thành lớp độ tin cậy trên [bản đồ](/vi/?view=confidence). Đồng thuận cao không chứng minh là đúng: mọi mô hình học từ cùng một bộ nhãn và mang cùng thiên lệch.
 
 ## Tập kiểm tra mù: đã chuẩn bị nhưng không dùng
 

@@ -1,0 +1,27 @@
+---
+// Landing page = full-screen map; the project introduction opens as a modal on first visit.
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import MapApp from '../components/map/MapApp.tsx';
+---
+<StarlightPage
+	frontmatter={{
+		title: 'NISAR L-band Change Detection and Land Cover Mapping',
+		description: 'Interactive map: NISAR L-band SAR change detection and SAR-only land cover over Hưng Yên, Vietnam. Team 2936-ThanhNoi (NS05005), NASA Space Apps Challenge 2026, challenge Dancing with the SARs.',
+		template: 'splash',
+		tableOfContents: false,
+		pagefind: false,
+		prev: false,
+		next: false,
+		head: [{ tag: 'title', content: 'NISAR L-band Change Detection and Land Cover Mapping · NASA Space Apps Challenge 2026' }],
+	}}
+	hasSidebar={false}
+>
+	<MapApp client:only="react" lang="en" intro />
+</StarlightPage>
+<style is:global>
+	body:has(.dwts-map) .content-panel { padding: 0 !important; border: 0 !important; }
+	body:has(.dwts-map) .content-panel:has(#_top), body:has(.dwts-map) footer, body:has(.dwts-map) .dwts-credit { display: none; }
+	body:has(.dwts-map) .sl-container { max-width: none !important; }
+	body:has(.dwts-map) .sl-markdown-content { margin: 0; }
+	body:has(.dwts-map) main { padding-bottom: 0 !important; }
+</style>

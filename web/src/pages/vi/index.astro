@@ -1,0 +1,27 @@
+---
+// Landing page = full-screen map; the project introduction opens as a modal on first visit.
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import MapApp from '../../components/map/MapApp.tsx';
+---
+<StarlightPage
+	frontmatter={{
+		title: 'Phát hiện biến động và phân loại lớp phủ bằng ảnh NISAR băng L',
+		description: 'Bản đồ tương tác: phát hiện biến động và phân loại lớp phủ chỉ từ ảnh SAR NISAR băng L cho tỉnh Hưng Yên. Đội 2936-ThanhNoi (NS05005), NASA Space Apps Challenge 2026, đề bài Dancing with the SARs.',
+		template: 'splash',
+		tableOfContents: false,
+		pagefind: false,
+		prev: false,
+		next: false,
+		head: [{ tag: 'title', content: 'Phát hiện biến động và phân loại lớp phủ bằng ảnh NISAR băng L · NASA Space Apps Challenge 2026' }],
+	}}
+	hasSidebar={false}
+>
+	<MapApp client:only="react" lang="vi" intro />
+</StarlightPage>
+<style is:global>
+	body:has(.dwts-map) .content-panel { padding: 0 !important; border: 0 !important; }
+	body:has(.dwts-map) .content-panel:has(#_top), body:has(.dwts-map) footer, body:has(.dwts-map) .dwts-credit { display: none; }
+	body:has(.dwts-map) .sl-container { max-width: none !important; }
+	body:has(.dwts-map) .sl-markdown-content { margin: 0; }
+	body:has(.dwts-map) main { padding-bottom: 0 !important; }
+</style>

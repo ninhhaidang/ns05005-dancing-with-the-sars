@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-This page reports what the statistical change detection found between the two same-geometry NISAR acquisitions, **22 Oct 2026 and 3 Nov 2026** (track 148, descending, 20 m). The method (log-ratio test with a Gamma speckle model, |z| > 5 in both HH and HV, minimum patch 0.05 km²) is described in [Change detection method](/methods/change-detection/). Explore it on the [interactive map, change view](/map/?view=change).
+This page reports what the statistical change detection found between the two same-geometry NISAR acquisitions, **22 Oct 2026 and 3 Nov 2026** (track 148, descending, 20 m). The method (log-ratio test with a Gamma speckle model, |z| > 5 in both HH and HV, minimum patch 0.05 km²) is described in [Change detection method](/methods/change-detection/). Explore it on the [interactive map, change view](/?view=change).
 
 :::caution[Not verified on the ground]
 No change patch has been confirmed with optical imagery or field data: clouds covered the area almost continuously during the period. Every interpretation below is a **hypothesis based on SAR physics.**
@@ -98,4 +98,4 @@ No widespread HV decrease, the expected signature of crops being cut, was detect
 - **Only one same-geometry pair** (22 Oct → 3 Nov, 12 days). The 27 Oct acquisition has a different geometry and is used only as a qualitative intermediate.
 - **Strict threshold** (|z| > 5 in both polarisations, ≥ 0.05 km²) favours few false alarms over sensitivity; small or gradual changes are missed.
 - **No ground truth:** all interpretations are hypotheses.
-- The patch list is also available to the AI assistant and on the [map](/map/?view=change).
+- The patch list is also available to the AI assistant and on the [map](/?view=change).

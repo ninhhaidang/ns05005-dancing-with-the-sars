@@ -5,6 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import './map.css';
 import { T, type Lang } from './strings';
+import Intro from './Intro';
 
 maplibregl.setWorkerUrl(workerUrl);
 
@@ -14,7 +15,7 @@ type DateKey = (typeof DATES)[number];
 const SAR_ID = (d: DateKey) => `sar_${d.replaceAll('-', '')}`;
 const SAR_MAXZ: Record<DateKey, number> = { '2026-10-22': 13, '2026-10-27': 14, '2026-11-03': 13 };
 const CLUSTER: [number, number] = [106.484, 20.463];
-type Basemap = 'light' | 'dark' | 'satellite';
+const INTRO_KEY = 'dwts-intro-seen-v1';
 
 interface Meta {
 	bounds: [number, number, number, number];
@@ -26,7 +27,6 @@ interface Meta {
 }
 
 interface LayerState {
-	basemap: Basemap;
 	sar: DateKey | null;
 	s2: boolean;
 	landcover: boolean;
@@ -49,19 +49,21 @@ const PRESETS: Record<string, Partial<LayerState> & { center?: [number, number];
 };
 
 const DEFAULT: LayerState = {
-	basemap: 'light', sar: null, s2: false, landcover: true, agreement: false, aoa: false, change: true, labels: false,
+	sar: null, s2: false, landcover: true, agreement: false, aoa: false, change: true, labels: false,
 	opacity: 0.85, compare: false, left: '2026-10-22', right: '2026-11-03',
 };
 
-function baseStyle(basemap: Basemap): StyleSpecification {
-	const carto = (v: string) => ['a', 'b', 'c'].map((s) => `https://${s}.basemaps.cartocdn.com/${v}/{z}/{x}/{y}@2x.png`);
-	const src =
-		basemap === 'satellite'
-			? { tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], attribution: 'Imagery © Esri, Maxar, Earthstar Geographics' }
-			: { tiles: carto(basemap === 'dark' ? 'dark_all' : 'light_all'), attribution: '© OpenStreetMap contributors © CARTO' };
+// Basemap: Esri World Imagery only.
+function baseStyle(): StyleSpecification {
 	return {
 		version: 8,
-		sources: { base: { type: 'raster', tileSize: 256, maxzoom: 19, ...src } },
+		sources: {
+			base: {
+				type: 'raster', tileSize: 256, maxzoom: 19,
+				tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+				attribution: 'Imagery © Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+			},
+		},
 		layers: [{ id: 'base', type: 'raster', source: 'base' }],
 	} as StyleSpecification;
 }
@@ -121,7 +123,7 @@ interface PixelInfo {
 	hv_db?: Record<string, number | null>;
 }
 
-export default function MapApp({ lang = 'en' }: { lang?: Lang }) {
+export default function MapApp({ lang = 'en', intro = false }: { lang?: Lang; intro?: boolean }) {
 	const t = T[lang];
 	const el = useRef<HTMLDivElement>(null);
 	const el2 = useRef<HTMLDivElement>(null);
@@ -135,11 +137,22 @@ export default function MapApp({ lang = 'en' }: { lang?: Lang }) {
 	const [panelOpen, setPanelOpen] = useState(true);
 	const [info, setInfo] = useState<{ px?: PixelInfo; patch?: Record<string, any>; loading?: boolean; err?: string } | null>(null);
 	const set = (p: Partial<LayerState>) => setS((o) => ({ ...o, ...p }));
+	const [showIntro, setShowIntro] = useState(false);
+	const prefix = lang === 'vi' ? '/vi' : '';
 
 	useEffect(() => {
 		fetch(`${DATA}/meta.json`).then((r) => r.json()).then(setMeta).catch(() => setMeta(null));
 		if (window.innerWidth < 720) setPanelOpen(false);
+		// Intro modal: on the landing page, first visit, unless a specific view was linked.
+		let seen = false;
+		try { seen = localStorage.getItem(INTRO_KEY) === '1'; } catch { /* storage blocked */ }
+		if (intro && !seen && !new URLSearchParams(location.search).has('view')) setShowIntro(true);
 	}, []);
+
+	function closeIntro() {
+		setShowIntro(false);
+		try { localStorage.setItem(INTRO_KEY, '1'); } catch { /* ignore */ }
+	}
 
 	// main map
 	useEffect(() => {
@@ -147,7 +160,7 @@ export default function MapApp({ lang = 'en' }: { lang?: Lang }) {
 		const b = meta.bounds;
 		const m = new maplibregl.Map({
 			container: el.current,
-			style: baseStyle(s.basemap),
+			style: baseStyle(),
 			bounds: init.center ? undefined : [[b[0], b[1]], [b[2], b[3]]],
 			center: init.center,
 			zoom: init.zoom,
@@ -160,6 +173,8 @@ export default function MapApp({ lang = 'en' }: { lang?: Lang }) {
 		m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
 		m.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
 		m.on('style.load', () => { addOverlays(m, meta, true); setReady((r) => r + 1); });
+		// Start with the (long) attribution collapsed to its ⓘ button.
+		m.once('load', () => el.current?.querySelector('.maplibregl-compact-show')?.classList.remove('maplibregl-compact-show'));
 		m.on('click', (e) => onClick(m, e.lngLat.lng, e.lngLat.lat, e.point));
 		m.on('mousemove', (e) => {
 			const f = m.getLayer('patches-fill') ? m.queryRenderedFeatures(e.point, { layers: ['patches-fill'] }) : [];
@@ -170,20 +185,12 @@ export default function MapApp({ lang = 'en' }: { lang?: Lang }) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [meta]);
 
-	// basemap switch (keeps camera, re-adds overlays)
-	const firstBase = useRef(true);
-	useEffect(() => {
-		if (firstBase.current) { firstBase.current = false; return; }
-		map.current?.setStyle(baseStyle(s.basemap));
-		map2.current?.setStyle(baseStyle(s.basemap));
-	}, [s.basemap]);
-
 	// compare (swipe) map
 	useEffect(() => {
 		if (!s.compare || !meta || !el2.current || !map.current) return;
 		const m0 = map.current;
 		const m = new maplibregl.Map({
-			container: el2.current, style: baseStyle(s.basemap), center: m0.getCenter(), zoom: m0.getZoom(), interactive: false, attributionControl: false,
+			container: el2.current, style: baseStyle(), center: m0.getCenter(), zoom: m0.getZoom(), interactive: false, attributionControl: false,
 		});
 		m.on('style.load', () => {
 			addRaster(m, SAR_ID(s.right), 'webp', SAR_MAXZ[s.right], meta.bounds, false);
@@ -244,7 +251,7 @@ export default function MapApp({ lang = 'en' }: { lang?: Lang }) {
 	function flyTo(view: keyof typeof PRESETS) {
 		const p = PRESETS[view];
 		const { center, zoom, ...rest } = p;
-		setS({ ...DEFAULT, basemap: s.basemap, ...rest });
+		setS({ ...DEFAULT, ...rest });
 		const m = map.current;
 		if (!m || !meta) return;
 		if (center) m.flyTo({ center, zoom: zoom ?? 12 });
@@ -276,8 +283,8 @@ export default function MapApp({ lang = 'en' }: { lang?: Lang }) {
 					<div className="dwts-swipe" style={{ left: `${split * 100}%` }} onPointerDown={startDrag}>
 						<span className="dwts-swipe-handle">⇔</span>
 					</div>
-					<div className="dwts-swipe-label left">{s.left}</div>
-					<div className="dwts-swipe-label right">{s.right}</div>
+					<div className="dwts-swipe-label left" style={{ right: `calc(${(1 - split) * 100}% + 10px)` }}>{s.left}</div>
+					<div className="dwts-swipe-label right" style={{ left: `calc(${split * 100}% + 10px)` }}>{s.right}</div>
 				</>
 			)}
 			{!meta && <div className="dwts-map-loading">{t.loading}</div>}
@@ -287,6 +294,15 @@ export default function MapApp({ lang = 'en' }: { lang?: Lang }) {
 			</button>
 			{panelOpen && (
 				<aside className="dwts-panel">
+					<div className="dwts-brand">
+						<strong>{t.brand}</strong>
+						<span>{t.brandSub}</span>
+						<div className="dwts-brand-links">
+							<button onClick={() => setShowIntro(true)}>ⓘ {t.about}</button>
+							<a href={`${prefix}/overview/`}>📄 {t.docs}</a>
+							<button onClick={() => window.dispatchEvent(new CustomEvent('dwts:open-chat'))}>💬 {t.assistant}</button>
+						</div>
+					</div>
 					<h2>{t.stories}</h2>
 					<div className="dwts-presets">
 						{(['overview', 'change', 'landcover', 'confidence', 'sar'] as const).map((v) => (
@@ -330,16 +346,19 @@ export default function MapApp({ lang = 'en' }: { lang?: Lang }) {
 					<label className="dwts-check"><input type="checkbox" checked={s.change} onChange={(e) => set({ change: e.target.checked })} />{t.change}</label>
 					<label className="dwts-check"><input type="checkbox" checked={s.labels} onChange={(e) => set({ labels: e.target.checked })} />{t.labels}</label>
 
-					<h2>{t.basemap}</h2>
-					<div className="dwts-dates">
-						{(['light', 'dark', 'satellite'] as Basemap[]).map((b) => (
-							<button key={b} className={s.basemap === b ? 'on' : ''} onClick={() => set({ basemap: b })}>{t.base[b]}</button>
-						))}
-					</div>
-
 					{meta && <Legend meta={meta} s={s} lang={lang} />}
 					<p className="dwts-hint">{t.clickHint}</p>
 				</aside>
+			)}
+
+			<button className="dwts-about-fab" onClick={() => setShowIntro(true)} aria-label={t.about}>ⓘ <span>{t.about}</span></button>
+			{showIntro && (
+				<Intro
+					lang={lang}
+					onClose={closeIntro}
+					onView={(v) => { closeIntro(); flyTo(v as keyof typeof PRESETS); }}
+					onChat={() => { closeIntro(); window.dispatchEvent(new CustomEvent('dwts:open-chat')); }}
+				/>
 			)}
 
 			{info && (

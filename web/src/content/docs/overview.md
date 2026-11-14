@@ -16,7 +16,7 @@ sidebar:
 | **Members** | Ninh Hải Đăng (team lead), Phạm Minh Quang, Lê Toàn Thắng |
 
 :::tip[Explore the results]
-Open the [interactive map](/map/?view=overview) to see the three radar dates, the detected changes and the land-cover map with its confidence layers. You can also [ask the AI assistant](/chat/) any question about the project.
+Open the [interactive map](/?view=overview) to see the three radar dates, the detected changes and the land-cover map with its confidence layers. You can also [ask the AI assistant](/chat/) any question about the project.
 :::
 
 ## The challenge: Dancing with the SARs
@@ -58,7 +58,7 @@ The 29 October acquisition (track 076) was excluded because it covers only 4% of
 
 - **99.89% of the AOI shows no statistically significant change** in this 12-day period (z-test threshold |z| > 5 on both HH and HV, patches ≥ 0.05 km²).
 - **The only notable signal is a cluster of new open water of about 1.6 km²** around 106.48°E, 20.46°N, next to a stretch of river in the south-eastern part of the province. HH backscatter fell from about −10 to −16 dB and HV from about −17 to −23 dB, already decreasing on 27 October. The shape is a rectangular block, typical of embanked fields or ponds.
-- **Cause unverified:** we hypothesise that fields, ponds or an embanked area were deliberately flooded, but clouds prevented any optical confirmation. See [Change results](/results/change/) and the [change view of the map](/map/?view=change).
+- **Cause unverified:** we hypothesise that fields, ponds or an embanked area were deliberately flooded, but clouds prevented any optical confirmation. See [Change results](/results/change/) and the [change view of the map](/?view=change).
 - **No rice-harvest signal** was found within the 12 days; most rice appears to have been harvested before 22 October.
 
 ### Land-cover result (SAR only, 4 classes)
@@ -68,7 +68,7 @@ The 29 October acquisition (track 076) was excluded because it covers only 4% of
 - **No independent test set:** a blind set of 250 random cells was prepared (`labeling/blind_test_cells.gpkg`) but was not labelled, and the team decided not to label it.
 - **Areas are unvalidated:** the consensus map assigns about 24% of the AOI to Built-up and about 44% to Bare land. These shares are not bias-corrected. Built-up is the least reliable class: 23.5% of cells predicted as Built-up fall outside the model's area of applicability.
 - **What matters most:** using three dates and both polarisations. The choice of model barely matters (11 of 14 models within 1 point).
-- See [Classification method](/methods/classification/), [Validation](/methods/validation/), and the [land-cover](/map/?view=landcover) and [confidence](/map/?view=confidence) views of the map.
+- See [Classification method](/methods/classification/), [Validation](/methods/validation/), and the [land-cover](/?view=landcover) and [confidence](/?view=confidence) views of the map.
 
 ## Where to go next
 

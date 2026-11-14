@@ -68,7 +68,7 @@ Mỗi ô hợp lệ được gán một lớp, dựa trên z của HH (z_HH) và
 
 ![Chênh lệch HH và HV, 3/11 trừ 22/10, đơn vị dB](/figures/common/change_22oct_3nov.png)
 
-Xem [chế độ xem thay đổi trên bản đồ tương tác](/vi/map/?view=change) và [Kết quả thay đổi](/vi/results/change/).
+Xem [chế độ xem thay đổi trên bản đồ tương tác](/vi/?view=change) và [Kết quả thay đổi](/vi/results/change/).
 
 ## Hạn chế của phát hiện thay đổi
 

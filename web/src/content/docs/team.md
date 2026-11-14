@@ -25,4 +25,4 @@ The entry **NISAR L-band Change Detection and Land Cover Mapping** (this website
 
 ## Acknowledgements
 
-NISAR is a joint mission of NASA and ISRO; the data is distributed by the Alaska Satellite Facility DAAC. Sentinel-2 imagery (used only to draw training labels) is from ESA Copernicus. The base maps are © OpenStreetMap contributors and © CARTO, and the satellite base map is from Esri.
+NISAR is a joint mission of NASA and ISRO; the data is distributed by the Alaska Satellite Facility DAAC. Sentinel-2 imagery (used only to draw training labels) is from ESA Copernicus. The satellite base map is Esri World Imagery (Esri, Maxar, Earthstar Geographics, and the GIS User Community).

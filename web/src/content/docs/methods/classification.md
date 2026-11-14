@@ -77,7 +77,7 @@ The area shares are simple pixel counts, not bias-corrected estimates. A Built-u
 
 ![SAR-only land-cover map (Water / Vegetation / Bare land / Built-up)](/figures/common/landcover_sar.png)
 
-See the [land-cover view](/map/?view=landcover) and the [confidence view](/map/?view=confidence) of the interactive map, and [Validation](/methods/validation/) for how the 93% was measured.
+See the [land-cover view](/?view=landcover) and the [confidence view](/?view=confidence) of the interactive map, and [Validation](/methods/validation/) for how the 93% was measured.
 
 ## Post-processing of the land-cover map
 

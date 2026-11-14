@@ -1,14 +1,15 @@
 ---
-import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
-import MapApp from '../components/map/MapApp.tsx';
+// Old URL: the map now lives on the landing page. Keep links like /map/?view=change working.
+const target = '/';
 ---
-<StarlightPage frontmatter={{ title: 'Interactive map', description: 'NISAR SAR images, change detection and SAR-only land cover over Hưng Yên.', template: 'splash', tableOfContents: false, pagefind: false, prev: false, next: false }} hasSidebar={false}>
-	<MapApp client:only="react" lang="en" />
-</StarlightPage>
-<style is:global>
-	body:has(.dwts-map) .content-panel { padding: 0 !important; border: 0 !important; }
-	body:has(.dwts-map) .content-panel:has(#_top), body:has(.dwts-map) footer, body:has(.dwts-map) .dwts-credit { display: none; }
-	body:has(.dwts-map) .sl-markdown-content { margin: 0; }
-	body:has(.dwts-map) .sl-container { max-width: none !important; }
-	body:has(.dwts-map) main { padding-bottom: 0 !important; }
-</style>
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="robots" content="noindex" />
+		<link rel="canonical" href={target} />
+		<meta http-equiv="refresh" content={`0; url=${target}`} />
+		<script is:inline define:vars={{ target }}>location.replace(target + location.search + location.hash);</script>
+	</head>
+	<body><a href={target}>Open the map</a></body>
+</html>

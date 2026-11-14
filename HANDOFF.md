@@ -89,6 +89,12 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 
 ## Web (`web/`, dự kiến https://dwts.ninhhaidang.com)
 - **Stack:** Astro 7 + Starlight (docs song ngữ, `vi/` là bản tiếng Việt), React island cho bản đồ (MapLibre) và chatbot. Node adapter standalone; API `/api/pixel` (đọc `pixel_stack.tif` bằng geotiff.js) và `/api/chat` (RAG + gọi hàm, stream SSE).
+- **Bố cục:**
+  - Trang chủ (`/`, `/vi/`) chính là bản đồ toàn màn hình.
+  - Phần giới thiệu dự án nằm trong modal `src/components/map/Intro.tsx`: tự mở ở lần đầu vào nếu URL không có `?view=`, mở lại bằng nút ⓘ hoặc nút trong bảng lớp.
+  - `/map/` chỉ còn chuyển hướng sang `/` và giữ nguyên query.
+  - Header có thêm link Bản đồ / Tài liệu / Hỏi AI / Đội thi (`src/components/HeaderNav.astro`, ghi đè `SocialIcons`).
+  - Bản đồ nền chỉ dùng Esri World Imagery.
 - **Dữ liệu web:** `scripts/postprocess_landcover.py` (lọc đa số 3×3, đổi 5,9% ô) rồi `scripts/build_web.py` → `data/web/` (tile XYZ, GeoJSON, `pixel_stack.tif`, `meta.json`; khoảng 130 MB). Dev: `web/public/webdata` là symlink tới `data/web`.
 - **Docs = kho kiến thức chatbot:** `web/src/content/docs/**` được chia theo heading thành `web/src/generated/rag-index.json` (`web/scripts/build-rag-index.mjs`, chạy ở prebuild) kèm bảng kết quả và docstring script. Sửa docs thì chatbot tự cập nhật sau lần build tới.
 - **Server:** `ssh ninhhaidang@100.103.170.97` (Tailscale, Ubuntu 24.04, Docker, không sudo không mật khẩu). Repo được mirror ở `~/workspace/ns05005-dancing-with-the-sars` bằng `deploy/sync.sh` (rsync --delete, loại `.earthdata_token`), rồi `docker compose up -d --build` trong `deploy/`. Container `dwts-web` (Node) và `dwts-caddy` (tile tĩnh + proxy) nằm trên mạng `tunnel-net`.

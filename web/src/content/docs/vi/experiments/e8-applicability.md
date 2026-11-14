@@ -52,6 +52,6 @@ Nhóm DI thấp nhất có độ chính xác thấp hơn các nhóm giữa. Mộ
 
 ## Kết quả E8 dùng trên bản đồ web
 
-`aoa_dissimilarity.tif` lưu DI cho mọi ô (ngưỡng 0,105 ghi trong metadata). Trên [bản đồ tương tác](/vi/map/?view=confidence), ô ngoài AOA được đánh dấu cùng với lớp [mức đồng thuận mô hình E7](/vi/experiments/e7-map-agreement/).
+`aoa_dissimilarity.tif` lưu DI cho mọi ô (ngưỡng 0,105 ghi trong metadata). Trên [bản đồ tương tác](/vi/?view=confidence), ô ngoài AOA được đánh dấu cùng với lớp [mức đồng thuận mô hình E7](/vi/experiments/e7-map-agreement/).
 
 **Tài liệu tham khảo.** Meyer, H. & Pebesma, E. (2021). Predicting into unknown space? Estimating the area of applicability of spatial prediction models. *Methods in Ecology and Evolution*, 12, 1620–1633.

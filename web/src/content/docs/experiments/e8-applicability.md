@@ -52,6 +52,6 @@ The lowest-DI quartile has lower accuracy than the middle ones. One possible rea
 
 ## E8 outputs used on the web map
 
-`aoa_dissimilarity.tif` stores DI for every cell (threshold 0.105 in its metadata). On the [interactive map](/map/?view=confidence), cells outside the AOA are flagged together with the [E7 model agreement](/experiments/e7-map-agreement/) layer.
+`aoa_dissimilarity.tif` stores DI for every cell (threshold 0.105 in its metadata). On the [interactive map](/?view=confidence), cells outside the AOA are flagged together with the [E7 model agreement](/experiments/e7-map-agreement/) layer.
 
 **Reference.** Meyer, H. & Pebesma, E. (2021). Predicting into unknown space? Estimating the area of applicability of spatial prediction models. *Methods in Ecology and Evolution*, 12, 1620–1633.

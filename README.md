@@ -31,4 +31,4 @@ The honest caveats, eight experiments (E1–E8) and the full method are document
 
 ## Data and acknowledgements
 
-NISAR is a joint NASA–ISRO mission; the data comes from the Alaska Satellite Facility DAAC. Sentinel-2 imagery (ESA Copernicus) was used only to draw training labels. Base maps on the website are © OpenStreetMap contributors and © CARTO, and the satellite base map is from Esri.
+NISAR is a joint NASA–ISRO mission; the data comes from the Alaska Satellite Facility DAAC. Sentinel-2 imagery (ESA Copernicus) was used only to draw training labels. The website base map is Esri World Imagery (Esri, Maxar, Earthstar Geographics, and the GIS User Community).

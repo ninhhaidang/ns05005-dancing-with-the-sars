@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-This page presents the land-cover map of Hưng Yên province (post-2025 boundary, 2,571.7 km²) produced **only from NISAR SAR**, without any optical input. Because SAR sees through clouds, the map covers the whole province, including the roughly 69% that had no clear Sentinel-2 view between 22 Oct and 3 Nov 2026. Open it on the [interactive map, land-cover view](/map/?view=landcover).
+This page presents the land-cover map of Hưng Yên province (post-2025 boundary, 2,571.7 km²) produced **only from NISAR SAR**, without any optical input. Because SAR sees through clouds, the map covers the whole province, including the roughly 69% that had no clear Sentinel-2 view between 22 Oct and 3 Nov 2026. Open it on the [interactive map, land-cover view](/?view=landcover).
 
 :::caution[Accuracy and areas are not validated]
 The often-quoted **≈93% is balanced accuracy on pure 20 m cells under 5 km spatial-block cross-validation, not the accuracy of this map.** There is no independent test set (a 250-cell blind set was prepared but not labelled). **Area shares below are pixel counts, not validated and not bias-corrected.**
@@ -54,7 +54,7 @@ What *has* been measured, on pure cells only:
 
 ## Confidence layers on the web map
 
-Two layers show where the land-cover map is more or less trustworthy ([open the confidence view](/map/?view=confidence)):
+Two layers show where the land-cover map is more or less trustworthy ([open the confidence view](/?view=confidence)):
 
 - **Model agreement ([E7](/experiments/e7-map-agreement/)):** the number of 10 different models that predict the majority class. All 10 agree on 65.9% of the AOI; 5 or fewer on 3.0%.
 - **Area of applicability ([E8](/experiments/e8-applicability/)):** cells whose SAR signature is far from every training sample (dissimilarity index > 0.105). 8.3% of the AOI is outside, equally in clear and cloudy areas.

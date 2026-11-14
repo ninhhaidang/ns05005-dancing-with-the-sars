@@ -35,7 +35,7 @@ Hai lần chụp quỹ đạo xuống được cung cấp ở 20 m. Lần chụp
 
 ## "Nước mới" cạnh sông là gì?
 
-Một cụm khoảng **1,6 km²** gần **106,484°E, 20,463°N**, cạnh một khúc sông, nơi HH giảm từ khoảng −10 xuống −16 dB và HV từ khoảng −17 xuống −23 dB giữa 22/10 và 3/11, đã giảm một phần từ 27/10. HH và HV cùng giảm tới mức này là đặc trưng khi bề mặt nhám trở thành mặt nước phẳng. Khả năng cao là ruộng được cho nước vào, ao được tích nước hoặc một khu có đê bao, nhưng **nguyên nhân chưa được kiểm chứng**. Xem [Kết quả thay đổi](/vi/results/change/) và [bản đồ](/vi/map/?view=change).
+Một cụm khoảng **1,6 km²** gần **106,484°E, 20,463°N**, cạnh một khúc sông, nơi HH giảm từ khoảng −10 xuống −16 dB và HV từ khoảng −17 xuống −23 dB giữa 22/10 và 3/11, đã giảm một phần từ 27/10. HH và HV cùng giảm tới mức này là đặc trưng khi bề mặt nhám trở thành mặt nước phẳng. Khả năng cao là ruộng được cho nước vào, ao được tích nước hoặc một khu có đê bao, nhưng **nguyên nhân chưa được kiểm chứng**. Xem [Kết quả thay đổi](/vi/results/change/) và [bản đồ](/vi/?view=change).
 
 ## Còn nơi nào thay đổi nữa không?
 
@@ -87,7 +87,7 @@ Không thấy tín hiệu gặt trong 12 ngày dữ liệu; phần lớn ruộng
 
 ## Các lớp độ tin cậy trên bản đồ nghĩa là gì?
 
-**Mức đồng thuận** là số mô hình trong 10 mô hình khác nhau dự đoán cùng một lớp (cả 10 đồng ý ở 65,9% diện tích tỉnh). **Vùng áp dụng được** đánh dấu 8,3% số ô có tín hiệu SAR khác xa mọi mẫu huấn luyện. Cả hai là chỉ báo, không phải bản đồ sai số. Mở [chế độ độ tin cậy](/vi/map/?view=confidence).
+**Mức đồng thuận** là số mô hình trong 10 mô hình khác nhau dự đoán cùng một lớp (cả 10 đồng ý ở 65,9% diện tích tỉnh). **Vùng áp dụng được** đánh dấu 8,3% số ô có tín hiệu SAR khác xa mọi mẫu huấn luyện. Cả hai là chỉ báo, không phải bản đồ sai số. Mở [chế độ độ tin cậy](/vi/?view=confidence).
 
 ## Bản đồ trên web có giống hệt kết quả bộ phân loại không?
 

@@ -1,0 +1,27 @@
+---
+// Header links (replaces Starlight's social icons slot): map, docs, AI assistant, team + GitHub.
+import Default from '@astrojs/starlight/components/SocialIcons.astro';
+const vi = Astro.currentLocale === 'vi';
+const p = vi ? '/vi' : '';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const links = [
+	[vi ? 'Bản đồ' : 'Map', `${p}/`],
+	[vi ? 'Tài liệu' : 'Docs', `${p}/overview/`],
+	[vi ? 'Hỏi AI' : 'Ask AI', `${p}/chat/`],
+	[vi ? 'Đội thi' : 'Team', `${p}/team/`],
+];
+const active = (u: string) => (u === `${p}/` ? path === (p || '/') : path.startsWith(u.replace(/\/$/, '')));
+---
+<nav class="dwts-nav" aria-label={vi ? 'Điều hướng chính' : 'Main navigation'}>
+	{links.map(([n, u]) => <a href={u} aria-current={active(u) ? 'page' : undefined}>{n}</a>)}
+</nav>
+<Default />
+<style>
+	.dwts-nav { display: flex; gap: 0.15rem; margin-inline-end: 0.5rem; }
+	.dwts-nav a {
+		padding: 0.3rem 0.65rem; border-radius: 0.4rem; text-decoration: none; white-space: nowrap;
+		color: var(--sl-color-gray-2); font-size: var(--sl-text-sm); font-weight: 500;
+	}
+	.dwts-nav a:hover { color: var(--sl-color-white); background: var(--sl-color-gray-6); }
+	.dwts-nav a[aria-current='page'] { color: var(--sl-color-white); background: var(--sl-color-gray-6); }
+</style>
