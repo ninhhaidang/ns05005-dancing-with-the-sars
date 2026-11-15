@@ -25,40 +25,69 @@
 }
 
 .dwts-panel-toggle {
-	position: absolute; top: 10px; left: 10px; z-index: 5; padding: 6px 10px; border-radius: 6px;
+	position: absolute; top: 10px; left: 10px; z-index: 5; padding: 7px 12px; border-radius: 8px; font-weight: 600;
 	border: 1px solid var(--sl-color-gray-5); background: var(--sl-color-bg); color: var(--sl-color-text); cursor: pointer;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 .dwts-panel {
-	position: absolute; top: 48px; left: 10px; bottom: 10px; width: 300px; max-width: calc(100% - 20px); z-index: 4;
-	overflow-y: auto; padding: 10px 12px; border-radius: 8px;
-	background: color-mix(in srgb, var(--sl-color-bg) 94%, transparent); color: var(--sl-color-text);
+	position: absolute; top: 10px; left: 10px; bottom: 10px; width: 300px; max-width: calc(100% - 20px); z-index: 4;
+	display: flex; flex-direction: column; border-radius: 10px; overflow: hidden;
+	background: color-mix(in srgb, var(--sl-color-bg) 95%, transparent); color: var(--sl-color-text);
 	border: 1px solid var(--sl-color-gray-5); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
 }
-.dwts-panel h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--sl-color-gray-2); margin: 0.9rem 0 0.35rem; }
-.dwts-panel h2:first-child { margin-top: 0; }
-.dwts-presets, .dwts-dates { display: flex; flex-wrap: wrap; gap: 4px; }
-.dwts-presets button, .dwts-dates button, .dwts-ask {
-	padding: 4px 8px; border-radius: 5px; border: 1px solid var(--sl-color-gray-5);
-	background: var(--sl-color-gray-6); color: var(--sl-color-text); cursor: pointer; font-size: 0.8rem;
+.dwts-panel-head {
+	display: flex; align-items: center; justify-content: space-between; gap: 8px;
+	padding: 8px 8px 8px 12px; border-bottom: 1px solid var(--sl-color-gray-5);
 }
-.dwts-presets button:hover, .dwts-dates button:hover, .dwts-ask:hover { border-color: var(--sl-color-accent); }
-.dwts-dates button.on { background: var(--sl-color-accent); color: var(--sl-color-black); border-color: var(--sl-color-accent); }
-:root[data-theme='light'] .dwts-dates button.on { color: #fff; }
-.dwts-check { display: flex; gap: 6px; align-items: flex-start; margin: 3px 0; cursor: pointer; }
-.dwts-check input { margin-top: 3px; }
-.dwts-range { display: flex; gap: 8px; align-items: center; margin-top: 4px; }
-.dwts-range input { flex: 1; }
-.dwts-row { display: flex; gap: 6px; align-items: center; }
-.dwts-row select { flex: 1; }
-.dwts-fs { border: 0; padding: 0; margin: 0; }
+.dwts-panel-head strong { font-size: 0.92rem; color: var(--sl-color-white); }
+.dwts-icon-btn {
+	width: 28px; height: 28px; display: grid; place-items: center; border-radius: 6px; border: 0;
+	background: none; color: var(--sl-color-gray-2); cursor: pointer; font-size: 0.95rem;
+}
+.dwts-icon-btn:hover { background: var(--sl-color-gray-6); color: var(--sl-color-white); }
+.dwts-panel-body { overflow-y: auto; padding: 4px 10px 10px; overscroll-behavior: contain; }
+.dwts-panel h2 { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--sl-color-gray-3); margin: 0.85rem 0 0.3rem 2px; }
+.dwts-presets { display: flex; flex-wrap: wrap; gap: 4px; }
+.dwts-presets button, .dwts-btn, .dwts-ask {
+	padding: 4px 9px; border-radius: 999px; border: 1px solid var(--sl-color-gray-5);
+	background: var(--sl-color-gray-6); color: var(--sl-color-text); cursor: pointer; font-size: 0.78rem; line-height: 1.3;
+}
+.dwts-presets button:hover, .dwts-btn:hover, .dwts-ask:hover { border-color: var(--sl-color-accent); }
+.dwts-presets button.on { background: var(--sl-color-accent); color: var(--sl-color-black); border-color: var(--sl-color-accent); }
+:root[data-theme='light'] .dwts-presets button.on { color: #fff; }
+.dwts-btn { display: block; width: 100%; margin-top: 6px; border-radius: 6px; padding: 5px 9px; }
+
+/* one layer row: radio/checkbox + label, legend underneath while active */
+.dwts-opt { border-radius: 6px; margin: 1px 0; }
+.dwts-opt > label { display: flex; gap: 8px; align-items: flex-start; padding: 4px 6px; cursor: pointer; border-radius: 6px; }
+.dwts-opt > label:hover { background: var(--sl-color-gray-6); }
+.dwts-opt input { margin: 2px 0 0; flex: none; accent-color: var(--sl-color-accent); }
+.dwts-opt small { color: var(--sl-color-gray-3); font-size: 0.74rem; }
+.dwts-opt.on { background: color-mix(in srgb, var(--sl-color-accent) 12%, transparent); }
+.dwts-opt.on > label { font-weight: 600; }
+.dwts-opt.on > label small { font-weight: 400; }
+.dwts-opt.off > label { opacity: 0.45; cursor: default; }
+.dwts-inline-legend { padding: 2px 6px 6px 28px; font-size: 0.78rem; }
+.dwts-inline-legend > div { margin: 2px 0; }
+p.dwts-inline-legend { margin: 0; }
+.dwts-aoi-key { padding: 6px 6px 0; font-size: 0.78rem; color: var(--sl-color-gray-2); }
+
+.dwts-range { display: flex; gap: 8px; align-items: center; padding: 0 6px 6px 28px; font-size: 0.78rem; }
+.dwts-range input { flex: 1; accent-color: var(--sl-color-accent); }
+.dwts-compare { padding: 2px 0; }
+.dwts-row { display: flex; gap: 6px; align-items: flex-end; }
+.dwts-row label { flex: 1; display: flex; flex-direction: column; gap: 2px; font-size: 0.72rem; color: var(--sl-color-gray-3); }
+.dwts-row select { width: 100%; padding: 3px 4px; border-radius: 5px; }
+.dwts-row > span { padding-bottom: 4px; }
+.dwts-fs { border: 0; padding: 0; margin: 0; min-width: 0; }
 .dwts-fs:disabled { opacity: 0.45; }
 .dwts-hint { color: var(--sl-color-gray-3); font-size: 0.75rem; margin: 4px 0; }
 .dwts-dim { color: var(--sl-color-gray-3); }
-.dwts-legend > div { margin: 6px 0; }
 .dwts-sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; border: 1px solid rgba(127, 127, 127, 0.5); }
 .dwts-hatch { background: repeating-linear-gradient(45deg, #282828c8 0 2px, #28282846 2px 6px); }
 .dwts-aoi { border: 2px dashed #f97316; background: transparent; }
 .dwts-ramp { display: flex; }
+.dwts-ramp.dwts-inline-legend { padding-right: 6px; }
 .dwts-ramp span { flex: 1; text-align: center; color: #111; font-size: 0.7rem; }
 
 .dwts-info {
@@ -78,20 +107,12 @@
 .dwts-ask { width: 100%; margin-top: 6px; }
 
 @media (max-width: 720px) {
-	.dwts-panel { width: auto; right: 10px; bottom: 40%; }
+	/* bottom sheet: the map stays visible above it */
+	.dwts-panel { top: auto; width: auto; right: 10px; max-height: 58%; }
+	.dwts-panel-body { padding-bottom: 64px; } /* scroll past the chat button */
+	.dwts-panel-toggle { top: auto; bottom: 40px; }
 	.dwts-info { top: auto; bottom: 30px; left: 10px; right: 10px; width: auto; max-height: 50%; }
 }
-
-/* brand block at the top of the layer panel */
-.dwts-brand { border-bottom: 1px solid var(--sl-color-gray-5); padding-bottom: 8px; margin-bottom: 4px; }
-.dwts-brand strong { display: block; font-size: 0.92rem; line-height: 1.25; color: var(--sl-color-white); }
-.dwts-brand span { display: block; font-size: 0.72rem; color: var(--sl-color-gray-3); margin-top: 2px; }
-.dwts-brand-links { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
-.dwts-brand-links > * {
-	padding: 3px 8px; border-radius: 5px; border: 1px solid var(--sl-color-gray-5); background: var(--sl-color-gray-6);
-	color: var(--sl-color-text); font-size: 0.78rem; cursor: pointer; text-decoration: none;
-}
-.dwts-brand-links > *:hover { border-color: var(--sl-color-accent); }
 
 /* floating About button (always visible, also when the panel is closed) */
 .dwts-about-fab {

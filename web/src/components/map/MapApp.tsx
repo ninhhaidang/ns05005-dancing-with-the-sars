@@ -26,11 +26,14 @@ interface Meta {
 	sar_stretch_db: { HH: number[]; HV: number[]; ratio: number[] };
 }
 
+type Base = DateKey | 's2' | null; // opaque image layer, one at a time
+type Theme = 'landcover' | 'agreement' | null; // classified result, one at a time
+type View = 'overview' | 'change' | 'landcover' | 'confidence' | 'sar';
+const VIEWS: View[] = ['overview', 'change', 'landcover', 'confidence', 'sar'];
+
 interface LayerState {
-	sar: DateKey | null;
-	s2: boolean;
-	landcover: boolean;
-	agreement: boolean;
+	base: Base;
+	theme: Theme;
 	aoa: boolean;
 	change: boolean;
 	labels: boolean;
@@ -40,16 +43,16 @@ interface LayerState {
 	right: DateKey;
 }
 
-const PRESETS: Record<string, Partial<LayerState> & { center?: [number, number]; zoom?: number }> = {
-	overview: { sar: null, landcover: true, change: true },
-	sar: { sar: '2026-10-22', landcover: false },
-	change: { sar: '2026-11-03', change: true, landcover: false, compare: true, left: '2026-10-22', right: '2026-11-03', center: CLUSTER, zoom: 13 },
-	landcover: { sar: null, landcover: true },
-	confidence: { sar: null, landcover: false, agreement: true, aoa: true },
+const PRESETS: Record<View, Partial<LayerState> & { center?: [number, number]; zoom?: number }> = {
+	overview: { base: null, theme: 'landcover', change: true },
+	sar: { base: '2026-10-22', theme: null },
+	change: { base: '2026-11-03', change: true, theme: null, compare: true, left: '2026-10-22', right: '2026-11-03', center: CLUSTER, zoom: 13 },
+	landcover: { base: null, theme: 'landcover' },
+	confidence: { base: null, theme: 'agreement', aoa: true },
 };
 
 const DEFAULT: LayerState = {
-	sar: null, s2: false, landcover: true, agreement: false, aoa: false, change: true, labels: false,
+	base: null, theme: 'landcover', aoa: false, change: true, labels: false,
 	opacity: 0.85, compare: false, left: '2026-10-22', right: '2026-11-03',
 };
 
@@ -98,16 +101,19 @@ function vis(map: MLMap, id: string, on: boolean, opacity?: number) {
 	if (opacity !== undefined && map.getLayer(id)?.type === 'raster') map.setPaintProperty(id, 'raster-opacity', opacity);
 }
 
-function readUrlState(): { state: LayerState; center?: [number, number]; zoom?: number } {
+function readUrlState(): { state: LayerState; view: View | null; center?: [number, number]; zoom?: number } {
 	const q = new URLSearchParams(window.location.search);
-	const preset = PRESETS[q.get('view') ?? ''] ?? {};
-	const { center, zoom, ...p } = preset;
+	const v = q.get('view') as View | null;
+	const view = v && VIEWS.includes(v) ? v : null;
+	const { center, zoom, ...p } = view ? PRESETS[view] : {};
 	const state = { ...DEFAULT, ...p };
 	const date = q.get('date') as DateKey | null;
-	if (date && DATES.includes(date)) state.sar = date;
+	if (date && DATES.includes(date)) state.base = date;
 	const lat = parseFloat(q.get('lat') ?? ''), lon = parseFloat(q.get('lon') ?? ''), z = parseFloat(q.get('z') ?? '');
-	return { state, center: isFinite(lat) && isFinite(lon) ? [lon, lat] : center, zoom: isFinite(z) ? z : zoom };
+	return { state, view, center: isFinite(lat) && isFinite(lon) ? [lon, lat] : center, zoom: isFinite(z) ? z : zoom };
 }
+
+const ddmm = (d: string) => d.slice(5).split('-').reverse().join('/');
 
 interface PixelInfo {
 	inside: boolean;
@@ -131,12 +137,15 @@ export default function MapApp({ lang = 'en', intro = false }: { lang?: Lang; in
 	const map2 = useRef<MLMap | null>(null);
 	const [meta, setMeta] = useState<Meta | null>(null);
 	const [ready, setReady] = useState(0);
-	const init = useMemo(() => (typeof window === 'undefined' ? { state: DEFAULT } : readUrlState()), []);
+	const init = useMemo(() => (typeof window === 'undefined' ? { state: DEFAULT, view: null } : readUrlState()), []);
 	const [s, setS] = useState<LayerState>(init.state);
+	const [view, setView] = useState<View | null>(init.view); // highlighted guided view; cleared by any manual change
 	const [split, setSplit] = useState(0.5);
 	const [panelOpen, setPanelOpen] = useState(true);
 	const [info, setInfo] = useState<{ px?: PixelInfo; patch?: Record<string, any>; loading?: boolean; err?: string } | null>(null);
-	const set = (p: Partial<LayerState>) => setS((o) => ({ ...o, ...p }));
+	const set = (p: Partial<LayerState>) => { setView(null); setS((o) => ({ ...o, ...p })); };
+	// Picking an image hides the result layer that would otherwise cover it.
+	const setBase = (base: Base) => set(base ? { base, theme: null } : { base });
 	const [showIntro, setShowIntro] = useState(false);
 	const prefix = lang === 'vi' ? '/vi' : '';
 
@@ -208,11 +217,11 @@ export default function MapApp({ lang = 'en', intro = false }: { lang?: Lang; in
 	useEffect(() => {
 		const m = map.current;
 		if (!m || !m.getLayer('aoi')) return;
-		const sarOn = s.compare ? s.left : s.sar;
+		const sarOn = s.compare ? s.left : s.base;
 		for (const d of DATES) vis(m, SAR_ID(d), sarOn === d, 1);
-		vis(m, 's2_truecolor', s.s2 && !s.compare, 1);
-		vis(m, 'landcover', s.landcover && !s.compare, s.opacity);
-		vis(m, 'agreement', s.agreement && !s.compare, s.opacity);
+		vis(m, 's2_truecolor', s.base === 's2' && !s.compare, 1);
+		vis(m, 'landcover', s.theme === 'landcover' && !s.compare, s.opacity);
+		vis(m, 'agreement', s.theme === 'agreement' && !s.compare, s.opacity);
 		vis(m, 'aoa', s.aoa && !s.compare, 1);
 		vis(m, 'change', s.change && !s.compare, 0.9);
 		vis(m, 'patches-fill', s.change);
@@ -223,10 +232,12 @@ export default function MapApp({ lang = 'en', intro = false }: { lang?: Lang; in
 			vis(m2, SAR_ID(s.right), true, 1);
 			vis(m2, 'patches-line', s.change);
 		}
+		// Keep the URL shareable: a guided view (plus SAR date), or nothing once the user has customised.
 		const url = new URL(window.location.href);
-		if (s.compare) url.searchParams.set('view', 'change');
+		if (view) url.searchParams.set('view', view); else url.searchParams.delete('view');
+		if (view && !s.compare && s.base && s.base !== 's2') url.searchParams.set('date', s.base); else url.searchParams.delete('date');
 		history.replaceState(null, '', url);
-	}, [s, ready]);
+	}, [s, view, ready]);
 
 	// swipe clip
 	useEffect(() => {
@@ -248,15 +259,14 @@ export default function MapApp({ lang = 'en', intro = false }: { lang?: Lang; in
 		}
 	}
 
-	function flyTo(view: keyof typeof PRESETS) {
-		const p = PRESETS[view];
-		const { center, zoom, ...rest } = p;
+	function flyTo(v: View) {
+		const { center, zoom, ...rest } = PRESETS[v];
 		setS({ ...DEFAULT, ...rest });
+		setView(v);
 		const m = map.current;
 		if (!m || !meta) return;
 		if (center) m.flyTo({ center, zoom: zoom ?? 12 });
 		else m.fitBounds([[meta.bounds[0], meta.bounds[1]], [meta.bounds[2], meta.bounds[3]]], { padding: 30 });
-		const url = new URL(window.location.href); url.searchParams.set('view', view); history.replaceState(null, '', url);
 	}
 
 	function ask(text: string) {
@@ -272,10 +282,16 @@ export default function MapApp({ lang = 'en', intro = false }: { lang?: Lang; in
 	};
 
 	const L = (o: { en: string; vi: string }) => o[lang];
+	const opacityCtl = (
+		<label className="dwts-range">{t.opacity}
+			<input type="range" min={0.2} max={1} step={0.05} value={s.opacity} onChange={(e) => set({ opacity: +e.target.value })} />
+		</label>
+	);
+	const sw = (c: string | null) => <span className="dwts-sw" style={{ background: c ?? 'transparent' }} />;
 	const fmt = (v: number | null | undefined) => (v == null ? '–' : v.toFixed(1));
 
 	return (
-		<div className="dwts-map">
+		<div className="dwts-map not-content">
 			<div ref={el} className="dwts-map-canvas" />
 			{s.compare && (
 				<>
@@ -283,72 +299,97 @@ export default function MapApp({ lang = 'en', intro = false }: { lang?: Lang; in
 					<div className="dwts-swipe" style={{ left: `${split * 100}%` }} onPointerDown={startDrag}>
 						<span className="dwts-swipe-handle">⇔</span>
 					</div>
-					<div className="dwts-swipe-label left" style={{ right: `calc(${(1 - split) * 100}% + 10px)` }}>{s.left}</div>
-					<div className="dwts-swipe-label right" style={{ left: `calc(${split * 100}% + 10px)` }}>{s.right}</div>
+					<div className="dwts-swipe-label left" style={{ right: `calc(${(1 - split) * 100}% + 10px)` }}>{ddmm(s.left)}</div>
+					<div className="dwts-swipe-label right" style={{ left: `calc(${split * 100}% + 10px)` }}>{ddmm(s.right)}</div>
 				</>
 			)}
 			{!meta && <div className="dwts-map-loading">{t.loading}</div>}
 
-			<button className="dwts-panel-toggle" onClick={() => setPanelOpen((o) => !o)} aria-expanded={panelOpen}>
-				{panelOpen ? '✕' : '☰ ' + t.layers}
-			</button>
-			{panelOpen && (
-				<aside className="dwts-panel">
-					<div className="dwts-brand">
-						<strong>{t.brand}</strong>
-						<span>{t.brandSub}</span>
-						<div className="dwts-brand-links">
-							<button onClick={() => setShowIntro(true)}>ⓘ {t.about}</button>
-							<a href={`${prefix}/overview/`}>📄 {t.docs}</a>
-							<button onClick={() => window.dispatchEvent(new CustomEvent('dwts:open-chat'))}>💬 {t.assistant}</button>
-						</div>
+			{panelOpen ? (
+				<aside className="dwts-panel" aria-label={t.panelTitle}>
+					<div className="dwts-panel-head">
+						<strong>{t.panelTitle}</strong>
+						<button className="dwts-icon-btn" onClick={() => setPanelOpen(false)} aria-label={t.collapse} title={t.collapse}>✕</button>
 					</div>
-					<h2>{t.stories}</h2>
-					<div className="dwts-presets">
-						{(['overview', 'change', 'landcover', 'confidence', 'sar'] as const).map((v) => (
-							<button key={v} onClick={() => flyTo(v)}>{t.preset[v]}</button>
-						))}
-					</div>
-
-					<h2>{t.sarTitle}</h2>
-					<label className="dwts-check">
-						<input type="checkbox" checked={s.compare} onChange={(e) => set({ compare: e.target.checked, sar: e.target.checked ? s.sar : s.sar })} />
-						{t.compare}
-					</label>
-					{s.compare ? (
-						<div className="dwts-row">
-							<select value={s.left} onChange={(e) => set({ left: e.target.value as DateKey })}>{DATES.map((d) => <option key={d}>{d}</option>)}</select>
-							<span>⇔</span>
-							<select value={s.right} onChange={(e) => set({ right: e.target.value as DateKey })}>{DATES.map((d) => <option key={d}>{d}</option>)}</select>
-						</div>
-					) : (
-						<div className="dwts-dates" role="radiogroup">
-							<button className={s.sar === null ? 'on' : ''} onClick={() => set({ sar: null })}>{t.none}</button>
-							{DATES.map((d) => (
-								<button key={d} className={s.sar === d ? 'on' : ''} onClick={() => set({ sar: d })}>
-									{d.slice(5).split('-').reverse().join('/')}
-								</button>
+					<div className="dwts-panel-body">
+						<h2>{t.stories}</h2>
+						<div className="dwts-presets">
+							{VIEWS.map((v) => (
+								<button key={v} className={view === v ? 'on' : ''} aria-pressed={view === v} onClick={() => flyTo(v)}>{t.preset[v]}</button>
 							))}
 						</div>
-					)}
-					<p className="dwts-hint">{t.sarHint}</p>
 
-					<h2>{t.overlays}</h2>
-					<fieldset disabled={s.compare} className="dwts-fs">
-						<label className="dwts-check"><input type="checkbox" checked={s.landcover} onChange={(e) => set({ landcover: e.target.checked })} />{t.landcover}</label>
-						<label className="dwts-check"><input type="checkbox" checked={s.agreement} onChange={(e) => set({ agreement: e.target.checked })} />{t.agreement}</label>
-						<label className="dwts-check"><input type="checkbox" checked={s.aoa} onChange={(e) => set({ aoa: e.target.checked })} />{t.aoa}</label>
-						<label className="dwts-check"><input type="checkbox" checked={s.s2} onChange={(e) => set({ s2: e.target.checked })} />{t.s2}</label>
-						<label className="dwts-range">{t.opacity}
-							<input type="range" min={0.2} max={1} step={0.05} value={s.opacity} onChange={(e) => set({ opacity: +e.target.value })} />
-						</label>
-					</fieldset>
-					<label className="dwts-check"><input type="checkbox" checked={s.change} onChange={(e) => set({ change: e.target.checked })} />{t.change}</label>
-					<label className="dwts-check"><input type="checkbox" checked={s.labels} onChange={(e) => set({ labels: e.target.checked })} />{t.labels}</label>
+						<h2>{t.baseTitle}</h2>
+						{s.compare ? (
+							<div className="dwts-compare">
+								<div className="dwts-row">
+									<label>{t.compareLeft}
+										<select value={s.left} onChange={(e) => set({ left: e.target.value as DateKey })}>{DATES.map((d) => <option key={d} value={d}>{ddmm(d)}</option>)}</select>
+									</label>
+									<span aria-hidden>⇔</span>
+									<label>{t.compareRight}
+										<select value={s.right} onChange={(e) => set({ right: e.target.value as DateKey })}>{DATES.map((d) => <option key={d} value={d}>{ddmm(d)}</option>)}</select>
+									</label>
+								</div>
+								<p className="dwts-hint">{t.compareNote}</p>
+								<button className="dwts-btn" onClick={() => set({ compare: false })}>✕ {t.exitCompare}</button>
+							</div>
+						) : (
+							<div role="radiogroup" aria-label={t.baseTitle}>
+								<Opt name="base" on={s.base === null} onPick={() => setBase(null)} label={t.baseNone} />
+								{DATES.map((d) => (
+									<Opt key={d} name="base" on={s.base === d} onPick={() => setBase(d)} label={t.sarDate(ddmm(d))} note={t.sarPass[d]} />
+								))}
+								<Opt name="base" on={s.base === 's2'} onPick={() => setBase('s2')} label={t.s2} note={t.s2Note} />
+								<button className="dwts-btn" onClick={() => set({ compare: true })}>⇔ {t.compare}</button>
+							</div>
+						)}
+						{meta && (s.compare || (s.base && s.base !== 's2')) && <p className="dwts-hint dwts-inline-legend">{t.sarLegend(meta.sar_stretch_db)}</p>}
 
-					{meta && <Legend meta={meta} s={s} lang={lang} />}
-					<p className="dwts-hint">{t.clickHint}</p>
+						<fieldset disabled={s.compare} className="dwts-fs">
+							<h2>{t.themeTitle}</h2>
+							<div role="radiogroup" aria-label={t.themeTitle}>
+								<Opt name="theme" on={s.theme === null} onPick={() => set({ theme: null })} label={t.themeNone} />
+								<Opt name="theme" on={s.theme === 'landcover'} onPick={() => set({ theme: 'landcover' })} label={t.landcover}>
+									{meta && (
+										<div className="dwts-inline-legend">
+											{Object.entries(meta.landcover).map(([k, v]) => <div key={k}>{sw(v.color)}{L(v)} <span className="dwts-dim">{v.pct}%</span></div>)}
+											<p className="dwts-hint">{t.lcNote}</p>
+										</div>
+									)}
+									{opacityCtl}
+								</Opt>
+								<Opt name="theme" on={s.theme === 'agreement'} onPick={() => set({ theme: 'agreement' })} label={t.agreement}>
+									{meta && (
+										<div className="dwts-inline-legend dwts-ramp">
+											{Object.entries(meta.agreement_ramp).filter(([k]) => +k >= 4).map(([k, c]) => <span key={k} style={{ background: c }}>{k}</span>)}
+										</div>
+									)}
+									{opacityCtl}
+								</Opt>
+							</div>
+						</fieldset>
+
+						<h2>{t.overlays}</h2>
+						<Chk on={s.change} onToggle={(v) => set({ change: v })} label={t.change}>
+							{meta && (
+								<div className="dwts-inline-legend">
+									{Object.entries(meta.change.classes).filter(([k]) => k !== '1').map(([k, v]) => (
+										<div key={k}>{sw(v.color)}{L(v)} <span className="dwts-dim">{v.area_km2} km²</span></div>
+									))}
+								</div>
+							)}
+						</Chk>
+						<Chk on={s.aoa} disabled={s.compare} onToggle={(v) => set({ aoa: v })} label={t.aoa}>
+							{meta && <p className="dwts-hint dwts-inline-legend"><span className="dwts-sw dwts-hatch" />{t.aoaLegend((meta.aoa.outside_fraction * 100).toFixed(1))}</p>}
+						</Chk>
+						<Chk on={s.labels} onToggle={(v) => set({ labels: v })} label={t.labels} />
+						<div className="dwts-aoi-key"><span className="dwts-sw dwts-aoi" />{t.aoi}</div>
+						<p className="dwts-hint">{t.clickHint}</p>
+					</div>
 				</aside>
+			) : (
+				<button className="dwts-panel-toggle" onClick={() => setPanelOpen(true)} aria-expanded={false}>☰ {t.panelTitle}</button>
 			)}
 
 			<button className="dwts-about-fab" onClick={() => setShowIntro(true)} aria-label={t.about}>ⓘ <span>{t.about}</span></button>
@@ -356,7 +397,7 @@ export default function MapApp({ lang = 'en', intro = false }: { lang?: Lang; in
 				<Intro
 					lang={lang}
 					onClose={closeIntro}
-					onView={(v) => { closeIntro(); flyTo(v as keyof typeof PRESETS); }}
+					onView={(v) => { closeIntro(); flyTo(v as View); }}
 					onChat={() => { closeIntro(); window.dispatchEvent(new CustomEvent('dwts:open-chat')); }}
 				/>
 			)}
@@ -395,7 +436,7 @@ export default function MapApp({ lang = 'en', intro = false }: { lang?: Lang; in
 
 	function SeriesTable({ hh, hv }: { lang: Lang; hh: (number | null)[]; hv: (number | null)[] }) {
 		return (
-			<table className="dwts-series"><thead><tr><th>dB</th>{DATES.map((d) => <th key={d}>{d.slice(5).split('-').reverse().join('/')}</th>)}</tr></thead>
+			<table className="dwts-series"><thead><tr><th>dB</th>{DATES.map((d) => <th key={d}>{ddmm(d)}</th>)}</tr></thead>
 				<tbody>
 					<tr><th>HH</th>{hh.map((v, i) => <td key={i}>{fmt(v)}</td>)}</tr>
 					<tr><th>HV</th>{hv.map((v, i) => <td key={i}>{fmt(v)}</td>)}</tr>
@@ -404,35 +445,27 @@ export default function MapApp({ lang = 'en', intro = false }: { lang?: Lang; in
 	}
 }
 
-function Legend({ meta, s, lang }: { meta: Meta; s: LayerState; lang: Lang }) {
-	const t = T[lang];
-	const sw = (c: string | null) => <span className="dwts-sw" style={{ background: c ?? 'transparent' }} />;
+// One radio row; its legend (children) shows only while it is selected.
+function Opt({ name, on, onPick, label, note, children }: { name: string; on: boolean; onPick: () => void; label: string; note?: string; children?: React.ReactNode }) {
 	return (
-		<div className="dwts-legend">
-			<h2>{t.legend}</h2>
-			{(s.sar || s.compare) && (
-				<div><b>{t.sarLegendTitle}</b><p className="dwts-hint">{t.sarLegend(meta.sar_stretch_db)}</p></div>
-			)}
-			{s.landcover && !s.compare && (
-				<div><b>{t.landcover}</b>
-					{Object.entries(meta.landcover).map(([k, v]) => <div key={k}>{sw(v.color)}{v[lang]} <span className="dwts-dim">{v.pct}%</span></div>)}
-					<p className="dwts-hint">{t.lcNote}</p>
-				</div>
-			)}
-			{s.agreement && !s.compare && (
-				<div><b>{t.agreement}</b>
-					<div className="dwts-ramp">{Object.entries(meta.agreement_ramp).filter(([k]) => +k >= 4).map(([k, c]) => <span key={k} style={{ background: c }}>{k}</span>)}</div>
-				</div>
-			)}
-			{s.aoa && !s.compare && <div><span className="dwts-sw dwts-hatch" />{t.aoaLegend((meta.aoa.outside_fraction * 100).toFixed(1))}</div>}
-			{s.change && (
-				<div><b>{t.change}</b>
-					{Object.entries(meta.change.classes).filter(([k]) => k !== '1').map(([k, v]) => (
-						<div key={k}>{sw(v.color)}{v[lang]} <span className="dwts-dim">{v.area_km2} km²</span></div>
-					))}
-				</div>
-			)}
-			<div><span className="dwts-sw dwts-aoi" />{t.aoi}</div>
+		<div className={'dwts-opt' + (on ? ' on' : '')}>
+			<label>
+				<input type="radio" name={name} checked={on} onChange={onPick} />
+				<span>{label}{note && <small> · {note}</small>}</span>
+			</label>
+			{on && children}
+		</div>
+	);
+}
+
+function Chk({ on, onToggle, label, disabled, children }: { on: boolean; onToggle: (v: boolean) => void; label: string; disabled?: boolean; children?: React.ReactNode }) {
+	return (
+		<div className={'dwts-opt' + (on && !disabled ? ' on' : '') + (disabled ? ' off' : '')}>
+			<label>
+				<input type="checkbox" checked={on} disabled={disabled} onChange={(e) => onToggle(e.target.checked)} />
+				<span>{label}</span>
+			</label>
+			{on && !disabled && children}
 		</div>
 	);
 }

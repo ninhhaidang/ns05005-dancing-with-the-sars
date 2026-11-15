@@ -91,7 +91,8 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 - **Stack:** Astro 7 + Starlight (docs song ngữ, `vi/` là bản tiếng Việt), React island cho bản đồ (MapLibre) và chatbot. Node adapter standalone; API `/api/pixel` (đọc `pixel_stack.tif` bằng geotiff.js) và `/api/chat` (RAG + gọi hàm, stream SSE).
 - **Bố cục:**
   - Trang chủ (`/`, `/vi/`) chính là bản đồ toàn màn hình.
-  - Phần giới thiệu dự án nằm trong modal `src/components/map/Intro.tsx`: tự mở ở lần đầu vào nếu URL không có `?view=`, mở lại bằng nút ⓘ hoặc nút trong bảng lớp.
+  - Phần giới thiệu dự án nằm trong modal `src/components/map/Intro.tsx`: tự mở ở lần đầu vào nếu URL không có `?view=`, mở lại bằng nút ⓘ Giới thiệu nổi trên bản đồ.
+  - Bảng lớp (`MapApp.tsx`): Ảnh (Esri / 3 ngày SAR / Sentinel-2, chọn một) → Kết quả (lớp phủ / đồng thuận, chọn một, kèm độ mờ) → Lớp chồng thêm (thay đổi, ngoài vùng áp dụng, polygon nhãn). Chú giải hiện ngay dưới lớp đang bật. Chọn ảnh thì tự tắt lớp kết quả để ảnh không bị che. Gốc `.dwts-map` có class `not-content` để CSS markdown của Starlight không chèn margin vào nút.
   - `/map/` chỉ còn chuyển hướng sang `/` và giữ nguyên query.
   - Header có thêm link Bản đồ / Tài liệu / Hỏi AI / Đội thi (`src/components/HeaderNav.astro`, ghi đè `SocialIcons`).
   - Bản đồ nền chỉ dùng Esri World Imagery.
