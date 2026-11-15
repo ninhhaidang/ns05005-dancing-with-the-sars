@@ -121,7 +121,7 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 
 **Chưa xong / cần người dùng quyết:**
 - **Esri World Imagery (nền bản đồ web):** đã đổi nền web sang OpenStreetMap (tile.openstreetmap.org, ODbL) trong code, README, docs `team.md`, và đã deploy (15/11). Nhãn chỉ vẽ trên Sentinel-2; form NASA đã bỏ dòng Esri, thêm OpenStreetMap. Hết vấn đề Esri.
-- **Earth Engine (ảnh S2 dùng vẽ nhãn):** chưa xác minh được có được phép không. Trang Participant FAQs (`/resources/participant-faqs/`) render bằng JS nên không đọc được; điều khoản chỉ nói về dữ liệu và mã. Google nằm trong danh sách Global Collaborators 2026 nhưng chưa rõ có ưu đãi Earth Engine. Cách chắc: hỏi qua Space Apps Connect hoặc tự đọc FAQ.
+- **Earth Engine (ảnh S2 dùng vẽ nhãn):** người dùng quyết định coi là hợp lệ (15/11/2026): dữ liệu là Sentinel-2 của ESA/Copernicus (mở), Earth Engine chỉ là nơi tải; Google nằm trong danh sách Global Collaborators 2026; form NASA đã nêu rõ Earth Engine kèm giấy phép từng nguồn. Đây là suy luận, chưa có xác nhận từ ban tổ chức: trang Participant FAQs (đã đọc được bằng Chrome) không nhắc Earth Engine hay công cụ bên thứ ba.
 - Ghi giấy phép từng nguồn dữ liệu (ví dụ CC BY 4.0) ở ô References và Link Text; chưa kiểm tra giấy phép từng nguồn.
 - Điều khoản yêu cầu mọi thành viên đã đăng ký điểm thi Hà Nội và có tên ở tab Members; chưa kiểm được (chỉ người dùng xem được).
 - Chưa biết người dùng đã Submit trên trang NASA chưa.
@@ -139,5 +139,5 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 2. **Sản phẩm nộp:** web đã dựng (xem mục Web): bản đồ có thanh trượt và kéo so sánh 3 ngày, lớp phủ kèm độ tin cậy (E7, E8), mảng thay đổi, tra cứu giá trị theo điểm, docs song ngữ khoảng 25 trang mỗi ngôn ngữ, chatbot. Còn lại: điền API key, thêm route trên Cloudflare, thử chatbot với model thật, rà nội dung docs.
 3. **Kiểm chứng cụm nước mới** bằng ảnh quang học hoặc ảnh độ phân giải cao, nếu có.
 4. **README** hướng dẫn tái tạo. `data/` không commit; tải lại từ ASF bằng token rồi chạy `crop_gcov.py`.
-5. **Quy định cuộc thi:** điều khoản NASA 2026 đã đọc (xem mục "Nộp bài"). Còn lại Earth Engine (trang FAQ render bằng JS nên chưa đọc được) (giấy phép Esri không còn liên quan vì đã đổi nền sang OSM); Dynamic World không dùng nên bỏ qua.
+5. **Quy định cuộc thi:** điều khoản NASA 2026 đã đọc (xem mục "Nộp bài"). Esri đã bỏ (nền web là OSM); Earth Engine đã chốt coi là hợp lệ (xem "Chưa xong"); Dynamic World không dùng nên bỏ qua.
 6. **Dọn dẹp:** xóa `data/s2/composite_20m_uint16_sai.tif` khi người dùng đồng ý. Cân nhắc sửa diện tích AOI trong CLAUDE.md thành 2.571,7 km².
