@@ -32,9 +32,11 @@ CHG = {1: ("No significant change", "Không đổi đáng kể", None),
 # Lớp phân loại (ô 20 m, nearest) cắt tới z16 (~2,4 m/px): cắt ở z13 (~18 m/px, sát độ phân giải gốc) thì phép chiếu UTM → WebMercator
 # làm ô bị nhân đôi/mất không đều, phóng to trên web thấy bậc thang vỡ. Cùng giá trị CAT_MAXZ ở web/src/components/map/MapApp.tsx.
 CAT_MAXZ = 16
-# Ảnh SAR/S2 (bilinear, WEBP): cắt ở z13/z14 thì phóng to bị nhòe, bạc màu (WEBP giảm độ phân giải màu một nửa) và lộ khối nén.
-# z15 (~4,5 m/px) giữ được chi tiết ô 10–20 m. Cùng giá trị IMG_MAXZ ở MapApp.tsx.
+# Sentinel-2 (bilinear, WEBP): cắt ở z14 thì phóng to bị nhòe, bạc màu (WEBP giảm độ phân giải màu một nửa). z15 giữ được ô 10 m.
 IMG_MAXZ = 15
+# SAR: hiển thị nearest (mỗi ô 20 m/10 m là một ô vuông đúng giá trị gốc, như QGIS), overview lấy trung bình.
+# Phải cắt tới z16 (~2,4 m/px) để các ô đều nhau, như CAT_MAXZ. Cùng giá trị ở MapApp.tsx.
+SAR_MAXZ = 16
 DLABEL = {"20261022": "2026-10-22", "20261027": "2026-10-27", "20261103": "2026-11-03"}
 
 
@@ -63,11 +65,11 @@ def stretch(x, lo, hi, gamma=1.0):
     return np.nan_to_num(y * 255).astype(np.uint8)
 
 
-def tile(name, src, maxz, fmt="PNG", resampling="nearest"):
+def tile(name, src, maxz, fmt="PNG", resampling="nearest", overview=None):
     dst = OUT / "tiles" / name
     shutil.rmtree(dst, ignore_errors=True); dst.parent.mkdir(parents=True, exist_ok=True)
     cmd = [GDAL, "raster", "tile", "-q", "--of", fmt, "--min-zoom", "8", "--max-zoom", str(maxz), "-r", resampling,
-           "--overview-resampling", "nearest" if resampling == "nearest" else "average", "--skip-blank", "--webviewer", "none",
+           "--overview-resampling", overview or ("nearest" if resampling == "nearest" else "average"), "--skip-blank", "--webviewer", "none",
            str(src), str(dst)]
     if fmt == "WEBP": cmd[-2:-2] = ["--co", "QUALITY=85"]
     subprocess.run(cmd, check=True)
@@ -107,7 +109,7 @@ def main():
                                  np.where(ok, 255, 0).astype(np.uint8)])
                 rgba[:3, ~ok] = 0
                 p = TMP / f"sar_{d}.tif"; write_rgba(p, rgba, sref)
-            if not a.skip_tiles: tile(f"sar_{d}", p, IMG_MAXZ, "WEBP", "bilinear")
+            if not a.skip_tiles: tile(f"sar_{d}", p, SAR_MAXZ, "WEBP", "nearest", "average")
         meta["sar_stretch_db"] = rng
 
     # --- Sentinel-2 màu thật (GEE, chỉ để tham khảo; phản xạ = DN × 1e-4, không trừ 0,1) ---
