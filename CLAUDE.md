@@ -31,7 +31,7 @@ Dùng đúng các tên trên trong mọi sản phẩm và tài liệu. Web: http
 
 - `data/ref/aoi.geojson`: AOI chuẩn (1 feature, MultiPolygon 8 mảnh, 2.514,81 km²).
 - `data/nisar/gcov/`: GCOV tần số A đã cắt theo AOI, EPSG:32648. 22/10 và 3/11 (track 148 xuống) ở **20 m**, 27/10 (track 054 lên) ở **10 m**. Ngày 29/10 không dùng (chỉ phủ 4% AOI). Manifest: `data/manifest.json`.
-- `data/s2/composite_20m.tif`: tổ hợp Sentinel-2 pixel sạch trên lưới SAR 20 m (int16, phản xạ×1e4; băng 6 = chỉ số ngày nguồn). `composite_20m_uint16_sai.tif` là bản SAI, bỏ.
+- `data/s2/composite_20m.tif`: tổ hợp Sentinel-2 pixel sạch trên lưới SAR 20 m (int16, phản xạ×1e4; băng 6 = chỉ số ngày nguồn). Bản uint16 cũ (SAI) đã xóa.
 - `data/s2/gee_10m/`: chỗ người dùng bỏ ảnh S2 10 m tải từ Earth Engine (xem HANDOFF).
 - `data/derived/`: `change_class_22oct_3nov.tif`, `landcover_sar_20m.tif`.
 - `data/_legacy/`: PROVISIONAL, Sentinel-2 cũ, aoi cũ. Không dùng.

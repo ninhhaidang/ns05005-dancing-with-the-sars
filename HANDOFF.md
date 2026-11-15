@@ -140,4 +140,4 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 3. **Kiểm chứng cụm nước mới** bằng ảnh quang học hoặc ảnh độ phân giải cao, nếu có.
 4. **README** hướng dẫn tái tạo. `data/` không commit; tải lại từ ASF bằng token rồi chạy `crop_gcov.py`.
 5. **Quy định cuộc thi:** điều khoản NASA 2026 đã đọc (xem mục "Nộp bài"). Esri đã bỏ (nền web là OSM); Earth Engine đã chốt coi là hợp lệ (xem "Chưa xong"); Dynamic World không dùng nên bỏ qua.
-6. **Dọn dẹp:** xóa `data/s2/composite_20m_uint16_sai.tif` khi người dùng đồng ý. Cân nhắc sửa diện tích AOI trong CLAUDE.md thành 2.571,7 km².
+6. **Dọn dẹp:** đã xóa `data/s2/composite_20m_uint16_sai.tif` (15/11). Cân nhắc sửa diện tích AOI trong CLAUDE.md thành 2.571,7 km².
