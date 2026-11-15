@@ -1,5 +1,5 @@
 .earthdata_token
-data/
+/data/
 .DS_Store
 __pycache__/
 catboost_info/
