@@ -14,6 +14,8 @@ const DATES = ['2026-10-22', '2026-10-27', '2026-11-03'] as const;
 type DateKey = (typeof DATES)[number];
 const SAR_ID = (d: DateKey) => `sar_${d.replaceAll('-', '')}`;
 const SAR_MAXZ: Record<DateKey, number> = { '2026-10-22': 13, '2026-10-27': 14, '2026-11-03': 13 };
+// Classified layers are tiled to z16 (scripts/build_web.py CAT_MAXZ); z13 tiles looked jagged when zoomed in.
+const CAT_MAXZ = 16;
 const CLUSTER: [number, number] = [106.484, 20.463];
 const INTRO_KEY = 'dwts-intro-seen-v1';
 
@@ -81,10 +83,10 @@ function addOverlays(map: MLMap, meta: Meta, withData: boolean) {
 	if (withData) {
 		for (const d of DATES) addRaster(map, SAR_ID(d), 'webp', SAR_MAXZ[d], meta.bounds, false);
 		addRaster(map, 's2_truecolor', 'webp', 14, meta.bounds, false);
-		addRaster(map, 'landcover', 'png', 13, meta.bounds, true);
-		addRaster(map, 'agreement', 'png', 13, meta.bounds, true);
-		addRaster(map, 'aoa', 'png', 13, meta.bounds, true);
-		addRaster(map, 'change', 'png', 13, meta.bounds, true);
+		addRaster(map, 'landcover', 'png', CAT_MAXZ, meta.bounds, true);
+		addRaster(map, 'agreement', 'png', CAT_MAXZ, meta.bounds, true);
+		addRaster(map, 'aoa', 'png', CAT_MAXZ, meta.bounds, true);
+		addRaster(map, 'change', 'png', CAT_MAXZ, meta.bounds, true);
 		map.addSource('labels', { type: 'geojson', data: `${DATA}/labels.geojson` });
 		map.addLayer({ id: 'labels', type: 'line', source: 'labels', minzoom: 9, layout: { visibility: 'none' }, paint: { 'line-color': ['get', 'color'], 'line-width': 1.5 } });
 	}

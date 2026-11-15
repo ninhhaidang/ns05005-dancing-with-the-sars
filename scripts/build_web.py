@@ -29,6 +29,9 @@ CHG = {1: ("No significant change", "Không đổi đáng kể", None),
        4: ("HH & HV increase", "HH, HV tăng", "#dc2626"),
        5: ("HV-only decrease", "Chỉ HV giảm", "#7c3aed"),
        6: ("HV-only increase", "Chỉ HV tăng", "#10b981")}
+# Lớp phân loại (ô 20 m, nearest) cắt tới z16 (~2,4 m/px): cắt ở z13 (~18 m/px, sát độ phân giải gốc) thì phép chiếu UTM → WebMercator
+# làm ô bị nhân đôi/mất không đều, phóng to trên web thấy bậc thang vỡ. Cùng giá trị CAT_MAXZ ở web/src/components/map/MapApp.tsx.
+CAT_MAXZ = 16
 DLABEL = {"20261022": "2026-10-22", "20261027": "2026-10-27", "20261103": "2026-11-03"}
 
 
@@ -121,7 +124,7 @@ def main():
         print("Lớp phủ")
         lc = rasterio.open(DER / "landcover_sar_20m_smooth.tif").read(1)
         p = TMP / "landcover.tif"; write_rgba(p, palette_rgba(lc, {k: v[2] for k, v in LC.items()}), ref)
-        if not a.skip_tiles: tile("landcover", p, 13)
+        if not a.skip_tiles: tile("landcover", p, CAT_MAXZ)
 
     # --- Mức đồng thuận giữa 10 mô hình (E7) ---
     if "agreement" in only:
@@ -129,7 +132,7 @@ def main():
         ag = rasterio.open(DER / "landcover_model_agreement.tif").read(1)
         ramp = {3: "#b2182b", 4: "#b2182b", 5: "#d6604d", 6: "#f4a582", 7: "#fddbc7", 8: "#92c5de", 9: "#4393c3", 10: "#2166ac"}
         p = TMP / "agreement.tif"; write_rgba(p, palette_rgba(ag, ramp), ref)
-        if not a.skip_tiles: tile("agreement", p, 13)
+        if not a.skip_tiles: tile("agreement", p, CAT_MAXZ)
         meta["agreement_ramp"] = ramp
 
     # --- Ngoài vùng áp dụng (E8): tô gạch chéo xám ---
@@ -143,7 +146,7 @@ def main():
         rgba[0][out], rgba[1][out], rgba[2][out] = 40, 40, 40
         rgba[3][out] = np.where(hatch[out], 200, 70)
         p = TMP / "aoa.tif"; write_rgba(p, rgba, ref)
-        if not a.skip_tiles: tile("aoa", p, 13)
+        if not a.skip_tiles: tile("aoa", p, CAT_MAXZ)
         meta["aoa"] = {"threshold": round(thr, 4), "outside_fraction": round(float(out.sum() / aoi.sum()), 4)}
 
     # --- Thay đổi 22/10 → 3/11: tile + polygon có thuộc tính ---
@@ -151,7 +154,7 @@ def main():
         print("Thay đổi")
         ch = rasterio.open(DER / "change_class_22oct_3nov.tif").read(1)
         p = TMP / "change.tif"; write_rgba(p, palette_rgba(ch, {k: v[2] for k, v in CHG.items()}), ref)
-        if not a.skip_tiles: tile("change", p, 13)
+        if not a.skip_tiles: tile("change", p, CAT_MAXZ)
         X, _ = features(ref)
         recs = []
         for c in range(2, 7):
