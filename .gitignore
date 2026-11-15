@@ -1,8 +1,6 @@
 .earthdata_token
 data/
 .DS_Store
-labeling/label_tool.html
-labeling/label_tool_r2.html
 __pycache__/
 catboost_info/
 deploy/sync.local.env

@@ -110,10 +110,8 @@ Dự án **chưa** làm bước này; xem [Kiểm chứng](/vi/methods/validatio
 | Sentinel-2 | `gee_s2_composite.js` | Ảnh tổng hợp trung vị trên Earth Engine với Cloud Score+ |
 | Sentinel-2 | `check_gee_s2.py`, `clip_gee_s2.py` | Kiểm tra và cắt ảnh tổng hợp Earth Engine |
 | Sentinel-2 | `s2_scl_coverage.py`, `s2_composite.py` | Kiểm tra độ phủ và ảnh tổng hợp kiểu cũ từ AWS (đã thay thế) |
-| Sentinel-2 | `download_s2.py` | Công cụ tải cũ, không dùng nữa |
 | Nhãn | `merge_label_polygons.py` | Gộp bốn shapefile theo lớp thành một GeoPackage |
 | Nhãn | `make_blind_test.py`, `eval_blind.py` | Tạo và đánh giá tập kiểm tra mù |
-| Nhãn | `make_label_tool.py` | Công cụ gán nhãn điểm cũ (đã thay bằng polygon) |
 | Phân loại | `sar_dataset.py` | Module dùng chung: đặc trưng và mẫu |
 | Phân loại | `train_classifier.py` | Mô hình Random Forest chính và bản đồ |
 | Phân loại | `experiments.py` | Thí nghiệm E0–E8 (chỉ tính bảng) |

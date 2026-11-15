@@ -83,8 +83,8 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 | Nhóm | Script |
 |---|---|
 | SAR | `crop_gcov.py` (HDF5 → GeoTIFF + manifest), `quicklook.py`, `sar_analysis.py`, `change_detection.py` |
-| Sentinel-2 | `s2_scl_coverage.py`, `s2_composite.py` (bản AWS 20 m), `gee_s2_composite.js` (dán vào GEE Code Editor), `check_gee_s2.py`, `clip_gee_s2.py`. `download_s2.py` đã bỏ, không dùng. |
-| Nhãn | `merge_label_polygons.py <thư mục shapefile>` (shapefile gốc của ArcGIS Pro nằm ở `labeling/shapefiles/`), `make_blind_test.py`, `eval_blind.py`. `make_label_tool.py` là công cụ cũ cho nhãn điểm. |
+| Sentinel-2 | `s2_scl_coverage.py`, `s2_composite.py` (bản AWS 20 m), `gee_s2_composite.js` (dán vào GEE Code Editor), `check_gee_s2.py`, `clip_gee_s2.py`. (`download_s2.py` đã xóa). |
+| Nhãn | `merge_label_polygons.py <thư mục shapefile>` (shapefile gốc của ArcGIS Pro nằm ở `labeling/shapefiles/`), `make_blind_test.py`, `eval_blind.py`. (`make_label_tool.py`, công cụ nhãn điểm cũ, đã xóa). |
 | Phân loại | `sar_dataset.py` (module dùng chung), `train_classifier.py`, `experiments.py [--only E1,E4]` (chỉ tính, ghi CSV), `plot_experiments.py [vi|en]` (vẽ hình song ngữ bằng seaborn, xuất bảng CSV tiếng Anh; thêm nhãn mới vào từ điển `TR` khi CSV có chuỗi tiếng Việt mới) |
 
 ## Web (`web/`, dự kiến https://dwts.ninhhaidang.com)

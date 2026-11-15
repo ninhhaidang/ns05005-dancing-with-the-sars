@@ -110,10 +110,8 @@ This has **not** been done in the project; see [Validation](/methods/validation/
 | Sentinel-2 | `gee_s2_composite.js` | Earth Engine median composite with Cloud Score+ |
 | Sentinel-2 | `check_gee_s2.py`, `clip_gee_s2.py` | Check and clip the Earth Engine composite |
 | Sentinel-2 | `s2_scl_coverage.py`, `s2_composite.py` | Older AWS-based coverage check and composite (superseded) |
-| Sentinel-2 | `download_s2.py` | Old downloader, no longer used |
 | Labels | `merge_label_polygons.py` | Merge the four class shapefiles into one GeoPackage |
 | Labels | `make_blind_test.py`, `eval_blind.py` | Create and evaluate the blind test set |
-| Labels | `make_label_tool.py` | Old point-labelling tool (superseded by polygons) |
 | Classification | `sar_dataset.py` | Shared module: features and samples |
 | Classification | `train_classifier.py` | Main Random Forest model and map |
 | Classification | `experiments.py` | Experiments E0–E8 (tables only) |
