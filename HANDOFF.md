@@ -9,7 +9,7 @@ Thông tin dự thi, dùng đúng tên ở mọi nơi:
 Thành viên: Ninh Hải Đăng (trưởng nhóm), Phạm Minh Quang, Lê Toàn Thắng. Các thông tin này xuất hiện ở: trang Đội thi và Tổng quan (bảng thông tin), dòng giới thiệu trang chủ, footer, câu đầu tiên của FAQ, tiêu đề site, prompt chatbot, `README.md`, đầu hai báo cáo thí nghiệm, `CLAUDE.md`.
 
 ## Tóm tắt một dòng
-Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi có kiểm định thống kê, nhãn polygon 4 lớp (1.347 polygon), bộ phân loại chỉ dùng SAR đạt **BA khoảng 93% trên ô thuần** (CV khối 5 km), 8 thí nghiệm so sánh và báo cáo song ngữ `outputs/experiments/vi/BAO_CAO.md` / `outputs/experiments/en/REPORT.md`. **Chưa có tập kiểm tra độc lập, và người dùng không chấm thêm nhãn nữa.** Việc tiếp theo là làm sản phẩm nộp.
+Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi có kiểm định thống kê, nhãn polygon 4 lớp (1.347 polygon), bộ phân loại chỉ dùng SAR đạt **BA khoảng 93% trên ô thuần** (CV khối 5 km), 8 thí nghiệm so sánh và báo cáo song ngữ `outputs/experiments/vi/BAO_CAO.md` / `outputs/experiments/en/REPORT.md`. **Chưa có tập kiểm tra độc lập, và người dùng không chấm thêm nhãn nữa.** Sản phẩm nộp đã dựng (web, slide 7 trang, README có SI và giấy phép); xem mục "Nộp bài" cho việc còn lại.
 
 ## Dữ liệu NISAR (tất cả VALIDATED, P05036, tần số A)
 | Ngày | Track | Pixel | Ghi chú |
@@ -92,10 +92,10 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 - **Bố cục:**
   - Trang chủ (`/`, `/vi/`) chính là bản đồ toàn màn hình.
   - Phần giới thiệu dự án nằm trong modal `src/components/map/Intro.tsx`: tự mở ở lần đầu vào nếu URL không có `?view=`, mở lại bằng nút ⓘ Giới thiệu nổi trên bản đồ.
-  - Bảng lớp (`MapApp.tsx`): Ảnh (Esri / 3 ngày SAR / Sentinel-2, chọn một) → Kết quả (lớp phủ / đồng thuận, chọn một, kèm độ mờ) → Lớp chồng thêm (thay đổi, ngoài vùng áp dụng, polygon nhãn). Chú giải hiện ngay dưới lớp đang bật. Chọn ảnh thì tự tắt lớp kết quả để ảnh không bị che. Gốc `.dwts-map` có class `not-content` để CSS markdown của Starlight không chèn margin vào nút.
+  - Bảng lớp (`MapApp.tsx`): Ảnh (không / 3 ngày SAR / Sentinel-2, chọn một; nền là OpenStreetMap) → Kết quả (lớp phủ / đồng thuận, chọn một, kèm độ mờ) → Lớp chồng thêm (thay đổi, ngoài vùng áp dụng, polygon nhãn). Chú giải hiện ngay dưới lớp đang bật. Chọn ảnh thì tự tắt lớp kết quả để ảnh không bị che. Gốc `.dwts-map` có class `not-content` để CSS markdown của Starlight không chèn margin vào nút.
   - `/map/` chỉ còn chuyển hướng sang `/` và giữ nguyên query.
   - Header có thêm link Bản đồ / Tài liệu / Hỏi AI / Đội thi (`src/components/HeaderNav.astro`, ghi đè `SocialIcons`).
-  - Bản đồ nền chỉ dùng Esri World Imagery.
+  - Bản đồ nền chỉ dùng OpenStreetMap (ODbL), đã đổi từ Esri ngày 15/11/2026 để tránh rủi ro giấy phép; đã deploy.
 - **Dữ liệu web:** `scripts/postprocess_landcover.py` (lọc đa số 3×3, đổi 5,9% ô) rồi `scripts/build_web.py` → `data/web/` (tile XYZ, GeoJSON, `pixel_stack.tif`, `meta.json`; khoảng 800 MB). Lớp phân loại và SAR cắt tile tới z16, vẽ nearest (`CAT_MAXZ`, `SAR_MAXZ`; SAR lấy overview trung bình); Sentinel-2 tới z15 bilinear (`IMG_MAXZ`). Cắt thấp hơn thì zoom lên thấy vỡ, nhòe; nearest cắt sát độ phân giải gốc thì ô to nhỏ không đều.
 - **Bộ đệm:** mỗi lần cắt tile, `build_web.py` ghi mã phiên bản lớp đó vào `meta.json["tile_versions"]`; web gắn `?v=<mã>` vào URL tile. Caddy cho tile có `?v=` lưu 1 năm (`immutable`), còn `meta.json`/GeoJSON là `no-cache`. Nhờ vậy cắt lại tile rồi `deploy/sync.sh` là người xem thấy ngay, không cần xóa bộ đệm Cloudflare. Sửa `deploy/Caddyfile` thì phải chạy `docker compose up -d --force-recreate caddy` (file được gắn đơn lẻ, rsync thay inode nên container không thấy bản mới). Dev: `web/public/webdata` là symlink tới `data/web`.
 - **Docs = kho kiến thức chatbot:** `web/src/content/docs/**` được chia theo heading thành `web/src/generated/rag-index.json` (`web/scripts/build-rag-index.mjs`, chạy ở prebuild) kèm bảng kết quả và docstring script. Sửa docs thì chatbot tự cập nhật sau lần build tới.
@@ -107,13 +107,37 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 - **LLM:** omniroute (`http://omniroute:20128/v1`, cùng mạng Docker), model `agy/gemini-3.8-flash-low`, gọi hàm chạy được. Omniroute không có model embedding nên chỉ tìm theo từ khóa (BM25). Bí mật ở `~/.config/dwts/web.env` trên server (mẫu: `deploy/web.env.example`). Đổi env thì chạy `docker compose up -d --force-recreate web`.
 - **Chạy dev local:** cấu hình `web-dev` trong `.claude/launch.json` (cổng 4321). Node phải lấy từ nvm (xem mục Công cụ).
 
+## Nộp bài (cập nhật sáng 15/11/2026)
+**Hạn:** 11:00 ngày 15/11 giờ Hà Nội để chấm tại Hà Nội; 23:59 cùng ngày là hạn toàn cầu của NASA. Sau khi Submit lần đầu vẫn sửa được không giới hạn (trang đội → Project → Edit → Submit lại). Nguồn: https://sepa.org.vn/huong-dan-nop-bai-nasa-space-apps-ha-noi-2026.htm và điều khoản https://www.spaceappschallenge.org/legal/ (cập nhật 7/8/2026).
+
+**Form nộp (toàn bộ tiếng Anh):** Project Name, Summary (50-200 từ, tối đa 1.500 ký tự), Project Demo (slide tối đa 7 trang hoặc video tối đa 30 giây có phụ đề tiếng Anh), Final Project (link), Project Details, Use of SI (chọn trong danh sách), NASA Data (bắt buộc ít nhất 1), Space Agency Partner & Other Data, References, 2 ô cam kết rồi Submit. Link phải để "Bất kỳ ai có đường liên kết", thử bằng tab ẩn danh.
+
+**Đã làm:**
+- `LICENSE` (Apache 2.0 chuẩn, GitHub đã nhận diện) và hai mục mới trong `README.md`: "Use of Super Intelligence (SI)" và "License". Điều khoản NASA yêu cầu nêu giấy phép; nếu không nêu, NASA mặc định Apache 2.0.
+- Bộ slide 7 trang tiếng Anh: file `NISAR L-band Change Detection and Land Cover Mapping.pptx` ở thư mục gốc (người dùng đã chỉnh nhẹ sau bản đầu), bản Artifact https://claude.ai/artifact/2ESVM21L4uTuY4z2NQjwME (riêng tư cho đến khi người dùng bấm Share). Kịch bản nói tiếng Việt: `outputs/slides/KICH_BAN_VI.md` (cũng nằm trong ghi chú từng slide Artifact), kèm gợi ý trả lời câu hỏi giám khảo.
+- Slide dùng hai hình bản đồ vẽ lại bằng chú thích tiếng Anh, không có ảnh nền Esri. Script vẽ (`make_figs.py`) chỉ nằm trong thư mục scratchpad của phiên, không có trong repo; muốn vẽ lại thì dựng từ `data/derived/landcover_sar_20m_smooth.tif` và HH 22/10, 3/11 (trung bình 9×9, hiệu theo dB, thang ±6).
+- Nội dung soạn cho form (Summary, Project Details, Use of SI, bảng link NASA và đối tác) chỉ nằm trong hội thoại, chưa lưu vào repo. Use of SI chọn: Ideation, Research, Data Analysis, Building SI/ML, Coding/Debugging, Writing/Translation; Visual Design và Presentation chỉ chọn nếu đội thật sự dùng SI cho phần đó.
+- Đã kiểm: web https://dwts.ninhhaidang.com (trang chủ, `/vi/`, `/map/`, `/chat/`, `/reproduce/`, `/api/pixel`, `/api/chat`) chạy; repo GitHub công khai; mọi commit từ 14/11 và 15/11 nên đạt quy định "phần lõi làm trong 2 ngày thi".
+
+**Chưa xong / cần người dùng quyết:**
+- **Esri World Imagery (nền bản đồ web):** đã đổi nền web sang OpenStreetMap (tile.openstreetmap.org, ODbL) trong code, README, docs `team.md`, và đã deploy (15/11). Nhãn chỉ vẽ trên Sentinel-2; form NASA đã bỏ dòng Esri, thêm OpenStreetMap. Hết vấn đề Esri.
+- **Earth Engine (ảnh S2 dùng vẽ nhãn):** chưa xác minh được có được phép không. Trang Participant FAQs (`/resources/participant-faqs/`) render bằng JS nên không đọc được; điều khoản chỉ nói về dữ liệu và mã. Google nằm trong danh sách Global Collaborators 2026 nhưng chưa rõ có ưu đãi Earth Engine. Cách chắc: hỏi qua Space Apps Connect hoặc tự đọc FAQ.
+- Ghi giấy phép từng nguồn dữ liệu (ví dụ CC BY 4.0) ở ô References và Link Text; chưa kiểm tra giấy phép từng nguồn.
+- Điều khoản yêu cầu mọi thành viên đã đăng ký điểm thi Hà Nội và có tên ở tab Members; chưa kiểm được (chỉ người dùng xem được).
+- Chưa biết người dùng đã Submit trên trang NASA chưa.
+
+**Bẫy mới gặp:**
+- Trình duyệt nhúng của Claude không đăng nhập claude.ai nên không xem được Artifact riêng tư; kiểm giao diện slide phải nhờ người dùng.
+- zsh báo lỗi `no matches found` với URL có dấu `?` không quote; viết lệnh thành file `#!/bin/bash`.
+- Slide: bản Artifact và bản `.pptx` có thể lệch nhau vì người dùng sửa tay; coi `.pptx` trong repo là bản mới nhất. Không nhắc bộ 250 ô mù trên slide hay kịch bản (người dùng muốn nói chung chung về "tập kiểm tra độc lập").
+
 ## Trạng thái git
-`main` trùng với `origin/main` sau mỗi lần push theo yêu cầu.
+`main` trùng với `origin/main` sau mỗi lần push theo yêu cầu. Các commit gần nhất: `983b139` (LICENSE, mục SI và License trong README), `d024a28` và `e3149ed` (kịch bản slide), `7836945` (file `.pptx`).
 
 ## Việc tiếp theo (gợi ý, theo thứ tự)
 1. ~~Hậu xử lý bản đồ~~ (đã làm: lọc đa số 3×3).
 2. **Sản phẩm nộp:** web đã dựng (xem mục Web): bản đồ có thanh trượt và kéo so sánh 3 ngày, lớp phủ kèm độ tin cậy (E7, E8), mảng thay đổi, tra cứu giá trị theo điểm, docs song ngữ khoảng 25 trang mỗi ngôn ngữ, chatbot. Còn lại: điền API key, thêm route trên Cloudflare, thử chatbot với model thật, rà nội dung docs.
 3. **Kiểm chứng cụm nước mới** bằng ảnh quang học hoặc ảnh độ phân giải cao, nếu có.
 4. **README** hướng dẫn tái tạo. `data/` không commit; tải lại từ ASF bằng token rồi chạy `crop_gcov.py`.
-5. **Quy định cuộc thi:** kiểm tra việc dùng Earth Engine và Dynamic World có được phép không. Trang rules/FAQ render bằng JS nên chưa đọc được.
+5. **Quy định cuộc thi:** điều khoản NASA 2026 đã đọc (xem mục "Nộp bài"). Còn lại Earth Engine (trang FAQ render bằng JS nên chưa đọc được) (giấy phép Esri không còn liên quan vì đã đổi nền sang OSM); Dynamic World không dùng nên bỏ qua.
 6. **Dọn dẹp:** xóa `data/s2/composite_20m_uint16_sai.tif` khi người dùng đồng ý. Cân nhắc sửa diện tích AOI trong CLAUDE.md thành 2.571,7 km².

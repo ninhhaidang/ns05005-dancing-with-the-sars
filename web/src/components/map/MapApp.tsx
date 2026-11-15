@@ -62,15 +62,15 @@ const DEFAULT: LayerState = {
 	opacity: 0.85, compare: false, left: '2026-10-22', right: '2026-11-03',
 };
 
-// Basemap: Esri World Imagery only.
+// Basemap: OpenStreetMap standard tiles (open data, ODbL).
 function baseStyle(): StyleSpecification {
 	return {
 		version: 8,
 		sources: {
 			base: {
 				type: 'raster', tileSize: 256, maxzoom: 19,
-				tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
-				attribution: 'Imagery © Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+				tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+				attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
 			},
 		},
 		layers: [{ id: 'base', type: 'raster', source: 'base' }],

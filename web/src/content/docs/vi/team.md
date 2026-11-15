@@ -25,4 +25,4 @@ Bài thi **NISAR L-band Change Detection and Land Cover Mapping** (Phát hiện 
 
 ## Lời cảm ơn
 
-NISAR là sứ mệnh chung của NASA và ISRO; dữ liệu do Alaska Satellite Facility DAAC phân phối. Ảnh Sentinel-2 (chỉ dùng để vẽ nhãn huấn luyện) thuộc ESA Copernicus. Bản đồ nền là ảnh vệ tinh Esri World Imagery (Esri, Maxar, Earthstar Geographics và GIS User Community).
+NISAR là sứ mệnh chung của NASA và ISRO; dữ liệu do Alaska Satellite Facility DAAC phân phối. Ảnh Sentinel-2 (chỉ dùng để vẽ nhãn huấn luyện) thuộc ESA Copernicus. Bản đồ nền của web là OpenStreetMap (© những người đóng góp OpenStreetMap, giấy phép ODbL).

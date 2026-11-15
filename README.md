@@ -31,7 +31,7 @@ The honest caveats, eight experiments (E1–E8) and the full method are document
 
 ## Data and acknowledgements
 
-NISAR is a joint NASA–ISRO mission; the data comes from the Alaska Satellite Facility DAAC. Sentinel-2 imagery (ESA Copernicus) was used only to draw training labels. The website base map is Esri World Imagery (Esri, Maxar, Earthstar Geographics, and the GIS User Community).
+NISAR is a joint NASA–ISRO mission; the data comes from the Alaska Satellite Facility DAAC. Sentinel-2 imagery (ESA Copernicus) was used only to draw training labels. The website base map is OpenStreetMap (© OpenStreetMap contributors, ODbL).
 
 ## Use of Super Intelligence (SI) / Sử dụng trí tuệ nhân tạo
 
@@ -45,4 +45,4 @@ The team chose the study area, the methods and the analysis decisions, and revie
 
 ## License
 
-Original code and content in this repository are released under the [Apache License 2.0](LICENSE). Third-party data and software keep their own licenses and terms (NISAR GCOV: NASA/ISRO via ASF DAAC; Sentinel-2: ESA Copernicus; Esri World Imagery: Esri terms; libraries: their respective open-source licenses).
+Original code and content in this repository are released under the [Apache License 2.0](LICENSE). Third-party data and software keep their own licenses and terms (NISAR GCOV: NASA/ISRO via ASF DAAC; Sentinel-2: ESA Copernicus; OpenStreetMap: ODbL; libraries: their respective open-source licenses).
