@@ -29,6 +29,7 @@ interface Meta {
 	agreement_ramp: Record<string, string>;
 	aoa: { threshold: number; outside_fraction: number };
 	sar_stretch_db: { HH: number[]; HV: number[]; ratio: number[] };
+	tile_versions?: Record<string, string>;
 }
 
 type Base = DateKey | 's2' | null; // opaque image layer, one at a time
@@ -76,20 +77,23 @@ function baseStyle(): StyleSpecification {
 	} as StyleSpecification;
 }
 
-function addRaster(map: MLMap, id: string, ext: string, maxzoom: number, bounds: Meta['bounds'], nearest: boolean) {
+function addRaster(map: MLMap, id: string, ext: string, maxzoom: number, meta: Meta, nearest: boolean) {
 	if (map.getSource(id)) return;
-	map.addSource(id, { type: 'raster', tiles: [`${DATA}/tiles/${id}/{z}/{x}/{y}.${ext}`], tileSize: 256, minzoom: 8, maxzoom, bounds });
+	// ?v= changes whenever build_web.py re-tiles this layer, so long-cached old tiles are never reused.
+	const v = meta.tile_versions?.[id];
+	const url = `${DATA}/tiles/${id}/{z}/{x}/{y}.${ext}` + (v ? `?v=${v}` : '');
+	map.addSource(id, { type: 'raster', tiles: [url], tileSize: 256, minzoom: 8, maxzoom, bounds: meta.bounds });
 	map.addLayer({ id, type: 'raster', source: id, layout: { visibility: 'none' }, paint: { 'raster-resampling': nearest ? 'nearest' : 'linear', 'raster-fade-duration': 0 } });
 }
 
 function addOverlays(map: MLMap, meta: Meta, withData: boolean) {
 	if (withData) {
-		for (const d of DATES) addRaster(map, SAR_ID(d), 'webp', SAR_MAXZ, meta.bounds, true);
-		addRaster(map, 's2_truecolor', 'webp', IMG_MAXZ, meta.bounds, false);
-		addRaster(map, 'landcover', 'png', CAT_MAXZ, meta.bounds, true);
-		addRaster(map, 'agreement', 'png', CAT_MAXZ, meta.bounds, true);
-		addRaster(map, 'aoa', 'png', CAT_MAXZ, meta.bounds, true);
-		addRaster(map, 'change', 'png', CAT_MAXZ, meta.bounds, true);
+		for (const d of DATES) addRaster(map, SAR_ID(d), 'webp', SAR_MAXZ, meta, true);
+		addRaster(map, 's2_truecolor', 'webp', IMG_MAXZ, meta, false);
+		addRaster(map, 'landcover', 'png', CAT_MAXZ, meta, true);
+		addRaster(map, 'agreement', 'png', CAT_MAXZ, meta, true);
+		addRaster(map, 'aoa', 'png', CAT_MAXZ, meta, true);
+		addRaster(map, 'change', 'png', CAT_MAXZ, meta, true);
 		map.addSource('labels', { type: 'geojson', data: `${DATA}/labels.geojson` });
 		map.addLayer({ id: 'labels', type: 'line', source: 'labels', minzoom: 9, layout: { visibility: 'none' }, paint: { 'line-color': ['get', 'color'], 'line-width': 1.5 } });
 	}
@@ -155,7 +159,7 @@ export default function MapApp({ lang = 'en', intro = false }: { lang?: Lang; in
 	const prefix = lang === 'vi' ? '/vi' : '';
 
 	useEffect(() => {
-		fetch(`${DATA}/meta.json`).then((r) => r.json()).then(setMeta).catch(() => setMeta(null));
+		fetch(`${DATA}/meta.json`, { cache: 'no-cache' }).then((r) => r.json()).then(setMeta).catch(() => setMeta(null));
 		if (window.innerWidth < 720) setPanelOpen(false);
 		// Intro modal: on the landing page, first visit, unless a specific view was linked.
 		let seen = false;
@@ -207,7 +211,7 @@ export default function MapApp({ lang = 'en', intro = false }: { lang?: Lang; in
 			container: el2.current, style: baseStyle(), center: m0.getCenter(), zoom: m0.getZoom(), interactive: false, attributionControl: false,
 		});
 		m.on('style.load', () => {
-			addRaster(m, SAR_ID(s.right), 'webp', SAR_MAXZ, meta.bounds, true);
+			addRaster(m, SAR_ID(s.right), 'webp', SAR_MAXZ, meta, true);
 			addOverlays(m, meta, false);
 			setReady((r) => r + 1);
 		});

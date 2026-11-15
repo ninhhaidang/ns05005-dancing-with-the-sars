@@ -5,7 +5,12 @@
 	# Map tiles, GeoJSON, metadata (data/web, built by scripts/build_web.py)
 	handle_path /webdata/* {
 		root * /srv/webdata
-		header Cache-Control "public, max-age=86400"
+		# Tiles are requested with ?v=<version from meta.json>: a re-tiled layer gets new URLs, so cache them for a long time.
+		@versioned query v=*
+		header @versioned Cache-Control "public, max-age=31536000, immutable"
+		# Everything else (meta.json, GeoJSON, unversioned tiles): revalidate every time so a redeploy shows up at once.
+		@plain not query v=*
+		header @plain Cache-Control "no-cache"
 		file_server
 	}
 

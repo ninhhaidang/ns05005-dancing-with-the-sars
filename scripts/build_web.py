@@ -8,7 +8,7 @@ Ra:
 Cần chạy trước: change_detection.py, train_classifier.py, experiments.py (lớp đồng thuận, AOA), postprocess_landcover.py.
 Chạy: /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/build_web.py [--only sar,landcover,...] [--skip-tiles]
 """
-import argparse, glob, json, shutil, subprocess, sys
+import argparse, glob, json, shutil, subprocess, sys, time
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # -I bỏ thư mục script khỏi sys.path
 import numpy as np, rasterio, geopandas as gpd, pandas as pd
@@ -65,7 +65,13 @@ def stretch(x, lo, hi, gamma=1.0):
     return np.nan_to_num(y * 255).astype(np.uint8)
 
 
+# Mã phiên bản từng lớp tile, ghi vào meta.json["tile_versions"]. Web gắn ?v=<mã> vào URL tile nên cắt lại tile là
+# trình duyệt và Cloudflare lấy bản mới ngay (tile được lưu bộ đệm lâu dài, xem deploy/Caddyfile).
+TILE_VERSIONS = {}
+
+
 def tile(name, src, maxz, fmt="PNG", resampling="nearest", overview=None):
+    TILE_VERSIONS[name] = time.strftime("%Y%m%d%H%M%S")
     dst = OUT / "tiles" / name
     shutil.rmtree(dst, ignore_errors=True); dst.parent.mkdir(parents=True, exist_ok=True)
     cmd = [GDAL, "raster", "tile", "-q", "--of", fmt, "--min-zoom", "8", "--max-zoom", str(maxz), "-r", resampling,
@@ -230,8 +236,11 @@ def main():
             "aoi_km2_grid": round(float(tot * 400 / 1e6), 1),
             "new_water_cluster": {"lon": 106.484, "lat": 20.463, "area_km2": 1.6},
         })
-        meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=1))
-        print("meta.json xong")
+
+    # Luôn ghi meta.json (kể cả khi chỉ chạy --only sar,...) để mã phiên bản tile mới tới được web.
+    meta.setdefault("tile_versions", {}).update(TILE_VERSIONS)
+    meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=1))
+    print("meta.json xong")
 
 
 if __name__ == "__main__":
