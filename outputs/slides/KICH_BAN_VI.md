@@ -25,7 +25,7 @@ Dữ liệu NASA chúng em dùng là sản phẩm NISAR L2 GCOV mức VALIDATED,
 
 ## Slide 6. Tác động và hướng phát triển
 
-Tác động của dự án: một quy trình mở, tái lập được cho bất kỳ vùng nào có dữ liệu NISAR GCOV; hoạt động được khi có mây, lúc ảnh quang học thất bại; và quan trọng là bản đồ tự cho biết độ tin cậy của mình, qua lớp đồng thuận giữa các mô hình và vùng áp dụng. Công cụ web công khai phục vụ cán bộ quản lý nước, chính quyền địa phương và giáo viên. Bước tiếp theo: kiểm chứng cụm nước mới bằng ảnh quang học hoặc ảnh độ phân giải cao; chấm bộ kiểm tra mù 250 ô đã chuẩn bị để đo độ chính xác cả bản đồ; thêm chuỗi ảnh GCOV dài hơn để thấy thu hoạch lúa và mùa lũ; và mở rộng sang các tỉnh khác. Chúng em cũng nêu rõ giới hạn: 93 phần trăm đo trên ô thuần, lớp đô thị kém tin cậy nhất, và nguyên nhân cụm nước chưa kiểm chứng.
+Tác động của dự án: một quy trình mở, tái lập được cho bất kỳ vùng nào có dữ liệu NISAR GCOV; hoạt động được khi có mây, lúc ảnh quang học thất bại; và quan trọng là bản đồ tự cho biết độ tin cậy của mình, qua lớp đồng thuận giữa các mô hình và vùng áp dụng. Công cụ web công khai phục vụ cán bộ quản lý nước, chính quyền địa phương và giáo viên. Bước tiếp theo: kiểm chứng cụm nước mới bằng ảnh quang học hoặc ảnh độ phân giải cao; kiểm chứng bản đồ bằng một tập kiểm tra độc lập; thêm chuỗi ảnh GCOV dài hơn để thấy thu hoạch lúa và mùa lũ; và mở rộng sang các tỉnh khác. Chúng em cũng nêu rõ giới hạn: 93 phần trăm đo trên ô thuần, lớp đô thị kém tin cậy nhất, và nguyên nhân cụm nước chưa kiểm chứng.
 
 ## Slide 7. Thành viên và nguồn tham khảo
 
