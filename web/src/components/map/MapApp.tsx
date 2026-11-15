@@ -13,7 +13,8 @@ const DATA = '/webdata';
 const DATES = ['2026-10-22', '2026-10-27', '2026-11-03'] as const;
 type DateKey = (typeof DATES)[number];
 const SAR_ID = (d: DateKey) => `sar_${d.replaceAll('-', '')}`;
-const SAR_MAXZ: Record<DateKey, number> = { '2026-10-22': 13, '2026-10-27': 14, '2026-11-03': 13 };
+// SAR and Sentinel-2 images are tiled to z15 (scripts/build_web.py IMG_MAXZ).
+const IMG_MAXZ = 15;
 // Classified layers are tiled to z16 (scripts/build_web.py CAT_MAXZ); z13 tiles looked jagged when zoomed in.
 const CAT_MAXZ = 16;
 const CLUSTER: [number, number] = [106.484, 20.463];
@@ -81,8 +82,8 @@ function addRaster(map: MLMap, id: string, ext: string, maxzoom: number, bounds:
 
 function addOverlays(map: MLMap, meta: Meta, withData: boolean) {
 	if (withData) {
-		for (const d of DATES) addRaster(map, SAR_ID(d), 'webp', SAR_MAXZ[d], meta.bounds, false);
-		addRaster(map, 's2_truecolor', 'webp', 14, meta.bounds, false);
+		for (const d of DATES) addRaster(map, SAR_ID(d), 'webp', IMG_MAXZ, meta.bounds, false);
+		addRaster(map, 's2_truecolor', 'webp', IMG_MAXZ, meta.bounds, false);
 		addRaster(map, 'landcover', 'png', CAT_MAXZ, meta.bounds, true);
 		addRaster(map, 'agreement', 'png', CAT_MAXZ, meta.bounds, true);
 		addRaster(map, 'aoa', 'png', CAT_MAXZ, meta.bounds, true);
@@ -204,7 +205,7 @@ export default function MapApp({ lang = 'en', intro = false }: { lang?: Lang; in
 			container: el2.current, style: baseStyle(), center: m0.getCenter(), zoom: m0.getZoom(), interactive: false, attributionControl: false,
 		});
 		m.on('style.load', () => {
-			addRaster(m, SAR_ID(s.right), 'webp', SAR_MAXZ[s.right], meta.bounds, false);
+			addRaster(m, SAR_ID(s.right), 'webp', IMG_MAXZ, meta.bounds, false);
 			addOverlays(m, meta, false);
 			setReady((r) => r + 1);
 		});

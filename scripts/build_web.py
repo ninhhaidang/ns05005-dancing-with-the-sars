@@ -32,6 +32,9 @@ CHG = {1: ("No significant change", "Không đổi đáng kể", None),
 # Lớp phân loại (ô 20 m, nearest) cắt tới z16 (~2,4 m/px): cắt ở z13 (~18 m/px, sát độ phân giải gốc) thì phép chiếu UTM → WebMercator
 # làm ô bị nhân đôi/mất không đều, phóng to trên web thấy bậc thang vỡ. Cùng giá trị CAT_MAXZ ở web/src/components/map/MapApp.tsx.
 CAT_MAXZ = 16
+# Ảnh SAR/S2 (bilinear, WEBP): cắt ở z13/z14 thì phóng to bị nhòe, bạc màu (WEBP giảm độ phân giải màu một nửa) và lộ khối nén.
+# z15 (~4,5 m/px) giữ được chi tiết ô 10–20 m. Cùng giá trị IMG_MAXZ ở MapApp.tsx.
+IMG_MAXZ = 15
 DLABEL = {"20261022": "2026-10-22", "20261027": "2026-10-27", "20261103": "2026-11-03"}
 
 
@@ -104,7 +107,7 @@ def main():
                                  np.where(ok, 255, 0).astype(np.uint8)])
                 rgba[:3, ~ok] = 0
                 p = TMP / f"sar_{d}.tif"; write_rgba(p, rgba, sref)
-            if not a.skip_tiles: tile(f"sar_{d}", p, 14 if sref.res[0] == 10 else 13, "WEBP", "bilinear")
+            if not a.skip_tiles: tile(f"sar_{d}", p, IMG_MAXZ, "WEBP", "bilinear")
         meta["sar_stretch_db"] = rng
 
     # --- Sentinel-2 màu thật (GEE, chỉ để tham khảo; phản xạ = DN × 1e-4, không trừ 0,1) ---
@@ -116,7 +119,7 @@ def main():
             rgb = [stretch(b[i] * 1e-4, 0.0, 0.25, 0.8) for i in (2, 1, 0)]
             rgba = np.stack(rgb + [np.where(ok, 255, 0).astype(np.uint8)])
             p = TMP / "s2_truecolor.tif"; write_rgba(p, rgba, sref)
-        if not a.skip_tiles: tile("s2_truecolor", p, 14, "WEBP", "bilinear")
+        if not a.skip_tiles: tile("s2_truecolor", p, IMG_MAXZ, "WEBP", "bilinear")
         meta["s2_clear_fraction"] = round(float(ok.sum() / np.isfinite(rasterio.open(sar_path(DATES[1], "HHHH")).read(1)).sum()), 3)
 
     # --- Lớp phủ (đã lọc đa số) ---
