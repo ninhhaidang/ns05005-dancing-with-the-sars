@@ -4,7 +4,7 @@ Ràng buộc: ô nằm trong AOI, 4 pixel S2 10 m đều sạch (n_clear>0), cá
 các ô cách nhau >= MIN_GAP m. KHÔNG chọn theo nhãn dự đoán và KHÔNG ghi dự đoán vào file (chấm mù).
 Ra: labeling/blind_test_cells.gpkg (layer 'cells', polygon 20x20 m, EPSG:32648; cột label = -1 nghĩa là chưa chấm).
 Mã nhãn: 1 Nước, 2 Thực vật, 3 Đất trống, 4 Đô thị/làng, 0 = ô LẪN lớp (không lớp nào chiếm >= ~80%) hoặc không rõ.
-Chạy: /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/make_blind_test.py [N]
+Chạy: python -I scripts/make_blind_test.py [N]
 """
 import glob, sys
 from pathlib import Path

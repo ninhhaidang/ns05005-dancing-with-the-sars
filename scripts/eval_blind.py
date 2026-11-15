@@ -3,7 +3,7 @@
 label: 1 Nước, 2 Thực vật, 3 Đất trống, 4 Đô thị/làng, 0 = ô lẫn/không rõ, -1 = chưa chấm (bị bỏ qua).
 Báo: độ chính xác trên ô thuần (1-4) kèm khoảng tin cậy Wilson 95%, ma trận nhầm, recall/precision từng lớp,
 tỷ lệ ô lẫn, và so tỷ lệ lớp mẫu thật với tỷ lệ bản đồ dự đoán trên chính các ô này.
-Chạy: /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/eval_blind.py [file.gpkg]
+Chạy: python -I scripts/eval_blind.py [file.gpkg]
 """
 import sys
 from pathlib import Path

@@ -1,6 +1,6 @@
 """Gộp 4 shapefile nhãn polygon (ArcGIS Pro: water, vegetation, bareland, building) thành 1 GeoPackage.
 
-Dùng: /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/merge_label_polygons.py <thư mục chứa .shp> [đầu ra .gpkg]
+Dùng: python -I scripts/merge_label_polygons.py <thư mục chứa .shp> [đầu ra .gpkg]
 - Mã lớp theo quy ước dự án: 1 Nước, 2 Thực vật, 3 Đất trống, 4 Đô thị/làng (building).
 - Bỏ chiều Z (PolygonZ -> Polygon), gán CRS EPSG:32648 (.prj của ArcGIS là WKT, không có mã EPSG).
 - Thêm cột: poly_id (duy nhất, dùng để chia train/test theo polygon), class_id, class_name, source, area_m2.

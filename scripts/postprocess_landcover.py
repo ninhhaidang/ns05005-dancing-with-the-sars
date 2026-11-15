@@ -4,7 +4,7 @@ Vào: data/derived/landcover_sar_20m.tif (train_classifier.py; 0 = ngoài AOI, 1
 Ra:  data/derived/landcover_sar_20m_smooth.tif.
 Quy tắc: mỗi ô nhận lớp xuất hiện nhiều nhất trong cửa sổ 3x3 (chỉ đếm ô trong AOI); hòa phiếu thì giữ lớp cũ.
 Lưu ý: chưa đo được tác động lên độ chính xác (không có tập kiểm tra độc lập), chỉ dùng cho hiển thị bản đồ.
-Chạy: /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/postprocess_landcover.py
+Chạy: python -I scripts/postprocess_landcover.py
 """
 from pathlib import Path
 import numpy as np, rasterio

@@ -5,3 +5,6 @@ labeling/label_tool.html
 labeling/label_tool_r2.html
 __pycache__/
 catboost_info/
+deploy/sync.local.env
+deploy/SERVER.local.md
+outputs/dw_label_coverage.png

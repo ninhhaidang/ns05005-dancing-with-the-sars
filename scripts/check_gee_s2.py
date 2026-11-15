@@ -1,6 +1,6 @@
 """Kiểm tra ảnh Sentinel-2 10 m tải từ Earth Engine: cấu trúc, độ phủ sạch trong AOI, đối chiếu với composite_20m.tif.
 
-Chạy: /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/check_gee_s2.py
+Chạy: python -I scripts/check_gee_s2.py
 """
 import json
 from pathlib import Path

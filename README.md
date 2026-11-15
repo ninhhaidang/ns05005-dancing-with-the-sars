@@ -23,8 +23,9 @@ The honest caveats, eight experiments (E1–E8) and the full method are document
 | Path | Content |
 |---|---|
 | `scripts/` | Python pipeline: `crop_gcov.py` → `change_detection.py` → `train_classifier.py` → `experiments.py` → `plot_experiments.py`; then `postprocess_landcover.py`, `build_web.py` |
-| `outputs/` | Figures, result tables, experiment reports (`experiments/en/REPORT.md`, `experiments/vi/BAO_CAO.md`) |
-| `labeling/` | Training label polygons and the (unlabelled) blind test cells |
+| `outputs/` | Figures, result tables, experiment reports (`experiments/en/REPORT.md`, `experiments/vi/BAO_CAO.md`), submission slides (`slides/`) |
+| `labeling/` | Training label polygons, source shapefiles (`shapefiles/`) and the (unlabelled) blind test cells |
+| `docs/` | Challenge brief (project notes; the website docs live in `web/src/content/docs/`) |
 | `web/` | Website: Astro + Starlight docs (EN/VI), MapLibre map, chatbot API |
 | `deploy/` | Docker Compose, Caddy, `sync.sh` for the home server |
 | `data/` | Not in git. NISAR GCOV is downloaded from ASF DAAC; see the [Reproduce](https://dwts.ninhhaidang.com/reproduce/) page |

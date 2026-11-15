@@ -12,7 +12,7 @@ E6 Tinh chỉnh siêu tham số lồng (nested CV) cho RF, SVM, LightGBM/HistGB
 E7 Mức bản đồ: huấn luyện trên toàn bộ mẫu, dự đoán toàn AOI, so diện tích từng lớp giữa mô hình và bản đồ đồng thuận
 
 Ra: outputs/experiments/*.csv (hình vẽ bằng scripts/plot_experiments.py); data/derived/landcover_model_{agreement,mode}.tif
-Chạy: /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/experiments.py [--only E1,E4]
+Chạy: python -I scripts/experiments.py [--only E1,E4]
 """
 import sys, time, warnings
 from pathlib import Path

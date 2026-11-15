@@ -1,7 +1,7 @@
 """Cắt ảnh Sentinel-2 10 m từ GEE theo AOI (UTM 48N), pixel ngoài AOI = 0 (nodata). Không sửa file gốc.
 
 Cũng ghi bản AOI ở EPSG:32648 (data/ref/aoi_32648.geojson) để mở trong QGIS; aoi.geojson gốc (EPSG:4326) giữ nguyên.
-Chạy: /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/clip_gee_s2.py
+Chạy: python -I scripts/clip_gee_s2.py
 """
 import json
 from pathlib import Path

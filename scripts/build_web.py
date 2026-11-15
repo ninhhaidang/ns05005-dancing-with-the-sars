@@ -6,7 +6,7 @@ Ra:
   aoi.geojson, change_patches.geojson, labels.geojson (EPSG:4326)
   meta.json                             thông tin lớp, chú giải, thống kê
 Cần chạy trước: change_detection.py, train_classifier.py, experiments.py (lớp đồng thuận, AOA), postprocess_landcover.py.
-Chạy: /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/build_web.py [--only sar,landcover,...] [--skip-tiles]
+Chạy: python -I scripts/build_web.py [--only sar,landcover,...] [--skip-tiles]
 """
 import argparse, glob, json, shutil, subprocess, sys, time
 from pathlib import Path

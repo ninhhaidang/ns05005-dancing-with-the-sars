@@ -4,7 +4,7 @@ Nhãn: labeling/labels_polygon.gpkg (tạo bằng scripts/merge_label_polygons.p
 Đặc trưng và mẫu: scripts/sar_dataset.py (ô 20 m thuần >= 80%, tối đa 20 ô/polygon).
 Đánh giá: (a) CV theo khối không gian 5 km (chính, nghiêm hơn); (b) CV theo polygon (tham khảo, lạc quan hơn).
 So sánh nhiều mô hình / đặc trưng / cách kiểm chứng: scripts/experiments.py.
-Chạy: /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/train_classifier.py
+Chạy: python -I scripts/train_classifier.py
 """
 import sys
 from pathlib import Path

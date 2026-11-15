@@ -4,7 +4,7 @@ Không huấn luyện lại gì: chạy scripts/experiments.py trước để c�
 Ra:  outputs/experiments/vi/*.png  (tiếng Việt)
      outputs/experiments/en/*.png  (tiếng Anh) + outputs/experiments/en/tables/*.csv (bảng CSV đã dịch nhãn)
 Logic (lọc/nhóm/màu) dựa trên nhãn tiếng Việt gốc trong CSV; chỉ chữ hiển thị được dịch qua TR, nên hai bộ hình luôn cùng số liệu.
-Chạy: /Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/plot_experiments.py [vi|en]   (mặc định: cả hai)
+Chạy: python -I scripts/plot_experiments.py [vi|en]   (mặc định: cả hai)
 """
 import json, sys
 from pathlib import Path

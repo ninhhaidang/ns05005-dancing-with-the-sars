@@ -138,4 +138,4 @@ mẫu 3918 | Nước 2011, Thực vật 622, Đất trống 660, Đô thị 625 
   % ngoài vùng áp dụng theo lớp dự đoán (RF): Nước 4.5% Thực vật 0.7% Đất trống 4.9% Đô thị 23.5%
   [2063s]
 
-xong sau 2063s; kết quả ở /Users/ninhhaidang/workspace/ns05005-dancing-with-the-sars/outputs/experiments
+xong sau 2063s; kết quả ở outputs/experiments

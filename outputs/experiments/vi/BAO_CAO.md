@@ -270,13 +270,13 @@ Phương pháp *Area of Applicability* (Meyer & Pebesma, 2021):
 
 ```bash
 # 1. Gộp shapefile nhãn (ArcGIS Pro) thành GeoPackage
-/Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/merge_label_polygons.py "<thư mục shapefile>"
+python -I scripts/merge_label_polygons.py "<thư mục shapefile>"
 # 2. Huấn luyện mô hình chính và xuất bản đồ data/derived/landcover_sar_20m.tif
-/Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/train_classifier.py
+python -I scripts/train_classifier.py
 # 3. Toàn bộ thí nghiệm E0-E8 (khoảng 35 phút trên máy 8 nhân); chạy riêng phần nào: --only E1,E4
-/Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/experiments.py
+python -I scripts/experiments.py
 # 4. Vẽ toàn bộ hình song ngữ (vi/, en/) và xuất bảng CSV tiếng Anh (en/tables/) từ CSV và raster; khoảng 1 phút
-/Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/plot_experiments.py
+python -I scripts/plot_experiments.py
 ```
 
 - **Môi trường:** conda env `dwts`. Phiên bản chính: scikit-learn 1.9.1, numpy 2.5.4, XGBoost 3.4.2, LightGBM 4.7.0, CatBoost 1.2.10 (conda-forge).

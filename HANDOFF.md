@@ -84,7 +84,7 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 |---|---|
 | SAR | `crop_gcov.py` (HDF5 → GeoTIFF + manifest), `quicklook.py`, `sar_analysis.py`, `change_detection.py` |
 | Sentinel-2 | `s2_scl_coverage.py`, `s2_composite.py` (bản AWS 20 m), `gee_s2_composite.js` (dán vào GEE Code Editor), `check_gee_s2.py`, `clip_gee_s2.py`. `download_s2.py` đã bỏ, không dùng. |
-| Nhãn | `merge_label_polygons.py <thư mục shapefile>`, `make_blind_test.py`, `eval_blind.py`. `make_label_tool.py` là công cụ cũ cho nhãn điểm. |
+| Nhãn | `merge_label_polygons.py <thư mục shapefile>` (shapefile gốc của ArcGIS Pro nằm ở `labeling/shapefiles/`), `make_blind_test.py`, `eval_blind.py`. `make_label_tool.py` là công cụ cũ cho nhãn điểm. |
 | Phân loại | `sar_dataset.py` (module dùng chung), `train_classifier.py`, `experiments.py [--only E1,E4]` (chỉ tính, ghi CSV), `plot_experiments.py [vi|en]` (vẽ hình song ngữ bằng seaborn, xuất bảng CSV tiếng Anh; thêm nhãn mới vào từ điển `TR` khi CSV có chuỗi tiếng Việt mới) |
 
 ## Web (`web/`, dự kiến https://dwts.ninhhaidang.com)
@@ -99,12 +99,7 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 - **Dữ liệu web:** `scripts/postprocess_landcover.py` (lọc đa số 3×3, đổi 5,9% ô) rồi `scripts/build_web.py` → `data/web/` (tile XYZ, GeoJSON, `pixel_stack.tif`, `meta.json`; khoảng 800 MB). Lớp phân loại và SAR cắt tile tới z16, vẽ nearest (`CAT_MAXZ`, `SAR_MAXZ`; SAR lấy overview trung bình); Sentinel-2 tới z15 bilinear (`IMG_MAXZ`). Cắt thấp hơn thì zoom lên thấy vỡ, nhòe; nearest cắt sát độ phân giải gốc thì ô to nhỏ không đều.
 - **Bộ đệm:** mỗi lần cắt tile, `build_web.py` ghi mã phiên bản lớp đó vào `meta.json["tile_versions"]`; web gắn `?v=<mã>` vào URL tile. Caddy cho tile có `?v=` lưu 1 năm (`immutable`), còn `meta.json`/GeoJSON là `no-cache`. Nhờ vậy cắt lại tile rồi `deploy/sync.sh` là người xem thấy ngay, không cần xóa bộ đệm Cloudflare. Sửa `deploy/Caddyfile` thì phải chạy `docker compose up -d --force-recreate caddy` (file được gắn đơn lẻ, rsync thay inode nên container không thấy bản mới). Dev: `web/public/webdata` là symlink tới `data/web`.
 - **Docs = kho kiến thức chatbot:** `web/src/content/docs/**` được chia theo heading thành `web/src/generated/rag-index.json` (`web/scripts/build-rag-index.mjs`, chạy ở prebuild) kèm bảng kết quả và docstring script. Sửa docs thì chatbot tự cập nhật sau lần build tới.
-- **Server:** `ssh ninhhaidang@100.103.170.97` (Tailscale, Ubuntu 24.04, Docker, không sudo không mật khẩu). Repo được mirror ở `~/workspace/ns05005-dancing-with-the-sars` bằng `deploy/sync.sh` (rsync --delete, loại `.earthdata_token`), rồi `docker compose up -d --build` trong `deploy/`. Container `dwts-web` (Node) và `dwts-caddy` (tile tĩnh + proxy) nằm trên mạng `tunnel-net`.
-- **Ra Internet:** đã chạy ở https://dwts.ninhhaidang.com (15/11/2026). Đi qua Cloudflare Tunnel `optiplex-3040-v2` (id `71e55d4e-…`, container `cf-wrangler`, cấu hình quản lý từ xa), route `dwts.ninhhaidang.com` → `http://dwts-caddy:80`, kèm CNAME proxied. Trên server sửa bằng CLI `cf` (`export PATH=$HOME/.bun/bin:$HOME/.local/bin:$PATH`):
-  - `cf tunnels config get|update <id> --body @file.json`: lệnh update THAY TOÀN BỘ cấu hình, nên phải giữ đủ các route cũ;
-  - `cf dns records list|create -z ninhhaidang.com`.
-  - Bản sao lưu cấu hình trước khi sửa: `~/.config/dwts/cf-backup/`.
-- **LLM:** omniroute (`http://omniroute:20128/v1`, cùng mạng Docker), model `agy/gemini-3.8-flash-low`, gọi hàm chạy được. Omniroute không có model embedding nên chỉ tìm theo từ khóa (BM25). Bí mật ở `~/.config/dwts/web.env` trên server (mẫu: `deploy/web.env.example`). Đổi env thì chạy `docker compose up -d --force-recreate web`.
+- **Server và đường ra Internet:** chi tiết (SSH, Cloudflare Tunnel, LLM, env) nằm ở `deploy/SERVER.local.md` (gitignore, không commit). Web chạy ở https://dwts.ninhhaidang.com; triển khai bằng `deploy/sync.sh`, container `dwts-web` (Node) và `dwts-caddy` (tile tĩnh + proxy). Bí mật ở `~/.config/dwts/web.env` trên server (mẫu: `deploy/web.env.example`).
 - **Chạy dev local:** cấu hình `web-dev` trong `.claude/launch.json` (cổng 4321). Node phải lấy từ nvm (xem mục Công cụ).
 
 ## Nộp bài (cập nhật sáng 15/11/2026)
@@ -114,7 +109,7 @@ Có 3 ảnh NISAR GCOV VALIDATED đã cắt theo AOI, phát hiện thay đổi c
 
 **Đã làm:**
 - `LICENSE` (Apache 2.0 chuẩn, GitHub đã nhận diện) và hai mục mới trong `README.md`: "Use of Super Intelligence (SI)" và "License". Điều khoản NASA yêu cầu nêu giấy phép; nếu không nêu, NASA mặc định Apache 2.0.
-- Bộ slide 7 trang tiếng Anh: file `NISAR L-band Change Detection and Land Cover Mapping.pptx` ở thư mục gốc (người dùng đã chỉnh nhẹ sau bản đầu), bản Artifact https://claude.ai/artifact/2ESVM21L4uTuY4z2NQjwME (riêng tư cho đến khi người dùng bấm Share). Kịch bản nói tiếng Việt: `outputs/slides/KICH_BAN_VI.md` (cũng nằm trong ghi chú từng slide Artifact), kèm gợi ý trả lời câu hỏi giám khảo.
+- Bộ slide 7 trang tiếng Anh: file `outputs/slides/NISAR L-band Change Detection and Land Cover Mapping.pptx` (người dùng đã chỉnh nhẹ sau bản đầu), bản Artifact https://claude.ai/artifact/2ESVM21L4uTuY4z2NQjwME (riêng tư cho đến khi người dùng bấm Share). Kịch bản nói tiếng Việt: `outputs/slides/KICH_BAN_VI.md` (cũng nằm trong ghi chú từng slide Artifact), kèm gợi ý trả lời câu hỏi giám khảo.
 - Slide dùng hai hình bản đồ vẽ lại bằng chú thích tiếng Anh, không có ảnh nền Esri. Script vẽ (`make_figs.py`) chỉ nằm trong thư mục scratchpad của phiên, không có trong repo; muốn vẽ lại thì dựng từ `data/derived/landcover_sar_20m_smooth.tif` và HH 22/10, 3/11 (trung bình 9×9, hiệu theo dB, thang ±6).
 - Nội dung soạn cho form (Summary, Project Details, Use of SI, bảng link NASA và đối tác) chỉ nằm trong hội thoại, chưa lưu vào repo. Use of SI chọn: Ideation, Research, Data Analysis, Building SI/ML, Coding/Debugging, Writing/Translation; Visual Design và Presentation chỉ chọn nếu đội thật sự dùng SI cho phần đó.
 - Đã kiểm: web https://dwts.ninhhaidang.com (trang chủ, `/vi/`, `/map/`, `/chat/`, `/reproduce/`, `/api/pixel`, `/api/chat`) chạy; repo GitHub công khai; mọi commit từ 14/11 và 15/11 nên đạt quy định "phần lõi làm trong 2 ngày thi".

@@ -270,13 +270,13 @@ Method: *Area of Applicability* (Meyer & Pebesma, 2021):
 
 ```bash
 # 1. Merge the ArcGIS Pro label shapefiles into a GeoPackage
-/Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/merge_label_polygons.py "<shapefile folder>"
+python -I scripts/merge_label_polygons.py "<shapefile folder>"
 # 2. Train the main model and write the map data/derived/landcover_sar_20m.tif
-/Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/train_classifier.py
+python -I scripts/train_classifier.py
 # 3. All experiments E0–E8 (about 35 minutes on an 8-core machine); run a subset with --only E1,E4
-/Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/experiments.py
+python -I scripts/experiments.py
 # 4. Draw all figures in both languages (vi/, en/) and export English tables (en/tables/); about 1 minute
-/Users/ninhhaidang/miniconda3/envs/dwts/bin/python -I scripts/plot_experiments.py
+python -I scripts/plot_experiments.py
 ```
 
 - **Environment:** conda env `dwts`. Main versions: scikit-learn 1.9.1, numpy 2.5.4, XGBoost 3.4.2, LightGBM 4.7.0, CatBoost 1.2.10 (conda-forge).
